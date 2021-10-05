@@ -1,0 +1,24 @@
+<p>main works!</p>
+
+
+<nav class="navbar bg-primary">
+  <h1>
+    <a routerLink="/"> Формирование доверенности </a>
+  </h1>
+  <ul>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/base', 'base']"> Добавить</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/list', 'list']"> Список доверенностей </a>
+    </li>
+    <li>
+    </li>
+  </ul>
+
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+

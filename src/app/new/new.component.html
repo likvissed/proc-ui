@@ -1,0 +1,82 @@
+<p>new works!</p>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <h2> Заполнение данных для доверенности</h2>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('tn').touched && form.get('passport').invalid}"
+    >
+    <label for="tn"> Табельный номер: </label>
+    <input id="tn" type="text" placeholder="Табельный номер" formControlName="tn" >
+    <div
+      class="validation"
+      *ngIf="form.get('tn').touched && form.get('tn').invalid"
+    >
+      <small *ngIf="form.get('tn').errors.required"> Введите табельный номер</small>
+    </div>
+  </div>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('passport').touched && form.get('passport').invalid}"
+  >
+    <label for="passport"> Паспортные данные: </label>
+    <input id="passport" type="text" placeholder="Серия и номер" formControlName="passport"  >
+    <div
+      class="validation"
+      *ngIf="form.get('passport').touched && form.get('passport').invalid"
+    >
+    <small *ngIf="form.get('passport').errors.required"> Введите серию и номер паспорта</small>
+    </div>
+  </div>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('date_passport').touched && form.get('date_passport').invalid}"
+  >
+    <label for="date_passport"> Дата выдачи паспорта: </label>
+    <input id="date_passport" type="date" formControlName="date_passport"  >
+    <div
+      class="validation"
+      *ngIf="form.get('date_passport').touched && form.get('date_passport').invalid"
+    >
+    <small *ngIf="form.get('date_passport').errors.required"> Введите дату выдачи паспорта</small>
+    </div>
+  </div>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('date_start').touched && form.get('date_start').invalid}"
+  >
+    <label for="date_start"> Действительна с: </label>
+    <input id="date_start" type="date" formControlName="date_start"  >
+    <div
+      class="validation"
+      *ngIf="form.get('date_start').touched && form.get('date_start').invalid"
+    >
+    <small *ngIf="form.get('date_start').errors.required"> Введите дату начала </small>
+  </div>
+</div>
+
+<div
+    class="form-control"
+    [ngClass]="{invalid: form.get('date_end').touched && form.get('date_end').invalid}"
+>
+  <label for="date_end"> Действительна по: </label>
+  <input id="date_end" type="date" formControlName="date_end"  >
+  <div
+    class="validation"
+    *ngIf="form.get('date_end').touched && form.get('date_end').invalid"
+  >
+  <small *ngIf="form.get('date_end').errors.required"> Введите дату окончания</small>
+  </div>
+</div>
+
+  <button class="btn"> Добавить полномочие </button>
+
+  <button class="btn btn-primary" type="submit"> Сформировать документ </button>
+</form>
+
+
+<!-- <router-outlet></router-outlet> -->
