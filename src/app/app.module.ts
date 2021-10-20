@@ -1,6 +1,6 @@
 import { AuthService } from './auth.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +8,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewComponent } from './new/new.component';
 import { MainComponent } from './main/main.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { registerLocaleData } from '@angular/common';
+import ruLocale from '@angular/common/locales/ru';
+
+registerLocaleData(ruLocale, 'ru')
 
 @NgModule({
   declarations: [
@@ -20,9 +27,14 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgSelectModule,
+    NgbModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    { provide: LOCALE_ID, useValue: 'ru-RU' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

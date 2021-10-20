@@ -4,7 +4,16 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://localhost:3000'
+  serverUrl: 'http://localhost:3000/requests',
+
+  nameUserHr: 'Operator7141',
+  passwordUserHr: 'Operator7141@714',
+  usersReferenceUrlLogin: 'https://hr.***REMOVED***/ref-info/api/login',
+  usersReferenceUrl: 'https://hr.***REMOVED***/ref-info/api/emp?search',
+
+  procListDutiesUrl: 'http://vm713:5000/duties_list',
+  procGetTemplateDocUrl: 'http://vm713:5000/sample',
+  procSendDocUrl: 'http://vm713:5000/ssd_send'
 };
 
 /*
