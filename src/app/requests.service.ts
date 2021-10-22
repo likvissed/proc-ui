@@ -3,15 +3,19 @@ import { Request } from './interfaces';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs";
+import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 
 export class RequestsService {
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   token = ''
+
+  request = {}
   // create(req: Request): <any> {
   //   console.log('VALID API', req)
   //   // return this.http.post(`${environment.fbDBUrl}/posts.json`, post)
@@ -30,7 +34,7 @@ export class RequestsService {
   }
 
   // Найти пользователя в НСИ
-  findUser(tn: number): any {
+  findUsersReference(tn: number): any {
     return this.http.get(`${environment.usersReferenceUrl}=personnelNo==${tn}`, {
       headers: new HttpHeaders({
         'X-Auth-Token': this.token
@@ -62,6 +66,31 @@ export class RequestsService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.post<Request>(`${environment.procSendDocUrl}`, request, { headers })
+  }
+
+  // Получить список доверенностей
+  getList(current_user_tn: number): any {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.post(`${environment.procGetListUrl}`, { author_tn: current_user_tn } , { headers })
+  }
+
+  // Получить json с параметрами сформитрованного документа
+  // procGetJsonDocUrl
+  getJsonDoc(id: number): any {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.post(`${environment.serverUrl}`, { id: id } , { headers })
+
+    // let response = this.http.post(`${environment.procGetJsonDocUrl}`, { id: id_doc } , { headers })
+    this.http.post(`${environment.serverUrl}`, { id: id } , { headers }).subscribe(data  => {
+      console.log('response yes', data)
+    },
+    error => {
+      console.log('response no', error)
+    });
+
+    // console.log('S getJsonDoc response', response)
   }
 
 }

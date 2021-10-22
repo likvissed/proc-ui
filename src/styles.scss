@@ -4,6 +4,18 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
+:root {
+  --header-color: #4682B4;
+  --dark-color: #333333;
+  --light-color: #f4f4f4;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 10px;
+}
+
 // Вид календаря
 button.calendar, button.calendar:active {
   width: 2.75rem;

@@ -13,6 +13,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { registerLocaleData } from '@angular/common';
 import ruLocale from '@angular/common/locales/ru';
+import { BaseComponent } from './base/base.component';
+import { ListComponent } from './list/list.component';
+import { ShortNamePipe } from './shortName.pipe';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -20,7 +23,10 @@ registerLocaleData(ruLocale, 'ru')
   declarations: [
     AppComponent,
     NewComponent,
-    MainComponent
+    MainComponent,
+    BaseComponent,
+    ListComponent,
+    ShortNamePipe
   ],
   imports: [
     BrowserModule,

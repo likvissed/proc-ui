@@ -1,0 +1,57 @@
+<div class="container">
+  <div *ngIf="lists.length; else noList">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title text-center">
+          <h4> Список документов: </h4>
+        <div class="card-text">
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th> № </th>
+                <th> Наименование </th>
+                <th> Статус </th>
+                <th> Составитель доверенности </th>
+                <th> Доверенное лицо </th>
+                <th> Дата и время создания </th>
+                <th> Создать на основе </th>
+                <th> Скачать документ </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let list of lists; let idx = index">
+                <td> {{ idx + 1 }} </td>
+                <td> Доверенность_{{ idx + 1 }}.pdf </td>
+                <td> {{ list.full_state }} </td>
+                <td> {{ list.author_fio | shortName }} </td>
+                <td> {{ list.fio | shortName }} </td>
+                <td> {{ list.date | date:'short' }} </td>
+                <!-- <td> <a routerLink="/new" > Создать </a> </td> -->
+                <td> <button class="btn btn-outline-info btn-sm" type="submit" (click)="createOnBase(list.id)"> Создать </button> </td>
+                <td> <button class="btn btn-outline-primary btn-sm" type="submit"> Скачать </button> </td>
+
+              </tr>
+              <!-- <pre> {{ lists | json }} </pre> -->
+            </tbody>
+
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<ng-template #noList>
+  <div class="card-title text-center">
+    <h4> Пока нет сформированных документов.
+      <a routerLink="/new" > Создать доверенность </a>
+    </h4>
+  </div>
+</ng-template>

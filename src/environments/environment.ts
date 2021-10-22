@@ -13,7 +13,9 @@ export const environment = {
 
   procListDutiesUrl: 'http://vm713:5000/duties_list',
   procGetTemplateDocUrl: 'http://vm713:5000/sample',
-  procSendDocUrl: 'http://vm713:5000/ssd_send'
+  procSendDocUrl: 'http://vm713:5000/ssd_send',
+  procGetListUrl: 'https://vm713:5000/proxies_list',
+  procGetJsonDocUrl: 'http://vm713:5000/docx_info'
 };
 
 /*

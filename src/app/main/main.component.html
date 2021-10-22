@@ -1,24 +1,27 @@
-<p>main works!</p>
-
-
-<nav class="navbar bg-primary">
-  <h1>
+<nav class="navbar bg-font main">
+  <div class="navbar-brand-logo">
+    <img src="assets/images/logo-iss.svg">
+  </div>
+  <div class="navbar-title-content">
     <a routerLink="/"> Формирование доверенности </a>
-  </h1>
-  <ul>
-    <li routerLinkActive="active">
-      <a [routerLink]="['/base', 'base']"> Добавить</a>
-    </li>
-    <li routerLinkActive="active">
-      <a [routerLink]="['/list', 'list']"> Список доверенностей </a>
-    </li>
-    <li>
-    </li>
-  </ul>
-
+  </div>
 </nav>
+
+<nav class="bg-nav-font">
+  <ul class="nav navbar-tabs">
+    <li routerLinkActive="active">
+      <a [routerLink]="['/base']"> Форма заявки </a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/list']"> Список доверенностей </a>
+    </li>
+
+  </ul>
+</nav>
+
 
 <div class="container">
   <router-outlet></router-outlet>
 </div>
 
+<footer></footer>

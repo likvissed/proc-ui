@@ -1,10 +1,12 @@
-import { RequestsService } from './../requests.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { RequestsService } from './../requests.service';
 import { Request } from './../interfaces';
 
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import {MomentDateFormatter} from '../dateFormat';
+import { MomentDateFormatter } from '../dateFormat';
 
 @Component({
   selector: 'app-new',
@@ -14,7 +16,6 @@ import {MomentDateFormatter} from '../dateFormat';
     {
       provide: NgbDateParserFormatter,
       useValue: new MomentDateFormatter
-      // useClass: MomentDateFormatter
     }
    ]
   // encapsulation: ViewEncapsulation.None
@@ -25,11 +26,10 @@ export class NewComponent implements OnInit {
 
   constructor(
     private requestsService: RequestsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
-
-  // // Строка выбора пользователем параметра из списка полномочий
-  // selected = ''
 
   // Список полномочий для пользователя
   lists = []
@@ -41,19 +41,7 @@ export class NewComponent implements OnInit {
   max_end_date = null
 
   ngOnInit() {
-    console.log('NewComponent')
-
-    // this.form = new FormGroup({
-    //   tn: new FormControl(null, [Validators.required]),
-    //   passport: new FormControl(null, [Validators.required]),
-    //   date_passport: new FormControl(null, [Validators.required]),
-    //   date_start: new FormControl(null, [Validators.required]),
-    //   date_end: new FormControl(null, [Validators.required]),
-    //   array_authority: new FormArray([])
-
-    //   // array_authority: new FormArray([new FormControl(null)])
-    //   // array_authority: new FormArray(null, [Validators.required])
-    // })
+    console.log('NewComponent this', this)
 
     this.form = this.formBuilder.group({
       // Данные, которые пользователь вводит на форме
@@ -73,24 +61,56 @@ export class NewComponent implements OnInit {
       author_tn: [null, [Validators.required]],
       author_fio: [null, [Validators.required]],
       author_login: [null, [Validators.required]]
+    })
 
+    this.route.data.subscribe( data => {
+      console.log('presentRequest', data.presentRequest)
 
+      this.form.setControl('tn', new FormControl(data.presentRequest.tn))
+      this.form.setControl('passport', new FormControl(data.presentRequest.passport))
+      this.form.setControl('date_passport', new FormControl(this.strToDate(data.presentRequest.date_passport)))
+      this.form.setControl('date_start', new FormControl(this.strToDate(data.presentRequest.date_start)))
+      this.form.setControl('date_end', new FormControl(this.strToDate(data.presentRequest.date_end)))
 
-      // array: new FormArray([ new FormControl(null) ])
-      // array: this.formBuilder.array([new FormControl(null)])
+      // Заполнение списка полномочий
+      let array = this.getFormsArray()
+      data.presentRequest.array_authority.forEach(str => {
+        array.push(new FormControl(str))
+      })
+
+      console.log('Form', this.strToDate(data.presentRequest.date_passport))
+
+      // this.findUser();
     })
   }
 
-  findUser() {
-    // console.log('findUser')
-    this.requestsService.findUser(this.form.value.tn).subscribe((user) => {
-      console.log('USER', user.data[0])
-      this.form.setControl('fio', new FormControl(user.data[0]['fullName']))
-      this.form.setControl('login', new FormControl(user.data[0]['login']))
-      this.form.setControl('profession', new FormControl(user.data[0]['professionForDocuments']))
+  // Получить из строки 'гггг-мм-дд' объект даты для отображения в календаре
+  strToDate(str: string) {
+    let date = new Date(str)
 
-      // this.form.controls["fio"] = user.data[0]['fullName']
+    return {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1, // January is month 0
+      day: date.getDate()
+    }
+  }
+
+  // Поиск пользователя в НСИ по таб.номеру
+  findUsersReference(tn: number) {
+    this.requestsService.findUsersReference(this.form.value.tn).subscribe((user) => {
+      console.log('USER', user.data[0])
+
+      return user.data[0]
     })
+  }
+
+  // Поиск пользователя и список полномочий для него
+  findUser() {
+    let obj_user = this.findUsersReference(this.form.value.tn)
+
+    this.form.setControl('fio', new FormControl(obj_user['fullName']))
+    this.form.setControl('login', new FormControl(obj_user['login']))
+    this.form.setControl('profession', new FormControl(obj_user['professionForDocuments']))
 
     this.getDuties()
     console.log('findUser form', this.form)
@@ -123,6 +143,7 @@ export class NewComponent implements OnInit {
 
   // Ограничение для даты начала
   dateStartSelect(event) {
+    console.log('start', event)
     // Назначение для даты окончания + 3 года с даты начала
     this.max_end_date = { year: event.year + 3, month: event.month, day: event.day }
     this.min_end_date = { year: event.year, month: event.month, day: event.day + 1 }
@@ -179,11 +200,11 @@ export class NewComponent implements OnInit {
 
   // Добавить новую строку выбора из списка полномочий
   addElement() {
-    // if (this.lists.length != 0) {
+    if (this.lists.length != 0) {
       (<FormArray>this.form.controls["array_authority"]).push(new FormControl(null,  [Validators.required]))
     // } else {
       // alert 'Пользователь с табельным номером ${} не найден
-    // }
+    }
 
   }
 
