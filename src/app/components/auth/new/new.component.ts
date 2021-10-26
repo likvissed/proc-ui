@@ -2,11 +2,13 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { RequestsService } from './../requests.service';
-import { Request } from './../interfaces';
+import { RequestsService } from '../../../services/requests.service';
+import { Request } from '../../../interfaces';
 
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { MomentDateFormatter } from '../dateFormat';
+import { MomentDateFormatter } from '../../../shared/dateFormat';
+import { UsersReferenceService } from 'src/app/services/users-reference.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-new',
@@ -26,6 +28,7 @@ export class NewComponent implements OnInit {
 
   constructor(
     private requestsService: RequestsService,
+    private userReference: UsersReferenceService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router
@@ -64,23 +67,27 @@ export class NewComponent implements OnInit {
     })
 
     this.route.data.subscribe( data => {
-      console.log('presentRequest', data.presentRequest)
+      // console.log('presentRequest', data.presentRequest)
 
-      this.form.setControl('tn', new FormControl(data.presentRequest.tn))
-      this.form.setControl('passport', new FormControl(data.presentRequest.passport))
-      this.form.setControl('date_passport', new FormControl(this.strToDate(data.presentRequest.date_passport)))
-      this.form.setControl('date_start', new FormControl(this.strToDate(data.presentRequest.date_start)))
-      this.form.setControl('date_end', new FormControl(this.strToDate(data.presentRequest.date_end)))
+      if (data.presentRequest) {
 
-      // Заполнение списка полномочий
-      let array = this.getFormsArray()
-      data.presentRequest.array_authority.forEach(str => {
-        array.push(new FormControl(str))
-      })
+        this.form.setControl('tn', new FormControl(data.presentRequest.tn))
+        this.form.setControl('passport', new FormControl(data.presentRequest.passport))
+        this.form.setControl('date_passport', new FormControl(this.strToDate(data.presentRequest.date_passport)))
+        this.form.setControl('date_start', new FormControl(this.strToDate(data.presentRequest.date_start)))
+        this.form.setControl('date_end', new FormControl(this.strToDate(data.presentRequest.date_end)))
 
-      console.log('Form', this.strToDate(data.presentRequest.date_passport))
+        // Заполнение списка полномочий
+        let array = this.getFormsArray()
+        data.presentRequest.array_authority.forEach(str => {
+          array.push(new FormControl(str))
+        })
 
-      // this.findUser();
+        console.log('Form', this.strToDate(data.presentRequest.date_passport))
+
+        // this.findUser();
+      }
+
     })
   }
 
@@ -95,25 +102,19 @@ export class NewComponent implements OnInit {
     }
   }
 
-  // Поиск пользователя в НСИ по таб.номеру
-  findUsersReference(tn: number) {
-    this.requestsService.findUsersReference(this.form.value.tn).subscribe((user) => {
-      console.log('USER', user.data[0])
-
-      return user.data[0]
-    })
-  }
-
   // Поиск пользователя и список полномочий для него
   findUser() {
-    let obj_user = this.findUsersReference(this.form.value.tn)
+    this.userReference.findUserByTn(this.form.value.tn).subscribe(user => {
+      console.log('USER CMP', user)
+      if (user) {
+        this.form.setControl('fio', new FormControl(user['fullName']))
+        this.form.setControl('login', new FormControl(user['login']))
+        this.form.setControl('profession', new FormControl(user['professionForDocuments']))
 
-    this.form.setControl('fio', new FormControl(obj_user['fullName']))
-    this.form.setControl('login', new FormControl(obj_user['login']))
-    this.form.setControl('profession', new FormControl(obj_user['professionForDocuments']))
-
-    this.getDuties()
-    console.log('findUser form', this.form)
+        this.getDuties()
+        console.log('findUser form', this.form)
+      }
+    })
   }
 
   // Получить список полномочий для конкретного пользователя

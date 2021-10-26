@@ -1,5 +1,5 @@
-import { environment } from './../environments/environment';
-import { Request } from './interfaces';
+import { environment } from '../../environments/environment';
+import { Request } from '../interfaces';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs";
@@ -12,8 +12,6 @@ export class RequestsService {
     private http: HttpClient,
     private router: Router
   ) {}
-
-  token = ''
 
   request = {}
   // create(req: Request): <any> {
@@ -31,15 +29,6 @@ export class RequestsService {
   // }
   valid(req: Request): Observable<Request> {
     return this.http.post<Request>(`${environment.serverUrl}/requests`, req)
-  }
-
-  // Найти пользователя в НСИ
-  findUsersReference(tn: number): any {
-    return this.http.get(`${environment.usersReferenceUrl}=personnelNo==${tn}`, {
-      headers: new HttpHeaders({
-        'X-Auth-Token': this.token
-      })
-    })
   }
 
   // Получить список полномочий для конкретного пользователя

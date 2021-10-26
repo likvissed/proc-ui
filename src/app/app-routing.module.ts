@@ -1,10 +1,10 @@
-import { MainComponent } from './main/main.component';
+import { MainComponent } from './components/auth/main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NewComponent } from './new/new.component';
-import { BaseComponent } from './base/base.component';
-import { ListComponent } from './list/list.component';
-import { RequestResolver } from './requests.resolver';
+import { NewComponent } from './components/auth/new/new.component';
+import { BaseComponent } from './components/auth/base/base.component';
+import { ListComponent } from './components/auth/list/list.component';
+import { RequestResolver } from './shared/requests.resolver';
 
 
 const routes: Routes = [
