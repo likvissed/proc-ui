@@ -83,6 +83,9 @@ export class NewComponent implements OnInit {
           array.push(new FormControl(str))
         })
 
+        this.getDuties()
+        this.findUser()
+
         console.log('Form', this.strToDate(data.presentRequest.date_passport))
 
         // this.findUser();
@@ -104,29 +107,38 @@ export class NewComponent implements OnInit {
 
   // Поиск пользователя и список полномочий для него
   findUser() {
+    // console.log('cmp', this.requestsService.getDuties(this.form.value.tn))
+
     this.userReference.findUserByTn(this.form.value.tn).subscribe(user => {
       console.log('USER CMP', user)
-      if (user) {
-        this.form.setControl('fio', new FormControl(user['fullName']))
-        this.form.setControl('login', new FormControl(user['login']))
-        this.form.setControl('profession', new FormControl(user['professionForDocuments']))
+      if (user.length) {
+        this.form.setControl('fio', new FormControl(user[0]['fullName']))
+        this.form.setControl('login', new FormControl(user[0]['login']))
+        this.form.setControl('profession', new FormControl(user[0]['professionForDocuments']))
 
         this.getDuties()
-        console.log('findUser form', this.form)
+      } else {
+        this.form.setControl('fio', new FormControl(null))
+        this.form.setControl('login', new FormControl(null))
+        this.form.setControl('profession', new FormControl(null))
+
+        this.lists = []
+
       }
+      console.log('findUser form', this.form)
     })
   }
 
   // Получить список полномочий для конкретного пользователя
   getDuties() {
-    // this.requestsService.getDuties(this.form.value.tn).subscribe((response) => {
-    //   console.log('duties', response)
-    //   this.lists = response['duties']
-    // })
-
-    this.lists = [
-      'aaa', 'bbb', 'ccc', 'ddd', 'long long long long'
-    ];
+    this.requestsService.getDuties(this.form.value.tn)
+      .subscribe((response) => {
+        this.lists = response['duties']
+      },
+      (error) => {
+        console.error('error', error)
+        alert(`Ошибка ${error.status}. Сервер временно недоступен`)
+      })
   }
 
   getFormsArray() : FormArray{
@@ -168,12 +180,16 @@ export class NewComponent implements OnInit {
     // // this.form.setControl('date_start', new FormControl(`${this.form.value.date_start.year}-${this.form.value.date_start.month}-${this.form.value.date_start.day}`))
     // // this.form.setControl('date_end', new FormControl(`${this.form.value.date_start.year}-${this.form.value.date_start.month}-${this.form.value.date_start.day}`))
 
-    console.log('submit', this.form.value)
+    console.log('submit', this.form)
     if (this.form.invalid) {
       return
     }
 
     // this.form.getRawValue(); // !!!!!!
+
+    // let date_passport = `${this.form.value.date_passport.year}-${this.form.value.date_passport.month}-${this.form.value.date_passport.day}`
+    // var date = (new Date(date_passport)).toISOString().split('T')[0];
+    // console.log('date_passport', date)
 
     const req : Request = {
       tn: this.form.value.tn,
@@ -194,10 +210,9 @@ export class NewComponent implements OnInit {
 
     console.log('request', req)
 
-    // // this.requestsService.valid(request).subscribe(() => {
-    // //   // this.form.reset()
-    // // })
+
   }
+
 
   // Добавить новую строку выбора из списка полномочий
   addElement() {

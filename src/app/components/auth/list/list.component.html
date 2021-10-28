@@ -4,6 +4,7 @@
       <div class="card-body">
         <div class="card-title text-center">
           <h4> Список документов: </h4>
+          <br>
         <div class="card-text">
 
           <table class="table table-hover">
@@ -30,12 +31,10 @@
                 <td> {{ list.date | date:'short' }} </td>
                 <!-- <td> <a routerLink="/new" > Создать </a> </td> -->
                 <td> <button class="btn btn-outline-info btn-sm" type="submit" (click)="createOnBase(list.id)"> Создать </button> </td>
-                <td> <button class="btn btn-outline-primary btn-sm" type="submit"> Скачать </button> </td>
+                <td> <button class="btn btn-outline-primary btn-sm" type="submit" (click)="downloadDoc(list.id, idx + 1)"> Скачать </button> </td>
 
               </tr>
-              <!-- <pre> {{ lists | json }} </pre> -->
             </tbody>
-
           </table>
 
         </div>
@@ -46,7 +45,6 @@
 
 
 </div>
-
 
 <ng-template #noList>
   <div class="card-title text-center">

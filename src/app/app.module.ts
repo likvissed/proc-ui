@@ -16,6 +16,10 @@ import ruLocale from '@angular/common/locales/ru';
 import { BaseComponent } from './components/auth/base/base.component';
 import { ListComponent } from './components/auth/list/list.component';
 import { ShortNamePipe } from './shared/shortName.pipe';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { AuthGuard } from './services/auth.guard';
+import { AuthorizeUserComponent } from './components/authorize-user/authorize-user.component';
+import { NewModalComponent } from './components/auth/new-modal/new-modal.component';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -26,7 +30,10 @@ registerLocaleData(ruLocale, 'ru')
     MainComponent,
     BaseComponent,
     ListComponent,
-    ShortNamePipe
+    ShortNamePipe,
+    SignInComponent,
+    AuthorizeUserComponent,
+    NewModalComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +46,7 @@ registerLocaleData(ruLocale, 'ru')
   ],
   providers: [
     AuthService,
+    AuthGuard,
     { provide: LOCALE_ID, useValue: 'ru-RU' }
   ],
   bootstrap: [AppComponent]

@@ -35,7 +35,7 @@ export class UsersReferenceService {
   findUserByTn(tn: number): any {
     return this.findUser(tn)
       .pipe(
-        map((response:any) => response.data),
+        map((response:any) => of(response.data)),
         catchError(_ => of('Error')),
         switchMap((el:any) => {
           if (el == 'Error') {
@@ -46,7 +46,7 @@ export class UsersReferenceService {
 
                   return this.findUser(tn)
                     .pipe(
-                      switchMap((response:any) => response.data)
+                      switchMap((response:any) => of(response.data))
                   )
                 })
               )
@@ -56,5 +56,6 @@ export class UsersReferenceService {
 
         })
       )
+
   }
 }

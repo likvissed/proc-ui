@@ -11,6 +11,7 @@ export class AuthService {
   // Проверка: авторизован ли пользователь
   isAuthenticated(): boolean {
     console.log('user_lk', localStorage.getItem('user_lk'))
+    // return true
 
     return localStorage.getItem('user_lk') ? true : false
   }

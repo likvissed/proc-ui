@@ -19,7 +19,8 @@
                   class="validation"
                   *ngIf="form.get('tn').touched && form.get('tn').invalid"
                 >
-                  <small *ngIf="form.get('tn').errors.required"> Введите табельный номер</small>
+                  <small *ngIf="form.get('tn').errors.required"> Введите табельный номер </small>
+
               </div>
               </td>
             </tr>
@@ -48,7 +49,7 @@
                   <div class="input-group">
                     <input
                       class="form-control"
-                      placeholder="дд-мм-гггг"
+                      placeholder="Выберите дату"
                       name="date_passport"
                       formControlName="date_passport"
                       ngbDatepicker #d1="ngbDatepicker"
@@ -81,7 +82,7 @@
                     <input
                       (dateSelect)="dateStartSelect($event)"
                       class="form-control"
-                      placeholder="дд-мм-гггг"
+                      placeholder="Выберите дату"
                       name="date_start"
                       formControlName="date_start"
                       ngbDatepicker #d2="ngbDatepicker"
@@ -115,7 +116,7 @@
                     <input
                       (dateSelect)="dateEndSelect($event)"
                       class="form-control"
-                      placeholder="дд-мм-гггг"
+                      placeholder="Выберите дату"
                       name="date_end"
                       formControlName="date_end"
                       ngbDatepicker #d3="ngbDatepicker"
@@ -146,7 +147,7 @@
                 <div class="card">
                   <div class="card-header">
                     <label> Список полномочий: </label>
-                    <button class="btn btn-outline-primary float-right" (click)="addElement()">  Добавить полномочие </button>
+                    <button class="btn btn-outline-primary float-right" type="button" (click)="addElement()">  Добавить полномочие </button>
                   </div>
                   <div class="card-body text-center">
                     <label *ngIf="getFormsArray()['controls'].length == 0"> Список полномочий пуст </label>
@@ -217,6 +218,7 @@
   </div>
 
 
+<!-- <pre> {{ lists | json }}</pre> -->
 </div>
 
 <!-- <router-outlet></router-outlet> -->

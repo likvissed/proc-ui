@@ -1,7 +1,7 @@
 import { environment } from '../../environments/environment';
 import { Request } from '../interfaces';
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { Router } from '@angular/router';
 
@@ -13,32 +13,44 @@ export class RequestsService {
     private router: Router
   ) {}
 
-  request = {}
-  // create(req: Request): <any> {
-  //   console.log('VALID API', req)
-  //   // return this.http.post(`${environment.fbDBUrl}/posts.json`, post)
-  //   //   .pipe(map((response: FbCreateResponse) => {  // map позволяет трансформировать данные из стрима
-  //   //     const newPost: Post = {
-  //   //         ...post,  // оператор spred для объекта post
-  //   //         id: response.name,
-  //   //         date: new Date(post.date)
-  //   //     } // не помогло  as Post (ненужно)
-
-  //   //     return newPost
-  //   //   }))
-  // }
-  valid(req: Request): Observable<Request> {
-    return this.http.post<Request>(`${environment.serverUrl}/requests`, req)
-  }
-
   // Получить список полномочий для конкретного пользователя
   getDuties(tn: number): any {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
 
-    return this.http.post(`${environment.procListDutiesUrl}`, {'tn': tn}, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    })
+    return this.http.post(environment.procListDutiesUrl, { 'tn': tn }, { headers: headers })
+      // .subscribe((response) => {
+      //   console.log('duties', response)
+
+      // },
+      // (error) => {
+      //   console.error('error', error)
+      // })
+
+    // this.http.get(`${environment.procListDutiesUrl}=tn==${tn}`, {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json'
+    //   })
+    // })
+    //    .subscribe((response) => {
+    //     console.log('duties', response)
+
+    //   },
+    //   (error) => {
+    //     console.error('error', error)
+    //   })
+
+
+
+    // return this.http.post(`${environment.procListDutiesUrl}`, {'tn': tn}, {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json'
+    //     // 'Access-Control-Allow-Origin': '*',
+    //     //     'Access-Control-Allow-Credentials': 'true',
+    //     //     'Access-Control-Allow-Headers': 'Content-Type',
+    //     //     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+    //   })
+    // })
   }
 
   // Получить сформированный образец документа
@@ -59,27 +71,30 @@ export class RequestsService {
 
   // Получить список доверенностей
   getList(current_user_tn: number): any {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.post(`${environment.procGetListUrl}`, { author_tn: current_user_tn } , { headers })
+    // return this.http.post(`${environment.procGetListUrl}`, { author_tn: current_user_tn } , { headers })
+
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+
+    return this.http.post(environment.procGetListUrl, { 'author_tn': current_user_tn }, { headers })
   }
 
   // Получить json с параметрами сформитрованного документа
-  // procGetJsonDocUrl
   getJsonDoc(id: number): any {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.post(`${environment.serverUrl}`, { id: id } , { headers })
+    return this.http.post(`${environment.procGetJsonDocUrl}`, { id: id } , { headers })
+  }
 
-    // let response = this.http.post(`${environment.procGetJsonDocUrl}`, { id: id_doc } , { headers })
-    this.http.post(`${environment.serverUrl}`, { id: id } , { headers }).subscribe(data  => {
-      console.log('response yes', data)
-    },
-    error => {
-      console.log('response no', error)
-    });
+  // Скачать доверенность
+  downloadFile(id: number): any {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/pdf');
 
-    // console.log('S getJsonDoc response', response)
+    return this.http.post(`${environment.procDownloadFileUrl}`, { id: id } , { headers, responseType: 'blob' })
   }
 
 }
