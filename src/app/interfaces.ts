@@ -1,14 +1,20 @@
 export interface Request {
   tn: number,
-  passport: string,
+  sn_passport: string,
+  passport_issued: string,
   date_passport: Date,
+  code_passport: string,
   date_start: Date,
-  date_end: Date,
+  select_time: number,
+  general: string,
   array_authority: string[]
 
   fio: string,
   login: string,
   profession: string,
+  case_fio: string,
+  case_prof: string,
+  genitive_fio: string,
 
   author_tn: number,
   author_fio: string,
@@ -17,9 +23,12 @@ export interface Request {
 
 export interface RequestForm {
   tn: number,
-  passport: string,
+  sn_passport: string,
+  passport_issued: string,
   date_passport: Date,
+  general: string,
   date_start: Date,
-  date_end: Date,
+  code_passport: string,
   array_authority: string[]
+  select_time: number
 }

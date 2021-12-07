@@ -1,224 +1,254 @@
-<div class="container"></div>
+<div class="container">
 
-<div class="card">
-  <div class="card-body">
-    <div class="card-title text-center">
-      <h4> Заполнение данных для доверенности</h4>
-    </div>
-    <div class="card-text">
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        <table class="table table-borderless">
-          <tbody>
-            <tr>
-              <td>
-                <label for="tn"> Табельный номер: </label>
-              </td>
-              <td>
-                <input id="tn" type="text" placeholder="Табельный номер" formControlName="tn" class="form-control" (change)="findUser()">
-                <div
-                  class="validation"
-                  *ngIf="form.get('tn').touched && form.get('tn').invalid"
-                >
-                  <small *ngIf="form.get('tn').errors.required"> Введите табельный номер </small>
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title text-center">
+        <h4> Заполнение данных для доверенности</h4>
+      </div>
+      <div class="card-text">
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                <td>
+                  <label for="tn"> Табельный номер: </label>
+                </td>
+                <td>
+                  <input id="tn" type="text" placeholder="Табельный номер" formControlName="tn" class="form-control" (change)="findUser()">
+                  <div
+                    class="validation"
+                    *ngIf="form.get('tn').touched && form.get('tn').invalid"
+                  >
+                    <small *ngIf="form.get('tn').errors.required"> Введите табельный номер </small>
 
-              </div>
-              </td>
-            </tr>
+                </div>
+                </td>
+              </tr>
 
-            <tr [ngClass]="{invalid: form.get('passport').touched && form.get('passport').invalid }">
-              <td>
-                <label for="passport"> Паспортные данные: </label>
-              </td>
-              <td>
-                <input id="passport" type="text" placeholder="Серия и номер" formControlName="passport" class="form-control">
-                <div
-                  class="validation"
-                  *ngIf="form.get('passport').touched && form.get('passport').invalid"
-                >
-                  <small *ngIf="form.get('passport').errors.required"> Введите серию и номер паспорта</small>
-              </div>
-              </td>
-            </tr>
+              <tr [ngClass]="{invalid: form.get('sn_passport').touched && form.get('sn_passport').invalid }">
+                <td>
+                  <label for="sn_passport"> Серия и номер паспорта: </label>
+                </td>
+                <td>
+                  <input id="sn_passport" type="text" placeholder="Серия и номер" formControlName="sn_passport" class="form-control">
+                  <div
+                    class="validation"
+                    *ngIf="form.get('sn_passport').touched && form.get('sn_passport').invalid"
+                  >
+                    <small *ngIf="form.get('sn_passport').errors.required"> Введите серию и номер паспорта</small>
+                </div>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <label for="date_passport"> Дата выдачи паспорта: </label>
-              </td>
-              <td>
-                <div class="form-group">
-                  <div class="input-group">
-                    <input
-                      class="form-control"
-                      placeholder="Выберите дату"
-                      name="date_passport"
-                      formControlName="date_passport"
-                      ngbDatepicker #d1="ngbDatepicker"
-                      required
-                      [minDate]="{year: 1930, month: 1, day: 1}"
-                      [readonly]=true
+              <tr [ngClass]="{invalid: form.get('passport_issued').touched && form.get('passport_issued').invalid }">
+                <td>
+                  <label for="passport_issued"> Кем выдан: </label>
+                </td>
+                <td>
+                  <input id="passport_issued" type="text" placeholder="Кем выдан" formControlName="passport_issued" class="form-control">
+                  <div
+                    class="validation"
+                    *ngIf="form.get('passport_issued').touched && form.get('passport_issued').invalid"
+                  >
+                    <small *ngIf="form.get('passport_issued').errors.required"> Введите кем выдан паспорт</small>
+                </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <label for="date_passport"> Дата выдачи паспорта: </label>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="Выберите дату"
+                        name="date_passport"
+                        formControlName="date_passport"
+                        ngbDatepicker #d1="ngbDatepicker"
+                        required
+                        [minDate]="{year: 1930, month: 1, day: 1}"
+                        [readonly]=true
+                      >
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button"></button>
+                      </div>
+                    </div>
+                    <div
+                      class="validation"
+                      *ngIf="form.get('date_passport').touched && form.get('date_passport').invalid"
                     >
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button"></button>
+                      <small *ngIf="form.get('date_passport').errors.required"> Введите дату выдачи паспорта </small>
                     </div>
                   </div>
+
+                </td>
+              </tr>
+
+              <tr [ngClass]="{invalid: form.get('code_passport').touched && form.get('code_passport').invalid }">
+                <td>
+                  <label for="code_passport"> Код подразделения: </label>
+                </td>
+                <td>
+                  <input id="code_passport" type="text" placeholder="Код подразделения" formControlName="code_passport" class="form-control">
+                  <div
+                    class="validation"
+                    *ngIf="form.get('code_passport').touched && form.get('code_passport').invalid"
+                  >
+                    <small *ngIf="form.get('code_passport').errors.required"> Введите код подразделения</small>
                 </div>
+                </td>
+              </tr>
 
-                <div
-                  class="validation"
-                  *ngIf="form.get('date_passport').touched && form.get('date_passport').invalid"
-                >
-                  <small *ngIf="form.get('date_passport').errors.required"> Введите дату выдачи паспорта </small>
-              </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <label for="date_start"> Действительна с: </label>
-              </td>
-              <td>
-                <div class="form-group">
-                  <div class="input-group">
-                    <input
-                      (dateSelect)="dateStartSelect($event)"
-                      class="form-control"
-                      placeholder="Выберите дату"
-                      name="date_start"
-                      formControlName="date_start"
-                      ngbDatepicker #d2="ngbDatepicker"
-                      required
-                      [minDate]="min_start_date"
-                      [maxDate]="max_start_date"
-                      [readonly]=true
+              <tr>
+                <td>
+                  <label for="date_start"> Действительна с: </label>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="Выберите дату"
+                        name="date_start"
+                        formControlName="date_start"
+                        ngbDatepicker #d2="ngbDatepicker"
+                        required
+                        [readonly]=true
+                      >
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+                      </div>
+                    </div>
+                    <div
+                      class="validation"
+                      *ngIf="form.get('date_start').touched && form.get('date_start').invalid"
                     >
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+                    <small *ngIf="form.get('date_start').errors.required">  Введите дату начала </small>
                     </div>
                   </div>
-                </div>
 
-                <div
-                  class="validation"
-                  *ngIf="form.get('date_start').touched && form.get('date_start').invalid"
-                >
-                <small *ngIf="form.get('date_start').errors.required">  Введите дату начала </small>
-                </div>
-              </td>
-            </tr>
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                <label for="date_end"> Действительна по: </label>
-              </td>
-              <td>
-                <div class="form-group">
-                  <div class="input-group">
-                    <input
-                      (dateSelect)="dateEndSelect($event)"
-                      class="form-control"
-                      placeholder="Выберите дату"
-                      name="date_end"
-                      formControlName="date_end"
-                      ngbDatepicker #d3="ngbDatepicker"
-                      required
-                      [minDate]="min_end_date"
-                      [maxDate]="max_end_date"
-                      [readonly]=true
-                    >
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary calendar" (click)="d3.toggle()" type="button"></button>
+              <tr [ngClass]="{invalid: form.get('select_time').touched && form.get('select_time').invalid }">
+                <td>
+                  <label for="select_time"> Срок доверенности: </label>
+                </td>
+                <td>
+                  <select class="form-control" formControlName="select_time">
+                    <option *ngFor="let select of arr_selected_time"
+                            [ngValue]="select.value">
+                        {{select.name}}
+                    </option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2">
+                  <label for="general"> Вести дела и представлять интересы АО «***REMOVED***» (Дополнить фразу): </label>
+                </td>
+              </tr>
+              <tr [ngClass]="{invalid: form.get('general').touched && form.get('general').invalid }">
+                <td colspan="2">
+                  <input id="general" type="text" placeholder="" formControlName="general" class="form-control">
+                  <div
+                    class="validation"
+                    *ngIf="form.get('general').touched && form.get('general').invalid"
+                  >
+                    <small *ngIf="form.get('general').errors.required"> Не может быть пустым</small>
+                </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2">
+                  <label> Выберите полномочие из списка или введите новое: </label>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <ng-select
+                    [items]="lists"
+                    appendTo="body"
+                    placeholder=""
+                    [(ngModel)]="selected"
+                    [ngModelOptions]="{standalone: true}"
+                    [clearable]=true
+                    clearAllText="Удалить текст"
+                    notFoundText="Не найдено"
+                    [virtualScroll]=true
+                    class="custom "
+                    addTagText=""
+                    [addTag]="true"
+                    (change)="addSelected($event)"
+                  >
+                  </ng-select>
+
+                  <div class="text-center">
+                    <small> Для добавления в список нажмите на выбранный текст или на кнопку "Enter" </small>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2">
+
+                  <div class="card">
+                    <div class="card-header">
+                      <label> Список полномочий: </label>
+                      <!-- <button class="btn btn-outline-primary float-right" type="button" (click)="addElement()">  Добавить полномочие </button> -->
                     </div>
-                  </div>
-                </div>
+                    <div class="card-body text-center">
+                      <label *ngIf="getFormsArray()['controls'].length == 0"> Список полномочий пуст </label>
+                    </div>
+                    <div>
+                      <div formArrayName="array_authority">
+                        <div *ngFor="let el of getFormsArray()['controls']; let i=index">
 
-                <div
-                  class="validation"
-                  *ngIf="form.get('date_end').touched && form.get('date_end').invalid"
-                >
-                <small *ngIf="form.get('date_end').errors.required"> Введите дату окончания</small>
-                </div>
-              </td>
-            </tr>
+                          <table class="table table-striped table-bordered table-hover table-condensed">
+                            <tbody>
+                              <tr>
+                                <td class="col-xs-1 col-lg-1"> {{ i + 1 }} </td>
+                                <td class="col-xs-17 col-sm-18 col-lg-20 col-md-20"> {{ getFormsArray()['controls'][i].value }} </td>
+                                <td class="col-xs-2 col-sm-3 col-lg-2 col-md-3">
+                                  <button class="input-group-text btn btn-outline-danger" (click)="deleteElement(i)"> Удалить </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
 
-
-            <tr>
-              <td colspan="2">
-
-                <div class="card">
-                  <div class="card-header">
-                    <label> Список полномочий: </label>
-                    <button class="btn btn-outline-primary float-right" type="button" (click)="addElement()">  Добавить полномочие </button>
-                  </div>
-                  <div class="card-body text-center">
-                    <label *ngIf="getFormsArray()['controls'].length == 0"> Список полномочий пуст </label>
-
-                    <div formArrayName="array_authority" >
-                      <div class="form-group" *ngFor="let el of getFormsArray()['controls']; let i = index" >
-
-                        <div
-                        [ngClass]="{invalid: getFormsArray()['controls'][i].touched && getFormsArray()['controls'][i].invalid}"
-                        >
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"> {{ i + 1 }} </span>
-                                </div>
-
-                                    <ng-select
-                                      [items]="lists"
-                                      appendTo="body"
-                                      placeholder="Выберите полномочие из списка"
-                                      formControlName="{{i}}"
-                                      [clearable]=false
-                                      notFoundText="Не найдено"
-                                      [virtualScroll]=true
-                                      class="custom col-lg-10"
-                                    >
-                                    </ng-select>
-
-
-                                <div class="input-group-append">
-                                  <!-- <span class="input-group-text"> -->
-                                    <button class="input-group-text btn btn-outline-danger" (click)="deleteElement(i)"> Удалить </button>
-                                    <!-- <button class="btn btn-danger" (click)="deleteElement()> Удалить </button> -->
-                                  <!-- </span> -->
-                                </div>
-                            </div>
-
-                          <div
-                            class="validation"
-                            *ngIf="getFormsArray()['controls'][i].touched && getFormsArray()['controls'][i].invalid"
-                          >
-                            <small *ngIf="getFormsArray()['controls'][i].errors.required"> Не может быть пустым</small>
-                          </div>
                         </div>
                       </div>
-                   </div>
 
-
+                    </div>
                   </div>
-                </div>
 
-              </td>
-            </tr>
+                </td>
+              </tr>
 
-            <tr>
-              <td colspan="2">
-                <div class="card-text float-right col-lg-15 col-lg-offset-5 col-xs-20">
-                  <button class="btn btn-outline-secondary px-2" style="margin-right: 5px;" type="reset"> Очистить форму </button>
-                  <button class="btn btn-outline-success" type="submit"> Сформировать документ </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <tr>
+                <td colspan="2">
+                  <div class="card-text float-right col-lg-15 col-lg-offset-5 col-xs-20">
+                    <button class="btn btn-outline-secondary px-2" style="margin-right: 5px;" type="reset"> Очистить форму </button>
+                    <button class="btn btn-outline-success" type="submit"> Сформировать документ </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-      </form>
+        </form>
+      </div>
     </div>
+
+
+  <!-- <pre> {{ selected | json }}</pre> -->
   </div>
-
-
-<!-- <pre> {{ lists | json }}</pre> -->
 </div>
+
 
 <!-- <router-outlet></router-outlet> -->

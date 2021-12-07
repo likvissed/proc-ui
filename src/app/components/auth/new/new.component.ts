@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,6 +9,7 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { MomentDateFormatter } from '../../../shared/dateFormat';
 import { UsersReferenceService } from 'src/app/services/users-reference.service';
 import { Observable } from 'rxjs';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-new',
@@ -23,8 +24,10 @@ import { Observable } from 'rxjs';
   // encapsulation: ViewEncapsulation.None
 })
 export class NewComponent implements OnInit {
+  // @ViewChild(NgSelectComponent) ngSelectComponent: NgSelectComponent;
 
   form: FormGroup;
+  authority: FormArray;
 
   constructor(
     private requestsService: RequestsService,
@@ -35,13 +38,18 @@ export class NewComponent implements OnInit {
   ) { }
 
   // Список полномочий для пользователя
-  lists = []
+  // lists = []
+  lists = ["12432432 2", "long pre sd asd erewrfwe wef wefewfhuefhe ufheufheufhewifhweflong pre sd asd erewrfwe wef wefewfhuefhe ufheufheufhewifhweflong pre sd asd erewrfwe wef wefewfhuefhe ufheufheufhewifhwef"]
 
-  min_start_date = null
-  max_start_date = null
+  // Срок доверенности
+  arr_selected_time = [
+    { value: 1, name: '1 год' },
+    { value: 2, name: '2 года'},
+    { value: 3, name: '3 года' }
+  ]
 
-  min_end_date = null
-  max_end_date = null
+  // Выбранное или введенное полномочие пользователем
+  selected = null;
 
   ngOnInit() {
     console.log('NewComponent this', this)
@@ -49,11 +57,16 @@ export class NewComponent implements OnInit {
     this.form = this.formBuilder.group({
       // Данные, которые пользователь вводит на форме
       tn: new FormControl(null, [Validators.required]),
-      passport: new FormControl(null, [Validators.required]),
+      sn_passport: new FormControl(null, [Validators.required]),
+      passport_issued: new FormControl(null, [Validators.required]),
       date_passport: [null, [Validators.required]],
+      code_passport: [null, [Validators.required]],
       date_start: [null, [Validators.required]],
       date_end: [null, [Validators.required]],
+      select_time: new FormControl(this.arr_selected_time[0].value, [Validators.required]),
+      general: [null, [Validators.required]],
       array_authority: this.formBuilder.array([]),
+      // array_authority: this.formBuilder.array([this.formBuilder.group([null, [Validators.required]])]),
 
       // Данные, которые получаем из НСИ для доверенного лица
       fio: [null, [Validators.required]],
@@ -94,6 +107,16 @@ export class NewComponent implements OnInit {
     })
   }
 
+  // Добавить выбранный элемент в список полномочий
+  addSelected(selected):void {
+    if (selected != undefined) {
+      (<FormArray>this.form.controls["array_authority"]).push(new FormControl(selected))
+
+    }
+
+    this.selected = []
+  }
+
   // Получить из строки 'гггг-мм-дд' объект даты для отображения в календаре
   strToDate(str: string) {
     let date = new Date(str)
@@ -124,6 +147,7 @@ export class NewComponent implements OnInit {
 
         this.lists = []
 
+
       }
       console.log('findUser form', this.form)
     })
@@ -133,7 +157,7 @@ export class NewComponent implements OnInit {
   getDuties() {
     this.requestsService.getDuties(this.form.value.tn)
       .subscribe((response) => {
-        this.lists = response['duties']
+        // this.lists = response['duties']
       },
       (error) => {
         console.error('error', error)
@@ -141,7 +165,7 @@ export class NewComponent implements OnInit {
       })
   }
 
-  getFormsArray() : FormArray{
+  getFormsArray() : FormArray {
     return this.form.controls['array_authority'] as FormArray;
   }
 
@@ -154,20 +178,6 @@ export class NewComponent implements OnInit {
   //   this.form.setControl('date_passport', new FormControl(finalDate))
   // }
 
-  // Ограничение для даты начала
-  dateStartSelect(event) {
-    console.log('start', event)
-    // Назначение для даты окончания + 3 года с даты начала
-    this.max_end_date = { year: event.year + 3, month: event.month, day: event.day }
-    this.min_end_date = { year: event.year, month: event.month, day: event.day + 1 }
-  }
-
-  // Ограничение для даты окончания
-  dateEndSelect(event) {
-    // Назначение для даты начала - 3 года с даты окночания
-    this.max_start_date = { year: event.year, month: event.month, day: event.day - 1 }
-    this.min_start_date = { year: event.year - 3, month: event.month, day: event.day }
-  }
 
   submit() {
     // Оствляю до реализации авторизации
@@ -191,28 +201,27 @@ export class NewComponent implements OnInit {
     // var date = (new Date(date_passport)).toISOString().split('T')[0];
     // console.log('date_passport', date)
 
-    const req : Request = {
-      tn: this.form.value.tn,
-      passport: this.form.value.passport,
-      date_passport: this.form.value.date_passport,
-      date_start: this.form.value.date_start,
-      date_end: this.form.value.date_end,
-      array_authority: this.form.value.array_authority,
+    // const req : Request = {
+    //   tn: this.form.value.tn,
+    //   passport: this.form.value.passport,
+    //   date_passport: this.form.value.date_passport,
+    //   date_start: this.form.value.date_start,
+    //   date_end: this.form.value.date_end,
+    //   array_authority: this.form.value.array_authority,
 
-      fio: this.form.value.fio,
-      login: this.form.value.login,
-      profession: this.form.value.profession,
+    //   fio: this.form.value.fio,
+    //   login: this.form.value.login,
+    //   profession: this.form.value.profession,
 
-      author_tn: this.form.value.author_tn,
-      author_fio: this.form.value.author_fio,
-      author_login: this.form.value.author_login
-    }
+    //   author_tn: this.form.value.author_tn,
+    //   author_fio: this.form.value.author_fio,
+    //   author_login: this.form.value.author_login
+    // }
 
-    console.log('request', req)
+    // console.log('request', req)
 
 
   }
-
 
   // Добавить новую строку выбора из списка полномочий
   addElement() {

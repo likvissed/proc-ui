@@ -1,0 +1,37 @@
+// .ng-select {
+//   &.ng-select-multiple {
+//     .ng-select-container {
+//       .ng-value-container {
+//         flex-wrap: wrap;
+//         min-width: 0;
+
+//         .ng-value {
+//           white-space: nowrap;
+//           min-width: 0;
+//           display: flex;
+//           max-width: 95%;
+
+//           .ng-value-label {
+//             // @include wrapt-text;
+//             white-space: nowrap;
+//             overflow: hidden;
+//             text-overflow: ellipsis;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+// .ng-select .ng-select-container {
+//   min-height: 20px;
+// }
+
+// .ng-select.ng-select-single .ng-select-container {
+//   height: 20px;
+// }
+
+// .ng-select.custom .ng-value-container {
+//   height: 10px;
+// }
+
