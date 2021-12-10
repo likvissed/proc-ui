@@ -20,6 +20,8 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { AuthGuard } from './services/auth.guard';
 import { AuthorizeUserComponent } from './components/authorize-user/authorize-user.component';
 import { NewModalComponent } from './components/auth/new-modal/new-modal.component';
+import { TemplateModalComponent } from './components/auth/template-modal/template-modal.component';
+import { DoneModalComponent } from './components/auth/done-modal/done-modal.component';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -33,7 +35,9 @@ registerLocaleData(ruLocale, 'ru')
     ShortNamePipe,
     SignInComponent,
     AuthorizeUserComponent,
-    NewModalComponent
+    NewModalComponent,
+    TemplateModalComponent,
+    DoneModalComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +53,9 @@ registerLocaleData(ruLocale, 'ru')
     AuthGuard,
     { provide: LOCALE_ID, useValue: 'ru-RU' }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    TemplateModalComponent
+  ]
 })
 export class AppModule { }

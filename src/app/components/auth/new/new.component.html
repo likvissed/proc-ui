@@ -65,10 +65,10 @@
                       <input
                         class="form-control"
                         placeholder="Выберите дату"
-                        name="date_passport"
                         formControlName="date_passport"
                         ngbDatepicker #d1="ngbDatepicker"
                         required
+                        type="text"
                         [minDate]="{year: 1930, month: 1, day: 1}"
                         [readonly]=true
                       >
@@ -81,6 +81,9 @@
                       *ngIf="form.get('date_passport').touched && form.get('date_passport').invalid"
                     >
                       <small *ngIf="form.get('date_passport').errors.required"> Введите дату выдачи паспорта </small>
+                      <small class="form-text text-danger" *ngIf="form.get('date_passport').errors.ngbDate?.invalid">
+                        Your birth date must be a valid date (Ex: yyyy-mm-dd).
+                      </small>
                     </div>
                   </div>
 
@@ -149,7 +152,7 @@
 
               <tr>
                 <td colspan="2">
-                  <label for="general"> Вести дела и представлять интересы АО «***REMOVED***» (Дополнить фразу): </label>
+                  <label for="general"> Вести дела и представлять интересы АО «***REMOVED***» (дополнить фразу): </label>
                 </td>
               </tr>
               <tr [ngClass]="{invalid: form.get('general').touched && form.get('general').invalid }">
@@ -189,7 +192,7 @@
                   </ng-select>
 
                   <div class="text-center">
-                    <small> Для добавления в список нажмите на выбранный текст или на кнопку "Enter" </small>
+                    <small> Для добавления в список нажмите на выбранный текст или на клавишу "Enter" </small>
                   </div>
                 </td>
               </tr>
@@ -232,9 +235,9 @@
 
               <tr>
                 <td colspan="2">
-                  <div class="card-text float-right col-lg-15 col-lg-offset-5 col-xs-20">
-                    <button class="btn btn-outline-secondary px-2" style="margin-right: 5px;" type="reset"> Очистить форму </button>
-                    <button class="btn btn-outline-success" type="submit"> Сформировать документ </button>
+                  <div class="card-text float-right">
+                    <button class="btn btn-outline-secondary px-2" style="margin-right: 5px;" type="reset" (click)="clearArray()"> Очистить форму </button>
+                    <button class="btn btn-outline-success" type="submit" [disabled]="submitted" [ngClass]="{'waiting': submitted}"> Сформировать документ </button>
                   </div>
                 </td>
               </tr>

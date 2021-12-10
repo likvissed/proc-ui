@@ -1,0 +1,11 @@
+<div class="modal-header text-center">
+  <h4 class="modal-title w-100"> Доверенность отправлена на согласование </h4>
+</div>
+<div class="modal-body">
+  <label> Проверить статус можно во вкладке </label>
+  <a routerLink="/list" (click)="closeModal()"> Список документов </a>
+
+</div>
+<div class="modal-footer">
+  <button (click)="activeModal.dismiss('Close clicked')" class="btn btn-outline-secondary px-2 "> Закрыть </button>
+</div>

@@ -2,9 +2,9 @@ export interface Request {
   tn: number,
   sn_passport: string,
   passport_issued: string,
-  date_passport: Date,
+  date_passport: string,
   code_passport: string,
-  date_start: Date,
+  date_start: string,
   select_time: number,
   general: string,
   array_authority: string[]

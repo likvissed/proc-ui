@@ -62,11 +62,20 @@ export class RequestsService {
     return this.http.post<Request>(`${environment.procGetTemplateDocUrl}`, request , requestOptions)
   }
 
-  // Отправить данные на согласование доверенности
-  sendForApproval(request: Request): Observable<Request> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+  // // Отправить данные на согласование доверенности
+  // sendForApproval(request: Request): Observable<Request> {
+  //   const headers = new HttpHeaders().set('Content-Type', 'application/json');
+  //   // responseType: 'text'
+  //   // const requestOptions: Object = {
+  //   //   responseType: 'json'
+  //   // }
 
-    return this.http.post<Request>(`${environment.procSendDocUrl}`, request, { headers })
+  //   return this.http.post<Request>(`${environment.procSendDocUrl}`, request, { headers })
+  // }
+
+  // Отправить данные на согласование доверенности
+  sendForApproval(request): any{
+    return this.http.post(`${environment.procSendDocUrl}`, request,  { responseType: 'text' } )
   }
 
   // Получить список доверенностей

@@ -22,16 +22,25 @@ export class UsersReferenceService {
     return this.http.post(environment.usersReferenceUrlLogin, {}, { headers } )
   }
 
-  // Запрос в НСИ
+  // Запрос в НСИ по таб.номеру
   findUser(tn: number):any {
-    return this.http.get(`${environment.usersReferenceUrl}=personnelNo==${tn}`, {
+    return this.http.get(`${environment.usersReferenceSearchUrl}=personnelNo==${tn}`, {
       headers: new HttpHeaders({
         'X-Auth-Token': localStorage.getItem('token_hr')
       })
     })
   }
 
-  // Найти пользователя в НСИ
+  // Запрос в НСИ по id_tn
+  findUserEmp(id_tn: number):any {
+    return this.http.get(`${environment.usersReferenceUrl}/${id_tn}`, {
+      headers: new HttpHeaders({
+        'X-Auth-Token': localStorage.getItem('token_hr')
+      })
+    })
+  }
+
+  // Найти пользователя в НСИ по таб.номеру
   findUserByTn(tn: number): any {
     return this.findUser(tn)
       .pipe(
@@ -47,6 +56,34 @@ export class UsersReferenceService {
                   return this.findUser(tn)
                     .pipe(
                       switchMap((response:any) => of(response.data))
+                  )
+                })
+              )
+          } else {
+            return el
+          }
+
+        })
+      )
+
+  }
+
+  // Найти пользователя в НСИ по id_tn
+  findUserById(id_tn: number): any {
+    return this.findUserEmp(id_tn)
+      .pipe(
+        map((response:any) => of(response)),
+        catchError(_ => of('Error')),
+        switchMap((el:any) => {
+          if (el == 'Error') {
+            return this.getNewToken()
+              .pipe(
+                mergeMap((data) =>{
+                  localStorage.setItem('token_hr', data['token'])
+
+                  return this.findUserEmp(id_tn)
+                    .pipe(
+                      switchMap((response:any) => of(response))
                   )
                 })
               )

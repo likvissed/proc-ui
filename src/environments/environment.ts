@@ -14,16 +14,17 @@ export const environment = {
   nameUserHr: 'Operator7141',
   passwordUserHr: 'Operator7141@714',
   usersReferenceUrlLogin: 'https://hr.***REMOVED***/ref-info/api/login',
-  usersReferenceUrl: 'https://hr.***REMOVED***/ref-info/api/emp?search',
+  usersReferenceUrl: 'https://hr.***REMOVED***/ref-info/api/emp',
+  usersReferenceSearchUrl: 'https://hr.***REMOVED***/ref-info/api/emp?search',
 
-  procListDutiesUrl: 'http://vm713:5000/duties_list',
-  procGetListUrl: 'http://vm713:5000/proxies_list',
+  procListDutiesUrl: 'https://vm713.***REMOVED***:24026/duties_list',
+  procGetListUrl: 'https://vm713.***REMOVED***:24026/proxies_list',
 
   procGetJsonDocUrl: 'http://vm713:5000/docx_info',
   procDownloadFileUrl: 'http://vm713:5000/file_download',
 
   procGetTemplateDocUrl: 'http://vm713:5000/sample',
-  procSendDocUrl: 'http://vm713:5000/ssd_send'
+  procSendDocUrl: 'https://vm713.***REMOVED***:24026/ssd_send'
 };
 
 /*
