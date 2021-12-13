@@ -21,10 +21,14 @@ export const environment = {
   procGetListUrl: 'https://vm713.***REMOVED***:24026/proxies_list',
 
   procGetJsonDocUrl: 'http://vm713:5000/docx_info',
-  procDownloadFileUrl: 'http://vm713:5000/file_download',
+  procDownloadFileUrl: 'https://vm713.***REMOVED***:24026/file_download',
 
   procGetTemplateDocUrl: 'http://vm713:5000/sample',
-  procSendDocUrl: 'https://vm713.***REMOVED***:24026/ssd_send'
+  procSendDocUrl: 'https://vm713.***REMOVED***:24026/ssd_send',
+
+  procDeleteDocUrl: 'https://vm713.***REMOVED***:24026/delete_proxy'
+
+
 };
 
 /*

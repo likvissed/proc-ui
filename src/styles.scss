@@ -1,8 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
+
+// @import "../node_modules/bootstrap/scss/bootstrap.scss";
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
 :root {
   --header-color: #4682B4;
@@ -93,4 +97,8 @@ button.calendar, button.calendar:active {
 
 .waiting {
   cursor: wait!important;
+}
+
+.pointer {
+  cursor: pointer
 }

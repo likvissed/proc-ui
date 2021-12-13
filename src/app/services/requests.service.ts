@@ -106,4 +106,9 @@ export class RequestsService {
     return this.http.post(`${environment.procDownloadFileUrl}`, { id: id } , { headers, responseType: 'blob' })
   }
 
+  // Удалить доверенность
+  deleteDocument(id: number): any {
+    return this.http.delete(`${environment.procDeleteDocUrl}/${id}`, { responseType: 'text' })
+  }
+
 }

@@ -5,7 +5,7 @@
         <div class="card-title text-center">
           <h4> Список документов: </h4>
           <br>
-        <div class="card-text">
+        <div>
 
           <table class="table table-hover">
             <thead>
@@ -18,21 +18,31 @@
                 <th> Дата и время создания </th>
                 <th> Создать на основе </th>
                 <th> Скачать документ </th>
+                <th> Комментарий </th>
+                <th> delete </th>
               </tr>
             </thead>
 
             <tbody>
               <tr *ngFor="let list of lists; let idx = index">
-                <td> {{ idx + 1 }} </td>
-                <td> Доверенность_{{ idx + 1 }}.pdf </td>
-                <td> {{ list.full_state }} </td>
+                <td class="col-xs-17 col-sm-18 col-lg-20 col-md-20"> {{ idx + 1 }} </td>
+                <td > Доверенность_{{ list.id + 1 }}.pdf </td>
+                <td [innerHtml]="list.state | nameForStatus"> </td>
                 <td> {{ list.author_fio | shortName }} </td>
                 <td> {{ list.fio | shortName }} </td>
                 <td> {{ list.date | date:'short' }} </td>
-                <!-- <td> <a routerLink="/new" > Создать </a> </td> -->
                 <td> <button class="btn btn-outline-info btn-sm" type="submit" (click)="createOnBase(list.id)"> Создать </button> </td>
-                <td> <button class="btn btn-outline-primary btn-sm" type="submit" (click)="downloadDoc(list.id, idx + 1)"> Скачать </button> </td>
-
+                <td>
+                  <span *ngIf="list.state == 1 || list.state == 5; else notDownload">
+                    <button class="btn btn-outline-primary btn-sm" type="submit" (click)="downloadDoc(list.id)"> Скачать </button>
+                  </span>
+                </td>
+                <td class="trim-info" ngbPopover="{{list.sign_comment}}" triggers="mouseenter:mouseleave" placement="top">
+                  {{ list.sign_comment }}
+                </td>
+                <td class="pointer">
+                  <i class="bi bi-trash" (click)="deleteDoc(list.id)" ngbPopover="Удалить доверенность" triggers="mouseenter:mouseleave"></i>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -51,5 +61,11 @@
     <h4> Пока нет сформированных документов.
       <a routerLink="/new" > Создать доверенность </a>
     </h4>
+  </div>
+</ng-template>
+
+<ng-template #notDownload>
+  <div class="text-center">
+    <p> Нет возможности </p>
   </div>
 </ng-template>

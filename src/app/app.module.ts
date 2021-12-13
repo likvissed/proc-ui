@@ -22,6 +22,7 @@ import { AuthorizeUserComponent } from './components/authorize-user/authorize-us
 import { NewModalComponent } from './components/auth/new-modal/new-modal.component';
 import { TemplateModalComponent } from './components/auth/template-modal/template-modal.component';
 import { DoneModalComponent } from './components/auth/done-modal/done-modal.component';
+import { NameForStatusPipe } from './shared/nameForStatus.pipe';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -33,6 +34,7 @@ registerLocaleData(ruLocale, 'ru')
     BaseComponent,
     ListComponent,
     ShortNamePipe,
+    NameForStatusPipe,
     SignInComponent,
     AuthorizeUserComponent,
     NewModalComponent,
