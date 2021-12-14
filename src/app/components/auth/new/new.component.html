@@ -10,47 +10,57 @@
           <table class="table table-borderless">
             <tbody>
               <tr>
-                <td>
+                <td class="col-lg-10 col-sm-9 col-xs-10">
                   <label for="tn"> Табельный номер: </label>
                 </td>
-                <td>
+                <td [ngClass]="{invalid: form.get('tn').touched && form.get('tn').invalid }">
                   <input id="tn" type="text" placeholder="Табельный номер" formControlName="tn" class="form-control" (change)="findUser()">
                   <div
                     class="validation"
                     *ngIf="form.get('tn').touched && form.get('tn').invalid"
                   >
                     <small *ngIf="form.get('tn').errors.required"> Введите табельный номер </small>
+                    <small *ngIf="form.get('tn').errors.maxlength">
+                      Табельный номер должен быть не более {{form.get('tn').errors.maxlength.requiredLength }} символов
+                    </small>
+                    <small *ngIf="form.get('tn').errors.pattern"> Может содержать только цифры </small>
 
                 </div>
                 </td>
               </tr>
 
-              <tr [ngClass]="{invalid: form.get('sn_passport').touched && form.get('sn_passport').invalid }">
+              <tr>
                 <td>
                   <label for="sn_passport"> Серия и номер паспорта: </label>
                 </td>
-                <td>
+                <td [ngClass]="{invalid: form.get('sn_passport').touched && form.get('sn_passport').invalid }">
                   <input id="sn_passport" type="text" placeholder="Серия и номер" formControlName="sn_passport" class="form-control">
                   <div
                     class="validation"
                     *ngIf="form.get('sn_passport').touched && form.get('sn_passport').invalid"
                   >
                     <small *ngIf="form.get('sn_passport').errors.required"> Введите серию и номер паспорта</small>
+                    <small *ngIf="form.get('sn_passport').errors.maxlength">
+                      Пожалуйста, введите не более не более {{form.get('sn_passport').errors.maxlength.requiredLength }} символов
+                    </small>
                 </div>
                 </td>
               </tr>
 
-              <tr [ngClass]="{invalid: form.get('passport_issued').touched && form.get('passport_issued').invalid }">
+              <tr>
                 <td>
                   <label for="passport_issued"> Кем выдан: </label>
                 </td>
-                <td>
+                <td [ngClass]="{invalid: form.get('passport_issued').touched && form.get('passport_issued').invalid }">
                   <input id="passport_issued" type="text" placeholder="Кем выдан" formControlName="passport_issued" class="form-control">
                   <div
                     class="validation"
                     *ngIf="form.get('passport_issued').touched && form.get('passport_issued').invalid"
                   >
                     <small *ngIf="form.get('passport_issued').errors.required"> Введите кем выдан паспорт</small>
+                    <small *ngIf="form.get('passport_issued').errors.maxlength">
+                      Пожалуйста, введите не более не более {{form.get('passport_issued').errors.maxlength.requiredLength }} символов
+                    </small>
                 </div>
                 </td>
               </tr>
@@ -59,7 +69,7 @@
                 <td>
                   <label for="date_passport"> Дата выдачи паспорта: </label>
                 </td>
-                <td>
+                <td [ngClass]="{invalid: form.get('date_passport').touched && form.get('date_passport').invalid }">
                   <div class="form-group">
                     <div class="input-group">
                       <input
@@ -90,17 +100,21 @@
                 </td>
               </tr>
 
-              <tr [ngClass]="{invalid: form.get('code_passport').touched && form.get('code_passport').invalid }">
+              <tr>
                 <td>
                   <label for="code_passport"> Код подразделения: </label>
                 </td>
-                <td>
+                <td [ngClass]="{invalid: form.get('code_passport').touched && form.get('code_passport').invalid }">
                   <input id="code_passport" type="text" placeholder="Код подразделения" formControlName="code_passport" class="form-control">
                   <div
                     class="validation"
                     *ngIf="form.get('code_passport').touched && form.get('code_passport').invalid"
                   >
                     <small *ngIf="form.get('code_passport').errors.required"> Введите код подразделения</small>
+                    <small *ngIf="form.get('code_passport').errors.maxlength">
+                      Пожалуйста, введите не более не более {{form.get('code_passport').errors.maxlength.requiredLength }} символов
+                    </small>
+                    <!-- <small *ngIf="form.get('code_passport').errors.pattern"> формат 123-123Ы </small> -->
                 </div>
                 </td>
               </tr>
@@ -109,7 +123,7 @@
                 <td>
                   <label for="date_start"> Действительна с: </label>
                 </td>
-                <td>
+                <td [ngClass]="{invalid: form.get('date_start').touched && form.get('date_start').invalid }">
                   <div class="form-group">
                     <div class="input-group">
                       <input
@@ -129,18 +143,18 @@
                       class="validation"
                       *ngIf="form.get('date_start').touched && form.get('date_start').invalid"
                     >
-                    <small *ngIf="form.get('date_start').errors.required">  Введите дату начала </small>
+                    <small *ngIf="form.get('date_start').errors.required">  Введите дату начала действия доверенности </small>
                     </div>
                   </div>
 
                 </td>
               </tr>
 
-              <tr [ngClass]="{invalid: form.get('select_time').touched && form.get('select_time').invalid }">
+              <tr>
                 <td>
                   <label for="select_time"> Срок доверенности: </label>
                 </td>
-                <td>
+                <td [ngClass]="{invalid: form.get('select_time').touched && form.get('select_time').invalid }">
                   <select class="form-control" formControlName="select_time">
                     <option *ngFor="let select of arr_selected_time"
                             [ngValue]="select.value">
@@ -163,6 +177,11 @@
                     *ngIf="form.get('general').touched && form.get('general').invalid"
                   >
                     <small *ngIf="form.get('general').errors.required"> Не может быть пустым</small>
+                    <small *ngIf="form.get('general').errors.maxlength">
+                      Пожалуйста, введите не более не более {{form.get('general').errors.maxlength.requiredLength }} символов.
+                      Сейчас он его длина равна {{form.get('general').errors.maxlength.actualLength }}
+                    </small>
+
                 </div>
                 </td>
               </tr>
@@ -215,7 +234,7 @@
                           <table class="table table-striped table-bordered table-hover table-condensed">
                             <tbody>
                               <tr>
-                                <td class="col-xs-1 col-lg-1"> {{ i + 1 }} </td>
+                                <td class="col-xs-1 col-lg-1" style="padding-left: 10px;"> {{ i + 1 }} </td>
                                 <td class="col-xs-17 col-sm-18 col-lg-20 col-md-20"> {{ getFormsArray()['controls'][i].value }} </td>
                                 <td class="col-xs-2 col-sm-3 col-lg-2 col-md-3">
                                   <button class="input-group-text btn btn-outline-danger" (click)="deleteElement(i)"> Удалить </button>

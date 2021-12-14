@@ -15,13 +15,14 @@ export class ListComponent implements OnInit {
     private router: Router
   ) { }
 
-  lists = []
+  lists
 
   ngOnInit(): void {
     // отправляется таб.номер пользователя
     this.requestsService.getList(21056).subscribe((response) => {
       // console.log('getList response', response)
 
+      this.lists = []
       this.lists.push(response['mine'])
       this.lists.push(response['to_me'])
 
@@ -31,6 +32,7 @@ export class ListComponent implements OnInit {
       this.preparingList()
     },
     (error) => {
+      this.lists = []
       console.error('error', error)
       alert(`Ошибка ${error.status}. Сервер временно недоступен`)
     })

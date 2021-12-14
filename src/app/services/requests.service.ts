@@ -1,5 +1,5 @@
 import { environment } from '../../environments/environment';
-import { Request } from '../interfaces';
+import { Request, WithdrawForm } from '../interfaces';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from "rxjs";
@@ -100,8 +100,8 @@ export class RequestsService {
   // Скачать доверенность
   downloadFile(id: number): any {
     const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/pdf');
+      .set('Content-Type', 'application/json');
+      // .set('Accept', 'application/pdf');
 
     return this.http.post(`${environment.procDownloadFileUrl}`, { id: id } , { headers, responseType: 'blob' })
   }
@@ -109,6 +109,29 @@ export class RequestsService {
   // Удалить доверенность
   deleteDocument(id: number): any {
     return this.http.delete(`${environment.procDeleteDocUrl}/${id}`, { responseType: 'text' })
+  }
+
+  // Список доверенностей для вкладки "Канцелярия" - только действительные и согласованные
+  getChancellery(): any {
+    return this.http.get(`${environment.procListChancellyUrl}`)
+  }
+
+  // Отозвать доверенность
+  withdrawDocument(form_withdraw): any {
+    return this.http.post(`${environment.procWithdrawChancellyUrl}`, form_withdraw , { responseType: 'text' })
+  }
+
+  // Найти согласованную доверенность по id
+  findDocument(id: number): any {
+    return this.http.get(`${environment.procSearchDocChancellyUrl}?id=${id}`)
+  }
+
+  // Назначить номер доверенности и загрузить скан
+  registrationDocument(form_data): any {
+    let headers = new HttpHeaders();
+    headers.set('Content-Type', undefined);
+
+    return this.http.post(`${environment.addNumberAndScanDocUrl}`, form_data , { headers })
   }
 
 }

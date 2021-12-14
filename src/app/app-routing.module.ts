@@ -1,3 +1,4 @@
+import { ChancelleryComponent } from './components/auth/chancellery/chancellery.component';
 import { AuthService } from './services/auth.service';
 import { MainComponent } from './components/auth/main/main.component';
 import { NgModule } from '@angular/core';
@@ -18,7 +19,8 @@ const routes: Routes = [
       { path: 'base', component: BaseComponent },
       { path: 'new', component: NewComponent },
       { path: 'new/:id', component: NewComponent, resolve: { presentRequest: RequestResolver } },
-      { path: 'list', component: ListComponent } // , canActivate: [AuthGuard]
+      { path: 'list', component: ListComponent }, // , canActivate: [AuthGuard]
+      { path: 'chancellery', component: ChancelleryComponent }
     ]
   },
   { path: 'sign_in', component: SignInComponent },

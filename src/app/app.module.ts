@@ -23,6 +23,9 @@ import { NewModalComponent } from './components/auth/new-modal/new-modal.compone
 import { TemplateModalComponent } from './components/auth/template-modal/template-modal.component';
 import { DoneModalComponent } from './components/auth/done-modal/done-modal.component';
 import { NameForStatusPipe } from './shared/nameForStatus.pipe';
+import { ChancelleryComponent } from './components/auth/chancellery/chancellery.component';
+import { WithdrawModalComponent } from './components/auth/withdraw-modal/withdraw-modal.component';
+import { RegistrationModalComponent } from './components/auth/registration-modal/registration-modal.component';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -39,7 +42,10 @@ registerLocaleData(ruLocale, 'ru')
     AuthorizeUserComponent,
     NewModalComponent,
     TemplateModalComponent,
-    DoneModalComponent
+    DoneModalComponent,
+    ChancelleryComponent,
+    WithdrawModalComponent,
+    RegistrationModalComponent
   ],
   imports: [
     BrowserModule,

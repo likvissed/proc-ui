@@ -32,3 +32,11 @@ export interface RequestForm {
   array_authority: string[]
   select_time: number
 }
+
+export interface WithdrawForm {
+  id: number,
+  reason: string,
+  flag_document: boolean,
+  reason_document: string,
+}
+

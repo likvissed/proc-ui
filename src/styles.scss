@@ -7,11 +7,13 @@
 @import '~bootstrap/scss/bootstrap';
 
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "~bootstrap/dist/css/bootstrap.css";
 
 :root {
   --header-color: #4682B4;
   --dark-color: #333333;
   --light-color: #f4f4f4;
+  --danger-color: #dc3545;
 }
 
 html {
@@ -101,4 +103,63 @@ button.calendar, button.calendar:active {
 
 .pointer {
   cursor: pointer
+}
+
+table col[class*="col-"] {
+  position: static;
+  float: none;
+  display: table-column;
+}
+table td[class*="col-"],
+table th[class*="col-"] {
+  position: static;
+  float: none;
+  display: table-cell;
+  // padding: 0 0 0 0;
+}
+
+h1,
+.h1 {
+  font-size: 36px;
+}
+h2,
+.h2 {
+  font-size: 30px;
+}
+h3,
+.h3 {
+  font-size: 24px;
+}
+h4,
+.h4 {
+  font-size: 18px;
+}
+h5,
+.h5 {
+  font-size: 14px;
+}
+h6,
+.h6 {
+  font-size: 12px;
+}
+
+textarea {
+  resize: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.validation {
+  color: var(--danger-color);
+}
+
+.invalid {
+  color: var(--danger-color);
+  input, textarea {
+    border-color: var(--danger-color);
+  }
 }

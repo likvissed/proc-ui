@@ -1,0 +1,67 @@
+<div class="container">
+  <div *ngIf="lists; else loading">
+    <div class="row">
+      <button (click)="registrationDoc()" class="btn btn-outline-primary px-2"> Регистрация документа </button>
+    </div>
+
+    <div>
+      <span *ngIf="lists.length; else noList">
+        <div class="content-body">
+          <table class="table table-hover table-sm">
+            <thead>
+              <tr>
+                <th class="text-center"> ID Доверенности </th>
+                <th> Номер </th>
+                <th class="text-center"> Статус </th>
+                <th class="text-center"> Доверенное лицо </th>
+                <th class="text-center"> Дата действия доверенности </th>
+                <th class="text-center"> Составитель доверенности </th>
+                <th class="text-center"> Скачать скан </th>
+                <th class="text-center"> Отозвать доверенность </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let el of lists; let idx = index">
+                <td class="text-center col-lg-1"> {{ el.id }} </td>
+                <td class="text-center col-lg-3" [innerHTML]="el.deloved_id || 'Не присвоен'"> </td>
+                <td class="text-center col-lg-3" [innerHtml]="el.state | nameForStatus"></td>
+                <td class="text-center col-lg-4"> {{ el.fio | shortName }} </td>
+                <td class="text-center col-lg-2" innerHTML="{{ el.date_start }} - {{ el.date_end }}">  </td>
+                <td class="text-center col-lg-4"> {{ el.author_fio | shortName }} </td>
+                <td class="text-center col-lg-3">
+                  <span *ngIf="el.exists == 1; else notDownload">
+                    <button class="btn btn-outline-primary btn-sm" type="submit" (click)="download(el.id)"> Скачать </button>
+                  </span>
+                </td>
+                <td class="text-center col-lg-2">
+                  <button class="btn btn-outline-danger btn-sm" type="submit" (click)="withdraw(el.id)"> Отозвать </button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </span>
+    </div>
+
+  </div>
+
+</div>
+
+
+<ng-template #loading>
+  <div class="text-center"> Загрузка данных...</div>
+</ng-template>
+
+<ng-template #noList>
+  <div class=" text-center">
+    <h4> Список доверенностей отсутствует </h4>
+  </div>
+</ng-template>
+
+<ng-template #notDownload>
+  <div class="text-center">
+    <p> Отсутствует </p>
+  </div>
+</ng-template>

@@ -25,9 +25,12 @@ export const environment = {
 
   procGetTemplateDocUrl: 'http://vm713:5000/sample',
   procSendDocUrl: 'https://vm713.***REMOVED***:24026/ssd_send',
+  procDeleteDocUrl: 'https://vm713.***REMOVED***:24026/delete_proxy',
 
-  procDeleteDocUrl: 'https://vm713.***REMOVED***:24026/delete_proxy'
-
+  procListChancellyUrl: 'https://vm713.***REMOVED***:24026/agreed_proxies',
+  procWithdrawChancellyUrl: 'https://vm713.***REMOVED***:24026/proxy_revoke',
+  procSearchDocChancellyUrl: 'https://vm713.***REMOVED***:24026/proxy_search',
+  addNumberAndScanDocUrl: 'https://vm713.***REMOVED***:24026/add_deloved_id'
 
 };
 

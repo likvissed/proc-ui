@@ -53,18 +53,16 @@ export class NewComponent implements OnInit {
   submitted = false;
 
   ngOnInit() {
-    console.log('NewComponent this', this)
-
     this.form = this.formBuilder.group({
       // Данные, которые пользователь вводит на форме
-      tn: new FormControl(null, [Validators.required]),
-      sn_passport: new FormControl(null, [Validators.required]),
-      passport_issued: new FormControl(null, [Validators.required]),
+      tn: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")]),
+      sn_passport: new FormControl(null, [Validators.required, Validators.maxLength(11)]),
+      passport_issued: new FormControl(null, [Validators.required, Validators.maxLength(255)]),
       date_passport: [null, [Validators.required]],
-      code_passport: [null, [Validators.required]],
+      code_passport: [null, [Validators.required, Validators.maxLength(7)]],
       date_start: [null, [Validators.required]],
       select_time: new FormControl(this.arr_selected_time[0].value, [Validators.required]),
-      general: [null, [Validators.required]],
+      general: [null, [Validators.required, Validators.maxLength(255)]],
       array_authority: this.formBuilder.array([]),
 
       // Данные, которые получаем из НСИ для доверенного лица
@@ -116,11 +114,11 @@ export class NewComponent implements OnInit {
   openFormModal() {
     const modalRef = this.modalService.open(TemplateModalComponent);
 
-    modalRef.result.then((result) => {
-      console.log(result);
-    }).catch((error) => {
-      console.log(error);
-    });
+    // modalRef.result.then((result) => {
+    //   console.log(result);
+    // }).catch((error) => {
+    //   console.log(error);
+    // });
   }
 
   // Добавить выбранный элемент в список полномочий

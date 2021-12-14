@@ -1,60 +1,69 @@
 <div class="container">
-  <div *ngIf="lists.length; else noList">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title text-center">
-          <h4> Список документов: </h4>
-          <br>
-        <div>
+  <div  *ngIf="lists; else loading">
 
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th> № </th>
-                <th> Наименование </th>
-                <th> Статус </th>
-                <th> Составитель доверенности </th>
-                <th> Доверенное лицо </th>
-                <th> Дата и время создания </th>
-                <th> Создать на основе </th>
-                <th> Скачать документ </th>
-                <th> Комментарий </th>
-                <th> delete </th>
-              </tr>
-            </thead>
+    <div *ngIf="lists.length; else noList">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title text-center">
+              <h4> Список документов: </h4>
+              <br>
+            <div>
 
-            <tbody>
-              <tr *ngFor="let list of lists; let idx = index">
-                <td class="col-xs-17 col-sm-18 col-lg-20 col-md-20"> {{ idx + 1 }} </td>
-                <td > Доверенность_{{ list.id + 1 }}.pdf </td>
-                <td [innerHtml]="list.state | nameForStatus"> </td>
-                <td> {{ list.author_fio | shortName }} </td>
-                <td> {{ list.fio | shortName }} </td>
-                <td> {{ list.date | date:'short' }} </td>
-                <td> <button class="btn btn-outline-info btn-sm" type="submit" (click)="createOnBase(list.id)"> Создать </button> </td>
-                <td>
-                  <span *ngIf="list.state == 1 || list.state == 5; else notDownload">
-                    <button class="btn btn-outline-primary btn-sm" type="submit" (click)="downloadDoc(list.id)"> Скачать </button>
-                  </span>
-                </td>
-                <td class="trim-info" ngbPopover="{{list.sign_comment}}" triggers="mouseenter:mouseleave" placement="top">
-                  {{ list.sign_comment }}
-                </td>
-                <td class="pointer">
-                  <i class="bi bi-trash" (click)="deleteDoc(list.id)" ngbPopover="Удалить доверенность" triggers="mouseenter:mouseleave"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              <table class="table table-hover table-sm">
+                <thead>
+                  <tr>
+                    <th> № </th>
+                    <th> Наименование </th>
+                    <th> Статус </th>
+                    <th> Составитель доверенности </th>
+                    <th> Доверенное лицо </th>
+                    <th> Дата и время создания </th>
+                    <th> Создать на основе </th>
+                    <th> Скачать документ </th>
+                    <th> Комментарий </th>
+                    <th> </th>
+                  </tr>
+                </thead>
 
+                <tbody>
+                  <tr *ngFor="let list of lists; let idx = index">
+                    <td class="col-lg-1"> {{ idx + 1 }} </td>
+                    <td class="col-lg-2"> Доверенность_{{ list.id }}.pdf </td>
+                    <td class="col-lg-3" [innerHtml]="list.state | nameForStatus"> </td>
+                    <td class="col-lg-4"> {{ list.author_fio | shortName }} </td>
+                    <td class="col-lg-4"> {{ list.fio | shortName }} </td>
+                    <td class="col-lg-2"> {{ list.date | date:'short' }} </td>
+                    <td class="col-lg-2"> <button class="btn btn-outline-info btn-sm" type="submit" (click)="createOnBase(list.id)"> Создать </button> </td>
+                    <td class="col-lg-2">
+                      <span *ngIf="list.state == 1 || list.state == 5; else notDownload">
+                        <button class="btn btn-outline-primary btn-sm" type="submit" (click)="downloadDoc(list.id)"> Скачать </button>
+                      </span>
+                    </td>
+                    <td class="trim-info col-lg-3" ngbPopover="{{list.sign_comment}}" triggers="mouseenter:mouseleave" placement="top">
+                      {{ list.sign_comment }}
+                    </td>
+                    <td class="pointer col-lg-2 text-danger">
+                      <i class="bi bi-trash" (click)="deleteDoc(list.id)" ngbPopover="Удалить доверенность" triggers="mouseenter:mouseleave"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 
 
 </div>
+
+<ng-template #loading>
+  <div class="text-center"> Загрузка данных...</div>
+</ng-template>
 
 <ng-template #noList>
   <div class="card-title text-center">

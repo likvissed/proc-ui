@@ -13,6 +13,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-outline-success" (click)="sendToSsd()" [disabled]="submitted" [ngClass]="{'waiting': submitted}"> Отправить на эл.согласование </button>
+  <button class="btn btn-outline-success" (click)="sendToSsd()" [disabled]="submitted" [ngClass]="{'waiting': submitted}" animation=true popoverTitle="Внимание" ngbPopover="Из-за большого количества полномочий формирование документа может происходить дольше" triggers="mouseenter:mouseleave"> Отправить на эл.согласование </button>
   <button (click)="activeModal.dismiss('Close clicked')" class="btn btn-outline-secondary px-2 "> Закрыть </button>
 </div>

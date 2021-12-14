@@ -1,0 +1,32 @@
+<div class="modal-header text-center">
+  <h4 class="modal-title w-100"> Отозвать доверенность </h4>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="form-group">
+      <label for="reason"> Укажите причину: </label>
+      <div [ngClass]="{invalid: form.get('reason').touched && form.get('reason').invalid }">
+        <textarea id="reason" type="text" placeholder="" formControlName="reason" class="form-control"> </textarea>
+        <div
+            class="validation"
+            *ngIf="form.get('reason').touched && form.get('reason').invalid"
+          >
+            <small *ngIf="form.get('reason').errors.required"> Не может быть пустым  </small>
+        </div>
+      </div>
+
+      <input type="checkbox" formControlName="flag_document" (change)="onCheckChange()"> Подлинник доверенности получен
+
+      <div *ngIf="!form.value.flag_document">
+        <label for="reason_document"> Укажите по какой причине подлинник не был получен: </label>
+        <textarea id="reason_document" type="text" placeholder="" formControlName="reason_document" class="form-control"> </textarea>
+      </div>
+
+    </div>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-outline-success" [disabled]="form.invalid" (click)="send()"> Отозвать </button>
+  <button (click)="activeModal.dismiss()" class="btn btn-outline-secondary px-2 "> Закрыть </button>
+</div>
