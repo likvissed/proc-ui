@@ -50,7 +50,7 @@ RUN yarn config set registry https://nexus.***REMOVED***/repository/npm/ && \
     yarn config set @iss:registry https://gitlab.***REMOVED***/api/v4/packages/npm
 
 # Install angular-cli
-RUN yarn  global  add   @angular/cli@9.1.15 && yarn
+RUN yarn global add @angular/cli@9.1.15 && yarn
 
 # Create app folder
 RUN mkdir -p ${APP_ROOT}

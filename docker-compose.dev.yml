@@ -20,11 +20,11 @@ x-frontend: &frontend
   tty: true
 
 services:
-  orbita-ui-runner:
+  proc-ui-runner:
     <<: *frontend
     command: /bin/bash
 
-  orbita-ui:
+  proc-ui:
     <<: *frontend
     restart: unless-stopped
     ports:
