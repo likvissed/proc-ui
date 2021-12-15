@@ -5,7 +5,7 @@
   <form [formGroup]="form">
     <div class="form-group">
       <label for="reason"> Укажите причину: </label>
-      <div [ngClass]="{invalid: form.get('reason').touched && form.get('reason').invalid }">
+      <div [ngClass]="{invalid: form.get('reason').touched && form.get('reason').invalid, valid: form.get('reason').touched && form.get('reason').valid }">
         <textarea id="reason" type="text" placeholder="" formControlName="reason" class="form-control"> </textarea>
         <div
             class="validation"

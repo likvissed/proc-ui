@@ -6,7 +6,7 @@
     <div class="form-group">
       <label for="id" class="col-lg-7"> Введите ID доверенности: </label>
 
-      <div class="col-lg-14" [ngClass]="{invalid: form.get('id').touched && form.get('id').invalid }">
+      <div class="col-lg-14" [ngClass]="{invalid: form.get('id').touched && form.get('id').invalid, valid: form.get('id').touched && form.get('id').valid }">
         <input id="id" type="number" placeholder="" formControlName="id" class="form-control" (input)="changeId()">
         <div
             class="validation"
@@ -43,7 +43,7 @@
       <div class="form-group">
         <label for="id" class="col-lg-7"> Номер доверенности: </label>
 
-        <div class="col-lg-17" [ngClass]="{invalid: form.get('deloved_id').touched && form.get('deloved_id').invalid }">
+        <div class="col-lg-17" [ngClass]="{invalid: form.get('deloved_id').touched && form.get('deloved_id').invalid, valid: form.get('deloved_id').touched && form.get('deloved_id').valid }">
           <input id="deloved_id" type="number" placeholder="" formControlName="deloved_id" class="form-control">
           <div
               class="validation"

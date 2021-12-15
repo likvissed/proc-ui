@@ -53,7 +53,7 @@ export class ChancelleryComponent implements OnInit {
   }
 
   withdraw(id: number):any {
-    const modalRef = this.modalService.open(WithdrawModalComponent, { size: 'lg' })
+    const modalRef = this.modalService.open(WithdrawModalComponent, { size: 'lg', backdrop: 'static' })
     modalRef.componentInstance.id_document = id
 
     modalRef.result.then((result) => {
@@ -63,7 +63,7 @@ export class ChancelleryComponent implements OnInit {
   }
 
   registrationDoc() {
-    const modalRefReg = this.modalService.open(RegistrationModalComponent, { size: 'lg' })
+    const modalRefReg = this.modalService.open(RegistrationModalComponent, { size: 'lg', backdrop: 'static' })
 
     modalRefReg.result.then((result) => {
       this.ngOnInit()

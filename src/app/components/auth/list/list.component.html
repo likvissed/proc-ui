@@ -30,7 +30,13 @@
                   <tr *ngFor="let list of lists; let idx = index">
                     <td class="col-lg-1"> {{ idx + 1 }} </td>
                     <td class="col-lg-2"> Доверенность_{{ list.id }}.pdf </td>
-                    <td class="col-lg-3" [innerHtml]="list.state | nameForStatus"> </td>
+                    <td class="col-lg-3">
+                      <ng-container
+                        [ngTemplateOutlet]="descriptionStatus"
+                        [ngTemplateOutletContext]="{ list:list }"
+                      ></ng-container>
+                    </td>
+
                     <td class="col-lg-4"> {{ list.author_fio | shortName }} </td>
                     <td class="col-lg-4"> {{ list.fio | shortName }} </td>
                     <td class="col-lg-2"> {{ list.date | date:'short' }} </td>
@@ -77,4 +83,13 @@
   <div class="text-center">
     <p> Нет возможности </p>
   </div>
+</ng-template>
+
+<ng-template #descriptionStatus let-list='list' >
+  <div *ngIf="list.state == 0" [innerHtml]="list.state | nameForStatus" triggers="mouseenter:mouseleave" ngbPopover="Доверенность ожидает согласования"> </div>
+  <div *ngIf="list.state == 1" [innerHtml]="list.state | nameForStatus" triggers="mouseenter:mouseleave" ngbPopover="Доверенность полностью согласована и зарегистрирована" popoverClass="text-center"> </div>
+  <div *ngIf="list.state == 2" [innerHtml]="list.state | nameForStatus" triggers="mouseenter:mouseleave" ngbPopover="Период действия доверенности закончен"> </div>
+  <div *ngIf="list.state == 3" [innerHtml]="list.state | nameForStatus" triggers="mouseenter:mouseleave" ngbPopover="Доверенность не прошла согласование" popoverClass="text-center"> </div>
+  <div *ngIf="list.state == 4" [innerHtml]="list.state | nameForStatus" triggers="mouseenter:mouseleave" ngbPopover="Доверенность была отозвана"> </div>
+  <div *ngIf="list.state == 5" [innerHtml]="list.state | nameForStatus" triggers="mouseenter:mouseleave" ngbPopover="Доверенность прошла согласование"> </div>
 </ng-template>

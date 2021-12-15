@@ -1,6 +1,6 @@
 import { TemplateModalComponent } from './../template-modal/template-modal.component';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { RequestsService } from '../../../services/requests.service';
@@ -63,7 +63,7 @@ export class NewComponent implements OnInit {
       date_start: [null, [Validators.required]],
       select_time: new FormControl(this.arr_selected_time[0].value, [Validators.required]),
       general: [null, [Validators.required, Validators.maxLength(255)]],
-      array_authority: this.formBuilder.array([]),
+      array_authority: this.formBuilder.array([], [Validators.required]),
 
       // Данные, которые получаем из НСИ для доверенного лица
       fio: [null, [Validators.required]],
@@ -83,19 +83,19 @@ export class NewComponent implements OnInit {
       if (data.presentRequest) {
         console.log('presentRequest', data.presentRequest)
 
-        this.form.setControl('tn', new FormControl(data.presentRequest.tn))
-        this.form.setControl('sn_passport', new FormControl(data.presentRequest.sn_passport))
-        this.form.setControl('passport_issued', new FormControl(data.presentRequest.passport_issued))
-        this.form.setControl('date_passport', new FormControl(this.strToDate(data.presentRequest.date_passport)))
-        this.form.setControl('code_passport', new FormControl(data.presentRequest.code_passport))
-        this.form.setControl('date_start', new FormControl(this.strToDate(data.presentRequest.date_start)))
-        this.form.setControl('select_time', new FormControl(data.presentRequest.select_time))
-        this.form.setControl('general', new FormControl(data.presentRequest.general))
+        this.form.controls['tn'].setValue(data.presentRequest.tn);
+        this.form.controls['sn_passport'].setValue(data.presentRequest.sn_passport);
+        this.form.controls['passport_issued'].setValue(data.presentRequest.passport_issued);
+        this.form.controls['date_passport'].setValue(this.strToDate(data.presentRequest.date_passport));
+        this.form.controls['code_passport'].setValue(data.presentRequest.code_passport);
+        this.form.controls['date_start'].setValue(this.strToDate(data.presentRequest.date_start));
+        this.form.controls['select_time'].setValue(data.presentRequest.select_time);
+        this.form.controls['general'].setValue(data.presentRequest.general);
 
         // Заполнение списка полномочий
         let array = this.getFormsArray()
         data.presentRequest.array_authority.forEach(str => {
-          array.push(new FormControl(str))
+          array.push(new FormControl(str, [Validators.required]))
         })
 
         this.getDuties()
@@ -111,20 +111,15 @@ export class NewComponent implements OnInit {
     (this.form.get('array_authority') as FormArray).clear();
   }
 
-  openFormModal() {
-    const modalRef = this.modalService.open(TemplateModalComponent);
-
-    // modalRef.result.then((result) => {
-    //   console.log(result);
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
-  }
 
   // Добавить выбранный элемент в список полномочий
   addSelected(selected) {
     if (selected != undefined) {
       let not_uniq =  this.form.value.array_authority.find(x => x == selected);
+
+      if (selected.length > 400) {
+        return
+      }
 
       // Проверка, если в списке полномочий нет такого значения, то можно добавить в массив
       if (not_uniq == undefined) {
@@ -159,31 +154,32 @@ export class NewComponent implements OnInit {
     this.userReference.findUserByTn(this.form.value.tn).subscribe(user => {
       console.log('USER CMP', user)
       if (user.length) {
-        this.form.setControl('fio', new FormControl(user[0]['fullName']))
-        this.form.setControl('login', new FormControl(user[0]['login']))
-        this.form.setControl('profession', new FormControl(user[0]['professionForDocuments']))
+        this.form.controls['fio'].setValue(user[0]['fullName'])
+        this.form.controls['login'].setValue(user[0]['login'])
+        this.form.controls['profession'].setValue(this.titleCaseWord(user[0]['professionForDocuments']))
+
 
         this.userReference.findUserById(user[0]['id']).subscribe(user => {
           console.log('EMP USER CMP', user)
           if (user) {
-            this.form.setControl('case_prof', new FormControl(user['employeePositions'][0]['professionDeclensions']['accusativeProfession']))
+            this.form.controls['case_prof'].setValue(user['employeePositions'][0]['professionDeclensions']['accusativeProfession'])
 
             let employeeDeclensions = user['employeeDeclensions']
-            this.form.setControl('case_fio', new FormControl(`${this.titleCaseWord(employeeDeclensions['accusativeLastName'])} ${this.titleCaseWord(employeeDeclensions['accusativeName'])} ${this.titleCaseWord(employeeDeclensions['accusativeMiddleName'])}`))
-            this.form.setControl('genitive_fio', new FormControl(employeeDeclensions['genitiveLastName']))
+            this.form.controls['case_fio'].setValue(`${this.titleCaseWord(employeeDeclensions['accusativeLastName'])} ${this.titleCaseWord(employeeDeclensions['accusativeName'])} ${this.titleCaseWord(employeeDeclensions['accusativeMiddleName'])}`)
+            this.form.controls['genitive_fio'].setValue(employeeDeclensions['genitiveLastName'])
 
           } else {
-            this.form.setControl('case_prof', new FormControl(null))
-            this.form.setControl('case_fio', new FormControl(null))
-            this.form.setControl('genitive_fio', new FormControl(null))
+            this.form.controls['case_prof'].setValue('')
+            this.form.controls['case_fio'].setValue('')
+            this.form.controls['genitive_fio'].setValue('')
           }
         })
 
         this.getDuties()
       } else {
-        this.form.setControl('fio', new FormControl(null))
-        this.form.setControl('login', new FormControl(null))
-        this.form.setControl('profession', new FormControl(null))
+        this.form.controls['fio'].setValue('')
+        this.form.controls['login'].setValue('')
+        this.form.controls['profession'].setValue('')
 
         this.lists = []
 
@@ -299,7 +295,7 @@ export class NewComponent implements OnInit {
       .subscribe((response) => {
         console.log('response', response)
 
-        const modalRef = this.modalService.open(TemplateModalComponent, { size: 'xl', scrollable: true })
+        const modalRef = this.modalService.open(TemplateModalComponent, { size: 'xl', scrollable: true, backdrop: 'static' })
         modalRef.componentInstance.templateFile = response
         modalRef.componentInstance.request = req
 

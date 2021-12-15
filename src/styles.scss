@@ -14,6 +14,7 @@
   --dark-color: #333333;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
+  --success-color: mediumseagreen;
 }
 
 html {
@@ -227,5 +228,23 @@ input[type=number]::-webkit-outer-spin-button {
   color: var(--danger-color);
   input, textarea {
     border-color: var(--danger-color);
+  }
+}
+
+.valid {
+  color: var(--success-color);
+  input, textarea {
+    border-color: var(--success-color);
+  }
+}
+
+ng-select.invalid.ng-touched {
+  // box-shadow: inset 1px 1px 1px, 0 0 0 1px var(--danger-color);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 1px, var(--danger-color) 0px 0px 0px 1px;
+}
+
+.ng-value-container {
+  .ng-value {
+    white-space: normal !important;
   }
 }

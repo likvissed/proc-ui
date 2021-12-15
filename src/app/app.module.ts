@@ -63,7 +63,9 @@ registerLocaleData(ruLocale, 'ru')
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    TemplateModalComponent
+    TemplateModalComponent,
+    WithdrawModalComponent,
+    RegistrationModalComponent
   ]
 })
 export class AppModule { }

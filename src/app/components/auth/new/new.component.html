@@ -13,7 +13,7 @@
                 <td class="col-lg-10 col-sm-9 col-xs-10">
                   <label for="tn"> Табельный номер: </label>
                 </td>
-                <td [ngClass]="{invalid: form.get('tn').touched && form.get('tn').invalid }">
+                <td [ngClass]="{invalid: form.get('tn').touched && (form.get('tn').invalid || form.get('login').invalid), valid: form.get('tn').touched && form.get('tn').valid && form.get('login').valid }">
                   <input id="tn" type="text" placeholder="Табельный номер" formControlName="tn" class="form-control" (change)="findUser()">
                   <div
                     class="validation"
@@ -24,7 +24,18 @@
                       Табельный номер должен быть не более {{form.get('tn').errors.maxlength.requiredLength }} символов
                     </small>
                     <small *ngIf="form.get('tn').errors.pattern"> Может содержать только цифры </small>
-
+                </div>
+                <div
+                    class="validation"
+                    *ngIf="form.get('tn').touched && form.get('tn').valid && form.get('fio').valid && form.get('login').invalid"
+                  >
+                    <small *ngIf="form.get('login').errors.required"> У пользователя отсуствует логин в ЛК </small>
+                </div>
+                <div
+                    class="validation"
+                    *ngIf="form.get('tn').touched && form.get('tn').valid && form.get('fio').invalid"
+                  >
+                    <small *ngIf="form.get('fio').errors.required"> Табельный номер не существует </small>
                 </div>
                 </td>
               </tr>
@@ -33,7 +44,7 @@
                 <td>
                   <label for="sn_passport"> Серия и номер паспорта: </label>
                 </td>
-                <td [ngClass]="{invalid: form.get('sn_passport').touched && form.get('sn_passport').invalid }">
+                <td [ngClass]="{invalid: form.get('sn_passport').touched && form.get('sn_passport').invalid, valid: form.get('sn_passport').touched && form.get('sn_passport').valid  }">
                   <input id="sn_passport" type="text" placeholder="Серия и номер" formControlName="sn_passport" class="form-control">
                   <div
                     class="validation"
@@ -51,7 +62,7 @@
                 <td>
                   <label for="passport_issued"> Кем выдан: </label>
                 </td>
-                <td [ngClass]="{invalid: form.get('passport_issued').touched && form.get('passport_issued').invalid }">
+                <td [ngClass]="{invalid: form.get('passport_issued').touched && form.get('passport_issued').invalid, valid: form.get('passport_issued').touched && form.get('passport_issued').valid  }">
                   <input id="passport_issued" type="text" placeholder="Кем выдан" formControlName="passport_issued" class="form-control">
                   <div
                     class="validation"
@@ -69,7 +80,7 @@
                 <td>
                   <label for="date_passport"> Дата выдачи паспорта: </label>
                 </td>
-                <td [ngClass]="{invalid: form.get('date_passport').touched && form.get('date_passport').invalid }">
+                <td [ngClass]="{invalid: form.get('date_passport').touched && form.get('date_passport').invalid, valid: form.get('date_passport').touched && form.get('date_passport').valid  }">
                   <div class="form-group">
                     <div class="input-group">
                       <input
@@ -91,9 +102,6 @@
                       *ngIf="form.get('date_passport').touched && form.get('date_passport').invalid"
                     >
                       <small *ngIf="form.get('date_passport').errors.required"> Введите дату выдачи паспорта </small>
-                      <small class="form-text text-danger" *ngIf="form.get('date_passport').errors.ngbDate?.invalid">
-                        Your birth date must be a valid date (Ex: yyyy-mm-dd).
-                      </small>
                     </div>
                   </div>
 
@@ -104,7 +112,7 @@
                 <td>
                   <label for="code_passport"> Код подразделения: </label>
                 </td>
-                <td [ngClass]="{invalid: form.get('code_passport').touched && form.get('code_passport').invalid }">
+                <td [ngClass]="{invalid: form.get('code_passport').touched && form.get('code_passport').invalid, valid: form.get('code_passport').touched && form.get('code_passport').valid  }">
                   <input id="code_passport" type="text" placeholder="Код подразделения" formControlName="code_passport" class="form-control">
                   <div
                     class="validation"
@@ -123,7 +131,7 @@
                 <td>
                   <label for="date_start"> Действительна с: </label>
                 </td>
-                <td [ngClass]="{invalid: form.get('date_start').touched && form.get('date_start').invalid }">
+                <td [ngClass]="{invalid: form.get('date_start').touched && form.get('date_start').invalid, valid: form.get('date_start').touched && form.get('date_start').valid  }">
                   <div class="form-group">
                     <div class="input-group">
                       <input
@@ -154,7 +162,7 @@
                 <td>
                   <label for="select_time"> Срок доверенности: </label>
                 </td>
-                <td [ngClass]="{invalid: form.get('select_time').touched && form.get('select_time').invalid }">
+                <td [ngClass]="{invalid: form.get('select_time').touched && form.get('select_time').invalid, valid: form.get('select_time').touched && form.get('select_time').valid  }">
                   <select class="form-control" formControlName="select_time">
                     <option *ngFor="let select of arr_selected_time"
                             [ngValue]="select.value">
@@ -169,7 +177,7 @@
                   <label for="general"> Вести дела и представлять интересы АО «***REMOVED***» (дополнить фразу): </label>
                 </td>
               </tr>
-              <tr [ngClass]="{invalid: form.get('general').touched && form.get('general').invalid }">
+              <tr [ngClass]="{invalid: form.get('general').touched && form.get('general').invalid, valid: form.get('general').touched && form.get('general').valid  }">
                 <td colspan="2">
                   <input id="general" type="text" placeholder="" formControlName="general" class="form-control">
                   <div
@@ -194,6 +202,7 @@
               <tr>
                 <td colspan="2">
                   <ng-select
+                    [ngClass]="{ invalid: form.get('array_authority').invalid }"
                     [items]="lists"
                     appendTo="body"
                     placeholder=""
@@ -207,13 +216,33 @@
                     addTagText=""
                     [addTag]="true"
                     (change)="addSelected($event)"
+                    #selected_input="ngModel"
+                    [minTermLength]=4
+                    [editableSearchTerm]="true"
                   >
                   </ng-select>
+
+                  <div
+                      class="validation"
+                      *ngIf="selected_input.touched && form.get('array_authority').invalid"
+                    >
+                      <small *ngIf="!selected && form.get('array_authority').errors.required"> Не может быть пустым  </small>
+                  </div>
+                  <div
+                      class="validation"
+                      *ngIf="selected && selected.length > 400"
+                    >
+                      <small>
+                        Пожалуйста, введите не более не более 400 символов.
+                        Сейчас он его длина равна {{ selected.length }} символа
+                      </small>
+                  </div>
 
                   <div class="text-center">
                     <small> Для добавления в список нажмите на выбранный текст или на клавишу "Enter" </small>
                   </div>
                 </td>
+
               </tr>
 
               <tr>
