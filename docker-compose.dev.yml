@@ -1,0 +1,35 @@
+version: "3.9"
+
+x-ui: &app
+  build:
+    context: .
+    dockerfile: .docker/Dockerfiles/app.dev.Dockerfile
+    args:
+      NODE_MAJOR: 14
+      YARN_VERSION: 1.22.15
+      APP_ROOT: /app
+  environment:
+    APP_ROOT: /app
+
+x-frontend: &frontend
+  <<: *app
+  volumes:
+    - .:/app
+    - node_modules:/app/node_modules
+  stdin_open: true
+  tty: true
+
+services:
+  orbita-ui-runner:
+    <<: *frontend
+    command: /bin/bash
+
+  orbita-ui:
+    <<: *frontend
+    restart: unless-stopped
+    ports:
+      - "4200:4200"
+    command: ng serve --host 0.0.0.0 --disable-host-check --ssl=true --ssl-cert=/app/.docker/tls/***REMOVED***.crt --ssl-key=/app/.docker/tls/***REMOVED***.key
+
+volumes:
+  node_modules:
