@@ -1,15 +1,23 @@
 version: "3.9"
 
+x-args: &args
+  args:
+    http_proxy: $http_proxy
+    https_proxy: $https_proxy
+    no_proxy: "127.0.0.1,localhost,.***REMOVED***"
+    NODE_MAJOR: 14
+    YARN_VERSION: 1.22.15
+    APP_ROOT: /app
+
 x-ui: &app
   build:
     context: .
     dockerfile: .docker/Dockerfiles/app.dev.Dockerfile
-    args:
-      NODE_MAJOR: 14
-      YARN_VERSION: 1.22.15
-      APP_ROOT: /app
+    <<: *args
   environment:
     APP_ROOT: /app
+
+
 
 x-frontend: &frontend
   <<: *app
