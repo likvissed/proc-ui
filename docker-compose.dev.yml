@@ -22,10 +22,12 @@ x-frontend: &frontend
 services:
   proc-ui-runner:
     <<: *frontend
+    container_name: proc-ui-runner
     command: /bin/bash
 
   proc-ui:
     <<: *frontend
+    container_name: proc-ui-app
     restart: unless-stopped
     ports:
       - "4200:4200"
