@@ -9,6 +9,14 @@ x-args: &args
     YARN_VERSION: 1.22.15
     APP_ROOT: /app
 
+x-env: &envs
+  environment:
+    - http_proxy=$http_proxy
+    - https_proxy=$https_proxy
+    - no_proxy=$no_proxy
+    - TZ=Asia/Krasnoyarsk
+
+
 x-ui: &app
   build:
     context: .
@@ -20,6 +28,7 @@ x-ui: &app
 
 
 x-frontend: &frontend
+  <<: *envs
   <<: *app
   volumes:
     - .:/app
