@@ -6,7 +6,7 @@ export const environment = {
   production: false,
 
   auth: {
-    clientId: '129',
+    clientId: '130',
     redirectUrl: 'https://proc-staging.***REMOVED***//oauth2/callback',
     serverUrl: 'https://vm713.***REMOVED***:24026/auth/token',
     appName: 'Формирование доверенности (staging)',
