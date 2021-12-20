@@ -5,7 +5,7 @@ ARG APP_ROOT
 WORKDIR ${APP_ROOT}
 
 # Install angular-cli
-RUN yarn global add @angular/cli@v9-lts
+RUN yarn global add @angular/cli@v10-lts
 
 COPY package.json yarn.lock .
 RUN yarn

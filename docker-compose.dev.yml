@@ -43,3 +43,5 @@ services:
       - "4200:4200"
     command: ng serve --host 0.0.0.0 --disable-host-check --ssl=true --ssl-cert=/app/.docker/tls/***REMOVED***.crt --ssl-key=/app/.docker/tls/***REMOVED***.key
 
+volumes:
+  node_modules:
