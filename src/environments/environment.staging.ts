@@ -6,21 +6,18 @@ export const environment = {
   production: false,
 
   auth: {
-    clientId: '83',
-    redirectUrl: 'https://localhost.***REMOVED***:4200/oauth2/callback',
+    clientId: '129',
+    redirectUrl: 'https://proc-staging.***REMOVED***//oauth2/callback',
     serverUrl: 'https://vm713.***REMOVED***:24026/auth/token',
-    appName: 'Формирование доверенности (development)',
+    appName: 'Формирование доверенности (staging)',
     jwtOptions: {
       allowedDomains: ['vm713.***REMOVED***:24026'],
       disallowedRoutes: []
     }
   },
-
   apiUrl: 'https://vm713.***REMOVED***:24026',
-  usersReferenceUrl: 'https://hr.***REMOVED***/ref-info/api',
 
-  nameUserHr: 'Operator7141',
-  passwordUserHr: 'Operator7141@714'
+  usersReferenceUrl: 'https://hr.***REMOVED***/ref-info/api'
 };
 
 /*
