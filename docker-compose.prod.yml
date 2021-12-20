@@ -33,10 +33,13 @@ x-common: &common
 x-frontend: &frontend
   <<: *envs
   <<: *common
+  image: ${CI_REGISTRY_IMAGE}/${PRODUCTION_PROJECT_NAME}-app--production
   build:
     <<: *args
     context: .
     dockerfile: .docker/Dockerfiles/app.Dockerfile
+    cache_from:
+      - ${CI_REGISTRY_IMAGE}/${PRODUCTION_PROJECT_NAME}-app--production:latest
 
 
 services:
@@ -47,6 +50,12 @@ services:
     networks:
       macvlan:
         ipv4_address: ***REMOVED***
+    deploy:
+      resources:
+        reservations:
+          memory: 64mb
+        limits:
+          memory: 128mb
 
 
 
