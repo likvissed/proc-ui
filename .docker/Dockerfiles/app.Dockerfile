@@ -1,6 +1,7 @@
 ARG NODE_MAJOR
 FROM ***REMOVED***/registry/languages/nodejs/node:${NODE_MAJOR}-buster-slim AS builder
 
+ARG APP_HOSTNAME
 ARG APP_ROOT
 WORKDIR ${APP_ROOT}
 

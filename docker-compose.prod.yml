@@ -17,6 +17,7 @@ x-args: &args
   args:
     <<: *app-root
     NODE_MAJOR: 14
+    APP_HOSTNAME: proc-production
 
 x-env: &envs
   environment:
