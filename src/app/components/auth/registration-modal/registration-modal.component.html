@@ -4,9 +4,9 @@
 <div class="modal-body">
   <form [formGroup]="form">
     <div class="form-group">
-      <label for="id" class="col-lg-7"> Введите ID доверенности: </label>
+      <label for="id" class="col-lg-7 col-sm-7 col-xs-7"> Введите ID доверенности: </label>
 
-      <div class="col-lg-14" [ngClass]="{invalid: form.get('id').touched && form.get('id').invalid, valid: form.get('id').touched && form.get('id').valid }">
+      <div class="col-lg-14 col-sm-13 col-xs-13" [ngClass]="{invalid: form.get('id').touched && form.get('id').invalid, valid: form.get('id').touched && form.get('id').valid }">
         <input id="id" type="number" placeholder="" formControlName="id" class="form-control" (input)="changeId()">
         <div
             class="validation"
@@ -66,6 +66,6 @@
 
 </div>
 <div class="modal-footer">
-  <button class="btn btn-outline-success" (click)="saveFile()"> Сохранить </button>
+  <button class="btn btn-outline-success" (click)="saveFile()" [disabled]="form.invalid"> Сохранить </button>
   <button (click)="activeModal.dismiss()" class="btn btn-outline-secondary px-2 "> Закрыть </button>
 </div>

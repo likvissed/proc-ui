@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { RequestsService } from '../../../services/requests.service';
+import { AuthHelper } from '@iss/ng-auth-center';
 
 @Component({
   selector: 'app-list',
@@ -12,15 +13,15 @@ export class ListComponent implements OnInit {
 
   constructor(
     private requestsService: RequestsService,
-    private router: Router
+    private router: Router,
+    private authHelper: AuthHelper
   ) { }
 
   lists
 
   ngOnInit(): void {
     // отправляется таб.номер пользователя
-    this.requestsService.getList(21056).subscribe((response) => {
-      // console.log('getList response', response)
+    this.requestsService.getList(this.authHelper.getJwtPayload()['tn']).subscribe((response) => {
 
       this.lists = []
       this.lists.push(response['mine'])
@@ -56,9 +57,6 @@ export class ListComponent implements OnInit {
   downloadDoc(id: number):any {
     this.requestsService.downloadFile(id)
       .subscribe((response: Blob) => {
-        // let blob = new Blob([response], { type: 'application/pdf' });
-        // let url= window.URL.createObjectURL(blob);
-        // window.open(url, '_blank');
 
         let file = new Blob([response], { type: 'application/pdf' });
         let fileURL = URL.createObjectURL(file);

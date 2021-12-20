@@ -95,7 +95,6 @@ export class RegistrationModalComponent implements OnInit {
   }
 
   saveFile() {
-    console.log('form', this.form)
     if (this.form.invalid) {
       return
     }

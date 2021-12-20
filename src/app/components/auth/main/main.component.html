@@ -2,8 +2,16 @@
   <div class="navbar-brand-logo">
     <img src="assets/images/logo-iss.svg">
   </div>
+
   <div class="navbar-title-content">
     <a routerLink="/"> Формирование доверенности </a>
+  </div>
+
+  <div class="navbar-header-user" *ngIf="isAuthenticated">
+    <span> {{ fio_initials }} </span>
+    <span (click)="logout()" class="pointer">
+      <i class="bi bi-box-arrow-in-right"></i>
+    </span>
   </div>
 </nav>
 
@@ -15,7 +23,7 @@
     <li routerLinkActive="active">
       <a [routerLink]="['/list']"> Список документов </a>
     </li>
-    <li routerLinkActive="active">
+    <li routerLinkActive="active" *ngIf="access_to_chancellery">
       <a [routerLink]="['/chancellery']"> Канцелярия </a>
     </li>
 
