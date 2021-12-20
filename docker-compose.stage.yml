@@ -1,0 +1,54 @@
+version: "3.9"
+
+x-common-labels: &common-labels
+  project-name: "proc-ui"
+  comment: "Приложение для формирования доверенности (frontend)"
+  domain: "proc-staging"
+  environment: "staging"
+  git: "***REMOVED***"
+  maintainer: "***REMOVED***"
+  devops-engineer: "***REMOVED***"
+
+
+x-app-root: &app-root
+  APP_ROOT: /app
+
+x-args: &args
+  args:
+    <<: *app-root
+    NODE_MAJOR: 14
+
+x-env: &envs
+  environment:
+    <<: *app-root
+    TZ: Asia/Krasnoyarsk
+
+x-common: &common
+  restart: unless-stopped
+  stdin_open: true
+  tty: true
+
+
+x-frontend: &frontend
+  <<: *envs
+  <<: *common
+  build:
+    <<: *args
+    context: .
+    dockerfile: .docker/Dockerfiles/app.Dockerfile
+
+
+services:
+  proc-ui-staging:
+    <<: *frontend
+    container_name: proc-ui-app--staging
+    mac_address: ***REMOVED***
+    networks:
+      macvlan:
+        ipv4_address: ***REMOVED***
+
+
+networks:
+  macvlan:
+    external:
+      name: server-network
