@@ -1,7 +1,6 @@
 ARG NODE_MAJOR
 FROM ***REMOVED***/registry/languages/nodejs/node:${NODE_MAJOR}-buster-slim AS builder
 
-ARG APP_HOSTNAME
 ARG APP_ROOT
 WORKDIR ${APP_ROOT}
 
@@ -16,9 +15,10 @@ RUN yarn run build --prod
 
 # Deploy
 FROM nginx:1.21.4-alpine
+ARG APP_HOSTNAME
 
 COPY .docker/nginx/nginx.conf /tmp/nginx.conf
-RUN envsubst '$APP_HOSTNAME' < /tmp/nginx.conf > /etc/nginx/conf.d/nginx.conf
+RUN envsubst '${APP_HOSTNAME}' < /tmp/nginx.conf > /etc/nginx/conf.d/nginx.conf
 COPY ./.docker/tls/ /etc/pki/tls/nginx/
 
 COPY --from=builder /app/dist/appProc /app/public
