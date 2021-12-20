@@ -19,5 +19,6 @@ FROM nginx:1.21.4-alpine
 
 COPY .docker/nginx/nginx.conf /tmp/nginx.conf
 RUN envsubst '$APP_HOSTNAME' < /tmp/nginx.conf > /etc/nginx/conf.d/nginx.conf
+COPY ./.docker/tls/ /etc/pki/tls/nginx/
 
 COPY --from=builder /app/dist/appProc /app/public
