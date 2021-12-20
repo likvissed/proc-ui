@@ -29,6 +29,7 @@
             ],
             "styles": [
               "src/styles.scss",
+              "node_modules/@iss/ng-auth-center/assets/styles.scss",
               "src/bootstrap.scss"
             ],
             "scripts": []

@@ -1,3 +1,4 @@
+import { AuthCenterModule } from '@iss/ng-auth-center';
 import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
@@ -26,6 +27,7 @@ import { NameForStatusPipe } from './shared/nameForStatus.pipe';
 import { ChancelleryComponent } from './components/auth/chancellery/chancellery.component';
 import { WithdrawModalComponent } from './components/auth/withdraw-modal/withdraw-modal.component';
 import { RegistrationModalComponent } from './components/auth/registration-modal/registration-modal.component';
+import { environment } from 'src/environments/environment';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -48,11 +50,12 @@ registerLocaleData(ruLocale, 'ru')
     RegistrationModalComponent
   ],
   imports: [
+    HttpClientModule,
+    AuthCenterModule.forRoot(environment.auth),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
     NgSelectModule,
     NgbModule
   ],

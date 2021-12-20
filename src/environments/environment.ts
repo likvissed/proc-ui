@@ -6,6 +6,17 @@ export const environment = {
   production: false,
   serverUrl: 'http://localhost:3000/requests',
 
+  auth: {
+    clientId: '83',
+    redirectUrl: 'https://localhost.***REMOVED***:4200/oauth2/callback',
+    serverUrl: 'https://vm713.***REMOVED***:24026/auth/token',
+    appName: 'Формирование доверенности',
+    // jwtOptions: {
+    //   allowedDomains: ['localhost:3000'],
+    //   disallowedRoutes: ['http://localhost:3000/example_route']
+    // }
+  },
+
   clientId: 105,
   authorizationUrl: 'https://auth-center.***REMOVED***/oauth/authorize',
   redirectUrl: 'https://localhost.***REMOVED***:8443/users/callbacks/authorize_user',
