@@ -1,7 +1,10 @@
-import { Request } from './../../../interfaces';
 import { Component, Input, OnInit } from '@angular/core';
+
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { RequestsService } from 'src/app/services/requests.service';
+import { NotificationService } from 'src/app/services/notification.service';
+
 import { DoneModalComponent } from '../done-modal/done-modal.component';
 
 @Component({
@@ -16,7 +19,8 @@ export class TemplateModalComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private requestsService: RequestsService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private notification: NotificationService
   ) {}
 
   submitted = false
@@ -36,16 +40,16 @@ export class TemplateModalComponent implements OnInit {
 
     this.requestsService.sendForApproval(this.request)
       .subscribe((response) => {
-        console.log('response yes', response)
         this.submitted = false
         this.activeModal.close()
 
         this.modalService.open(DoneModalComponent, { size: 'lg' })
       },
       (error) => {
-        console.error('error no', error)
+        console.error(error)
         this.submitted = false
-        alert(`Ошибка ${error.status}. Сервер временно недоступен`)
+
+        this.notification.show('Сервер временно недоступен', { classname: 'bg-danger', headertext: `Ошибка ${error.status}`});
       })
 
 

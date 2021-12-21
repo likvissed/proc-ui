@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { NotificationService } from 'src/app/services/notification.service';
 import { RequestsService } from 'src/app/services/requests.service';
 
 @Component({
@@ -15,7 +18,8 @@ export class WithdrawModalComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private requestsService: RequestsService
+    private requestsService: RequestsService,
+    private notification: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -39,19 +43,20 @@ export class WithdrawModalComponent implements OnInit {
     }
 
     if (!this.form.value.flag_document && !this.form.value.reason_document.trim()) {
-      alert(`Укажите причину отсутствия подлинника`)
+      this.notification.show('Укажите причину отсутствия подлинника', { classname: 'bg-warning', headertext: 'Внимание'});
 
       return
     }
 
     this.requestsService.withdrawDocument(this.form.getRawValue())
       .subscribe((response) => {
-        alert('Доверенность отозвана')
+        this.notification.show('Доверенность отозвана', { classname: 'bg-success text-light', headertext: 'Успешно'});
         this.activeModal.close()
       },
       (error) => {
-        console.error('error', error)
-        alert(`Ошибка ${error.status}. ${error.error.error_description}`)
+        console.error(error)
+        let msg = error.error.error_description ? error.error.error_description : 'Сервер временно недоступен'
+        this.notification.show(msg, { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
       })
   }
 

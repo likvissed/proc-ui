@@ -28,6 +28,7 @@ import { TemplateModalComponent } from './components/auth/template-modal/templat
 import { DoneModalComponent } from './components/auth/done-modal/done-modal.component';
 import { WithdrawModalComponent } from './components/auth/withdraw-modal/withdraw-modal.component';
 import { RegistrationModalComponent } from './components/auth/registration-modal/registration-modal.component';
+import { NoticeComponent } from './components/notice/notice.component';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -45,7 +46,8 @@ registerLocaleData(ruLocale, 'ru')
     ChancelleryComponent,
     WithdrawModalComponent,
     RegistrationModalComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    NoticeComponent
   ],
   imports: [
     HttpClientModule,
@@ -55,7 +57,9 @@ registerLocaleData(ruLocale, 'ru')
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    NgbModule
+    NgbModule,
+    // BrowserAnimationsModule,
+    // ToastrModule.forRoot()
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'ru-RU' }

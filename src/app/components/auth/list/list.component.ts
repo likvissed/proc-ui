@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { RequestsService } from '../../../services/requests.service';
+
 import { AuthHelper } from '@iss/ng-auth-center';
+
+import { RequestsService } from '../../../services/requests.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-list',
@@ -14,7 +17,8 @@ export class ListComponent implements OnInit {
   constructor(
     private requestsService: RequestsService,
     private router: Router,
-    private authHelper: AuthHelper
+    private authHelper: AuthHelper,
+    private notification: NotificationService
   ) { }
 
   lists
@@ -34,8 +38,9 @@ export class ListComponent implements OnInit {
     },
     (error) => {
       this.lists = []
-      console.error('error', error)
-      alert(`Ошибка ${error.status}. Сервер временно недоступен`)
+
+      console.error(error)
+      this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
     })
   }
 
@@ -61,19 +66,16 @@ export class ListComponent implements OnInit {
         let file = new Blob([response], { type: 'application/pdf' });
         let fileURL = URL.createObjectURL(file);
 
-        // create <a> tag dinamically
         let fileLink = document.createElement('a');
         fileLink.href = fileURL;
 
-        // it forces the name of the downloaded file
         fileLink.download = `Доверенность_${id}.pdf`;
 
-        // triggers the click event
         fileLink.click();
       },
       (error) => {
-        console.error('error', error)
-        alert(`Ошибка ${error.status}. Сервер временно недоступен`)
+        console.error(error)
+        this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
       })
   }
 
@@ -82,12 +84,12 @@ export class ListComponent implements OnInit {
     if(confirm(`Вы действительно хотите удалить "Доверенность_${id}.pdf"?`)) {
       this.requestsService.deleteDocument(id)
       .subscribe(() => {
-        alert('Доверенность успешна уделена')
+        this.notification.show('Доверенность уделена', { classname: 'bg-success text-light', headertext: 'Успешно'});
         this.ngOnInit()
       },
       (error) => {
-        console.error('error', error)
-        alert(`Ошибка ${error.status}. Сервер временно недоступен`)
+        console.error(error)
+        this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
       })
     }
   }

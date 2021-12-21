@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { NotificationService } from 'src/app/services/notification.service';
 import { RequestsService } from 'src/app/services/requests.service';
+
 import { RegistrationModalComponent } from '../registration-modal/registration-modal.component';
 import { WithdrawModalComponent } from '../withdraw-modal/withdraw-modal.component';
 
@@ -13,7 +17,8 @@ export class ChancelleryComponent implements OnInit {
 
   constructor(
     private requestsService: RequestsService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private notification: NotificationService
   ) { }
 
   lists
@@ -24,31 +29,27 @@ export class ChancelleryComponent implements OnInit {
     },
     (error) => {
       this.lists = []
-      console.error('error', error)
-      alert(`Ошибка ${error.status}. Сервер временно недоступен`)
+      console.error(error)
+      this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
     })
   }
 
   download(id: number):any {
     this.requestsService.downloadFile(id)
       .subscribe((response: Blob) => {
-        console.log('file blob', response)
         let file = new Blob([response], { type: response.type });
         let fileURL = URL.createObjectURL(file);
 
-        // create <a> tag dinamically
         let fileLink = document.createElement('a');
         fileLink.href = fileURL;
 
-        // it forces the name of the downloaded file
         fileLink.download = `Скан-${id}`;
 
-        // triggers the click event
         fileLink.click();
       },
       (error) => {
-        console.error('error', error)
-        alert(`Ошибка ${error.status}. Сервер временно недоступен`)
+        console.error(error)
+        this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
       })
   }
 

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { NotificationService } from 'src/app/services/notification.service';
 import { RequestsService } from 'src/app/services/requests.service';
 
 @Component({
@@ -17,7 +20,8 @@ export class RegistrationModalComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private requestsService: RequestsService
+    private requestsService: RequestsService,
+    private notification: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +48,6 @@ export class RegistrationModalComponent implements OnInit {
 
       this.requestsService.findDocument(this.form.value.id)
         .subscribe((response) => {
-          console.log('response', response)
           this.form.setControl('id', new FormControl(this.form.value.id))
 
           this.form.setControl('state', new FormControl(response.state))
@@ -55,37 +58,32 @@ export class RegistrationModalComponent implements OnInit {
         (error) => {
           this.changeId()
 
-          console.error('error', error)
-          alert(`Ошибка ${error.status}. ${error.error.error_description}`)
+          console.error(error)
+          let msg = error.error.error_description ? error.error.error_description : 'Сервер временно недоступен'
+          this.notification.show(msg, { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
         })
     }
   }
 
   changeId() {
-    console.log('change', this.form.value)
     this.form.setControl('state', new FormControl(''))
     this.form.setControl('date_start', new FormControl(''))
     this.form.setControl('date_end', new FormControl(''))
     this.form.setControl('fio', new FormControl(''))
-
   }
 
   uploadFile(event: Event) {
-    console.log('event', event)
-
     const element = event.currentTarget as HTMLInputElement;
     let file: File | null = element.files[0];
 
     if (!file) {
       this.form.setControl('file_name', new FormControl(this.default_file_name))
-      alert(`Загрузка файла не удалась. Попробуйте снова'`)
+      this.notification.show('Загрузка файла не удалась. Попробуйте снова', { classname: 'bg-warning', headertext: 'Внимание'});
 
       return false;
     }
 
-    // this.form.get('file').setValue(file);
     this.form.setControl('file_name', new FormControl(file.name))
-    console.log("FileUpload -> files", file);
 
     this.formData.append(
       'file',
@@ -107,13 +105,14 @@ export class RegistrationModalComponent implements OnInit {
 
     this.requestsService.registrationDocument(this.formData)
       .subscribe((response) => {
-        alert(`${response.result}`)
+        this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
         this.activeModal.close();
       },
       (error) => {
-        console.error('error', error)
+        console.error(error)
 
-        alert(`Ошибка ${error.status}. ${error.error.error_description}`)
+        let msg = error.error.error_description ? error.error.error_description : 'Сервер временно недоступен'
+        this.notification.show(msg, { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
       })
   }
 

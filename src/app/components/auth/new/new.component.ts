@@ -1,17 +1,17 @@
-import { TemplateModalComponent } from './../template-modal/template-modal.component';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+
+import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { Request } from '../../../interfaces';
+import { MomentDateFormatter } from '../../../shared/dateFormat';
 
 import { RequestsService } from '../../../services/requests.service';
-import { Request } from '../../../interfaces';
-
-import { NgbActiveModal, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MomentDateFormatter } from '../../../shared/dateFormat';
 import { UsersReferenceService } from 'src/app/services/users-reference.service';
-import { Observable } from 'rxjs';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { formatDate } from '@angular/common';
+import { NotificationService } from 'src/app/services/notification.service';
+
+import { TemplateModalComponent } from './../template-modal/template-modal.component';
 
 @Component({
   selector: 'app-new',
@@ -33,7 +33,8 @@ export class NewComponent implements OnInit {
     private userReference: UsersReferenceService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private notification: NotificationService
   ) { }
 
   // Список полномочий для пользователя
@@ -62,7 +63,7 @@ export class NewComponent implements OnInit {
       code_passport: [null, [Validators.required, Validators.maxLength(7)]],
       date_start: [null, [Validators.required]],
       select_time: new FormControl(this.arr_selected_time[0].value, [Validators.required]),
-      general: [null, [Validators.required, Validators.maxLength(255)]],
+      general: [null, [Validators.required, Validators.maxLength(700)]],
       array_authority: this.formBuilder.array([], [Validators.required]),
 
       // Данные, которые получаем из НСИ для доверенного лица
@@ -81,8 +82,6 @@ export class NewComponent implements OnInit {
 
     this.route.data.subscribe( data => {
       if (data.presentRequest) {
-        console.log('presentRequest', data.presentRequest)
-
         this.form.controls['tn'].setValue(data.presentRequest.tn);
         this.form.controls['sn_passport'].setValue(data.presentRequest.sn_passport);
         this.form.controls['passport_issued'].setValue(data.presentRequest.passport_issued);
@@ -100,8 +99,6 @@ export class NewComponent implements OnInit {
 
         this.getDuties()
         this.findUser()
-
-        console.log('Form', this.strToDate(data.presentRequest.date_passport))
       }
 
     })
@@ -149,10 +146,7 @@ export class NewComponent implements OnInit {
 
   // Поиск пользователя и список полномочий для него
   findUser() {
-    // console.log('cmp', this.requestsService.getDuties(this.form.value.tn))
-
     this.userReference.findUserByTn(this.form.value.tn).subscribe(user => {
-      console.log('USER CMP', user)
       if (user.length) {
         this.form.controls['fio'].setValue(user[0]['fullName'])
         this.form.controls['login'].setValue(user[0]['login'])
@@ -160,7 +154,6 @@ export class NewComponent implements OnInit {
 
 
         this.userReference.findUserById(user[0]['id']).subscribe(user => {
-          console.log('EMP USER CMP', user)
           if (user) {
             this.form.controls['case_prof'].setValue(user['employeePositions'][0]['professionDeclensions']['accusativeProfession'])
 
@@ -185,7 +178,6 @@ export class NewComponent implements OnInit {
 
 
       }
-      console.log('findUser form', this.form)
     })
   }
 
@@ -196,8 +188,8 @@ export class NewComponent implements OnInit {
         this.lists = response['duties']
       },
       (error) => {
-        console.error('error', error)
-        alert(`Ошибка ${error.status}. Сервер временно недоступен`)
+        console.error(error)
+        this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
       })
   }
 
@@ -205,20 +197,16 @@ export class NewComponent implements OnInit {
     return this.form.controls['array_authority'] as FormArray;
   }
 
-  datePassportSelect(event) { //  (dateSelect)="datePassportSelect($event)"
-    console.log('event', event)
+  datePassportSelect(event) {
     let year = event.year;
     let month = event.month <= 9 ? '0' + event.month : event.month;;
     let day = event.day <= 9 ? '0' + event.day : event.day;;
     let finalDate = day + "-" + month + "-" + year;
 
     this.form.controls['date_passport'] = new FormControl(finalDate);
-    // console.log('control', this.form.controls['date_passport'] )
-    // this.form.setControl('date_passport', new FormControl(finalDate))
   }
 
   dateToString(date) {
-    console.log('event date', date)
     let year = date.year;
     let month = date.month <= 9 ? '0' + date.month : date.month;;
     let day = date.day <= 9 ? '0' + date.day : date.day;;
@@ -228,34 +216,6 @@ export class NewComponent implements OnInit {
   }
 
   submit() {
-
-    // Оствляю до реализации авторизации
-    this.form.setControl('author_tn', new FormControl('21056'))
-    this.form.setControl('author_fio', new FormControl('Бартузанова Анжелика Николаевна'))
-    this.form.setControl('author_login', new FormControl('BartuzanovaAN'))
-
-
-    // console.log('Date: ', new Date(this.form.value.date_passport).toDateString());
-    // console.log('Date: ', this.form.value.date_passport);
-
-      // let date_passport = `${this.form.value.date_passport.year}-${this.form.value.date_passport.month}-${this.form.value.date_passport.day}`
-    // this.form.setControl('date_start', new FormControl(`${this.form.value.date_start.year}-${this.form.value.date_start.month}-${this.form.value.date_start.day}`))
-    // // this.form.setControl('date_end', new FormControl(`${this.form.value.date_start.year}-${this.form.value.date_start.month}-${this.form.value.date_start.day}`))
-
-    console.log('submit', this.form)
-
-    // const modalRef = this.modalService.open(TemplateModalComponent, { size: 'xl', scrollable: true })
-    // modalRef.componentInstance.request = this.form.value
-
-    // modalRef.result.then((result) => {
-    //   console.log('result', result);
-    // }).catch((error) => {
-    //   console.log('error', error);
-    // });
-
-
-    // this.activeModal.close("Submit")
-    // this.activeModal.open(NgbdModalContent);
     if (this.form.invalid) {
       return
     }
@@ -287,14 +247,8 @@ export class NewComponent implements OnInit {
       author_login: this.form.value.author_login
     }
 
-    console.log('RESULT request', req)
-
-
-     // this.form.getRawValue(); !!!
      this.requestsService.templateFile(req)
       .subscribe((response) => {
-        console.log('response', response)
-
         const modalRef = this.modalService.open(TemplateModalComponent, { size: 'xl', scrollable: true, backdrop: 'static' })
         modalRef.componentInstance.templateFile = response
         modalRef.componentInstance.request = req
@@ -303,18 +257,17 @@ export class NewComponent implements OnInit {
       },
       (error) => {
         this.submitted = false
-        alert(`Ошибка ${error.status}. Сервер временно недоступен`)
+
+        console.error(error)
+        let msg = error.error.error_description ? error.error.error_description : 'Сервер временно недоступен'
+        this.notification.show(msg, { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
       })
-
-
   }
 
   // Добавить новую строку выбора из списка полномочий
   addElement() {
     if (this.lists.length != 0) {
       (<FormArray>this.form.controls["array_authority"]).push(new FormControl(null,  [Validators.required]))
-    // } else {
-      // alert 'Пользователь с табельным номером ${} не найден
     }
 
   }

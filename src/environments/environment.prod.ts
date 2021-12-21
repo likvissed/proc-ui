@@ -17,7 +17,9 @@ export const environment = {
   },
   apiUrl: 'https://proc-api.***REMOVED***',
 
-  usersReferenceUrl: 'https://hr.***REMOVED***/ref-info/api'
+  usersReferenceUrl: 'https://hr.***REMOVED***/ref-info/api',
+  nameUserHr: 'Operator7141',
+  passwordUserHr: 'Operator7141@714'
 };
 
 /*
