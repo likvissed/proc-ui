@@ -7,7 +7,7 @@ export const environment = {
 
   auth: {
     clientId: '129',
-    redirectUrl: 'https://proc-production.***REMOVED***//oauth2/callback',
+    redirectUrl: 'https://proc-production.***REMOVED***/oauth2/callback',
     serverUrl: 'https://proc-api.***REMOVED***/auth/token',
     appName: 'Формирование доверенности',
     jwtOptions: {
