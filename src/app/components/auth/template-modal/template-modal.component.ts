@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { RequestsService } from 'src/app/services/requests.service';
-import { NotificationService } from 'src/app/services/notification.service';
+import { ErrorService } from 'src/app/services/error.service';
 
 import { DoneModalComponent } from '../done-modal/done-modal.component';
 
@@ -20,7 +20,7 @@ export class TemplateModalComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private requestsService: RequestsService,
     private modalService: NgbModal,
-    private notification: NotificationService
+    private error: ErrorService
   ) {}
 
   submitted = false
@@ -46,13 +46,10 @@ export class TemplateModalComponent implements OnInit {
         this.modalService.open(DoneModalComponent, { size: 'lg' })
       },
       (error) => {
-        console.error(error)
         this.submitted = false
 
-        this.notification.show('Сервер временно недоступен', { classname: 'bg-danger', headertext: `Ошибка ${error.status}`});
+        this.error.handling(error)
       })
-
-
   }
 
 }

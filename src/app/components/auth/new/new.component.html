@@ -52,7 +52,7 @@
                   >
                     <small *ngIf="form.get('sn_passport').errors.required"> Введите серию и номер паспорта</small>
                     <small *ngIf="form.get('sn_passport').errors.maxlength">
-                      Пожалуйста, введите не более не более {{form.get('sn_passport').errors.maxlength.requiredLength }} символов
+                      Пожалуйста, введите не более {{form.get('sn_passport').errors.maxlength.requiredLength }} символов
                     </small>
                 </div>
                 </td>
@@ -70,7 +70,7 @@
                   >
                     <small *ngIf="form.get('passport_issued').errors.required"> Введите кем выдан паспорт</small>
                     <small *ngIf="form.get('passport_issued').errors.maxlength">
-                      Пожалуйста, введите не более не более {{form.get('passport_issued').errors.maxlength.requiredLength }} символов
+                      Пожалуйста, введите не более {{form.get('passport_issued').errors.maxlength.requiredLength }} символов
                     </small>
                 </div>
                 </td>
@@ -120,7 +120,7 @@
                   >
                     <small *ngIf="form.get('code_passport').errors.required"> Введите код подразделения</small>
                     <small *ngIf="form.get('code_passport').errors.maxlength">
-                      Пожалуйста, введите не более не более {{form.get('code_passport').errors.maxlength.requiredLength }} символов
+                      Пожалуйста, введите не более {{form.get('code_passport').errors.maxlength.requiredLength }} символов
                     </small>
                     <!-- <small *ngIf="form.get('code_passport').errors.pattern"> формат 123-123Ы </small> -->
                 </div>
@@ -186,7 +186,7 @@
                   >
                     <small *ngIf="form.get('general').errors.required"> Не может быть пустым</small>
                     <small *ngIf="form.get('general').errors.maxlength">
-                      Пожалуйста, введите не более не более {{form.get('general').errors.maxlength.requiredLength }} символов.
+                      Пожалуйста, введите не более {{form.get('general').errors.maxlength.requiredLength }} символов.
                       Сейчас он его длина равна {{form.get('general').errors.maxlength.actualLength }}
                     </small>
 
@@ -233,7 +233,7 @@
                       *ngIf="selected && selected.length > 700"
                     >
                       <small>
-                        Пожалуйста, введите не более не более 700 символов.
+                        Пожалуйста, введите не более 700 символов.
                         Сейчас он его длина равна {{ selected.length }} символа
                       </small>
                   </div>

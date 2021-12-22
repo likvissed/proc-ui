@@ -5,6 +5,7 @@ import { AuthHelper } from '@iss/ng-auth-center';
 
 import { RequestsService } from '../../../services/requests.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-list',
@@ -18,7 +19,8 @@ export class ListComponent implements OnInit {
     private requestsService: RequestsService,
     private router: Router,
     private authHelper: AuthHelper,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private error: ErrorService
   ) { }
 
   lists
@@ -39,8 +41,7 @@ export class ListComponent implements OnInit {
     (error) => {
       this.lists = []
 
-      console.error(error)
-      this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
+      this.error.handling(error)
     })
   }
 
@@ -74,8 +75,7 @@ export class ListComponent implements OnInit {
         fileLink.click();
       },
       (error) => {
-        console.error(error)
-        this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
+        this.error.handling(error)
       })
   }
 
@@ -88,8 +88,7 @@ export class ListComponent implements OnInit {
         this.ngOnInit()
       },
       (error) => {
-        console.error(error)
-        this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
+        this.error.handling(error)
       })
     }
   }

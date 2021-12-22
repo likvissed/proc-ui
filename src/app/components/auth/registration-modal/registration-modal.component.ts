@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { NotificationService } from 'src/app/services/notification.service';
 import { RequestsService } from 'src/app/services/requests.service';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-registration-modal',
@@ -21,7 +22,8 @@ export class RegistrationModalComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private requestsService: RequestsService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private error: ErrorService
   ) { }
 
   ngOnInit(): void {
@@ -58,9 +60,7 @@ export class RegistrationModalComponent implements OnInit {
         (error) => {
           this.changeId()
 
-          console.error(error)
-          let msg = error.error.error_description ? error.error.error_description : 'Сервер временно недоступен'
-          this.notification.show(msg, { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
+          this.error.handling(error)
         })
     }
   }
@@ -109,10 +109,7 @@ export class RegistrationModalComponent implements OnInit {
         this.activeModal.close();
       },
       (error) => {
-        console.error(error)
-
-        let msg = error.error.error_description ? error.error.error_description : 'Сервер временно недоступен'
-        this.notification.show(msg, { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
+        this.error.handling(error)
       })
   }
 

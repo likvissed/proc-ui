@@ -10,6 +10,7 @@ import { MomentDateFormatter } from '../../../shared/dateFormat';
 import { RequestsService } from '../../../services/requests.service';
 import { UsersReferenceService } from 'src/app/services/users-reference.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { ErrorService } from 'src/app/services/error.service';
 
 import { TemplateModalComponent } from './../template-modal/template-modal.component';
 
@@ -34,7 +35,8 @@ export class NewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private error: ErrorService
   ) { }
 
   // Список полномочий для пользователя
@@ -114,7 +116,7 @@ export class NewComponent implements OnInit {
     if (selected != undefined) {
       let not_uniq =  this.form.value.array_authority.find(x => x == selected);
 
-      if (selected.length > 400) {
+      if (selected.length > 700) {
         return
       }
 
@@ -188,8 +190,7 @@ export class NewComponent implements OnInit {
         this.lists = response['duties']
       },
       (error) => {
-        console.error(error)
-        this.notification.show('Сервер временно недоступен', { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
+        this.error.handling(error)
       })
   }
 
@@ -258,9 +259,7 @@ export class NewComponent implements OnInit {
       (error) => {
         this.submitted = false
 
-        console.error(error)
-        let msg = error.error.error_description ? error.error.error_description : 'Сервер временно недоступен'
-        this.notification.show(msg, { classname: 'bg-danger text-light', headertext: `Ошибка ${error.status}`});
+        this.error.handling(error)
       })
   }
 
