@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthHelper } from '@iss/ng-auth-center';
 
 import { Request } from '../../../interfaces';
 import { MomentDateFormatter } from '../../../shared/dateFormat';
@@ -36,7 +37,8 @@ export class NewComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private notification: NotificationService,
-    private error: ErrorService
+    private error: ErrorService,
+    private authHelper: AuthHelper
   ) { }
 
   // Список полномочий для пользователя
@@ -77,9 +79,9 @@ export class NewComponent implements OnInit {
       genitive_fio: [null, [Validators.required]],
 
       // Данные, которые получаем из НСИ для составителя доверенности
-      author_tn: [null, [Validators.required]],
-      author_fio: [null, [Validators.required]],
-      author_login: [null, [Validators.required]]
+      author_tn: [this.authHelper.getJwtPayload()['tn'], [Validators.required]],
+      author_fio: [this.authHelper.getJwtPayload()['fio'], [Validators.required]],
+      author_login: [this.authHelper.getJwtPayload()['login'], [Validators.required]]
     })
 
     this.route.data.subscribe( data => {
@@ -218,6 +220,7 @@ export class NewComponent implements OnInit {
 
   submit() {
     if (this.form.invalid) {
+      // console.log(this.form.value)
       return
     }
     this.submitted = true;
