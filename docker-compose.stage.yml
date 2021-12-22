@@ -17,6 +17,7 @@ x-args: &args
   args:
     <<: *app-root
     NODE_MAJOR: 14
+    ENVIRONMENT: staging
     APP_HOSTNAME: proc-staging
 
 x-env: &envs
