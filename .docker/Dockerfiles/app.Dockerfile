@@ -1,6 +1,7 @@
 ARG NODE_MAJOR
 FROM ***REMOVED***/registry/languages/nodejs/node:${NODE_MAJOR}-buster-slim AS builder
 
+ARG ENVIRONMENT
 ARG APP_ROOT
 WORKDIR ${APP_ROOT}
 
@@ -11,7 +12,7 @@ COPY package.json yarn.lock .
 RUN yarn
 
 COPY . .
-RUN yarn run build --prod
+RUN yarn run build ----configuration=${ENVIRONMENT}
 
 # Deploy
 FROM nginx:1.21.4-alpine
