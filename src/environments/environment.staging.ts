@@ -7,7 +7,7 @@ export const environment = {
 
   auth: {
     clientId: '130',
-    redirectUrl: 'https://proc-staging.***REMOVED***//oauth2/callback',
+    redirectUrl: 'https://proc-staging.***REMOVED***/oauth2/callback',
     serverUrl: 'https://vm713.***REMOVED***:24026/auth/token',
     appName: 'Формирование доверенности (staging)',
     jwtOptions: {
