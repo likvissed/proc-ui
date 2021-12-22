@@ -12,7 +12,7 @@ COPY package.json yarn.lock .
 RUN yarn
 
 COPY . .
-RUN yarn run build ----configuration=${ENVIRONMENT}
+RUN yarn run build --configuration=${ENVIRONMENT}
 
 # Deploy
 FROM nginx:1.21.4-alpine
