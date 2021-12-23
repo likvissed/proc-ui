@@ -41,7 +41,7 @@
                   <td class="col-lg-2"> <button class="btn btn-outline-info btn-sm" type="submit" (click)="createOnBase(list.id)"> Создать </button> </td>
                   <td class="col-lg-4" *ngIf="list.state == 1 || list.state == 5; else notDownload">
                     <span >
-                      <button class="btn btn-outline-primary btn-sm" type="submit" (click)="downloadDoc(list.id)">
+                      <button class="btn btn-outline-primary btn-sm" type="submit" (click)="downloadDoc(list.id, list.state)">
                         Скачать
                         <ng-container *ngIf="list.state == 1; else elseStateFive">
                           скан

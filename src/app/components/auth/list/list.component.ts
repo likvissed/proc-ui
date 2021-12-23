@@ -60,17 +60,19 @@ export class ListComponent implements OnInit {
   }
 
   // Скачать документ
-  downloadDoc(id: number):any {
+  downloadDoc(id: number, status: number):any {
     this.requestsService.downloadFile(id)
       .subscribe((response: Blob) => {
+        console.log('blob', response)
 
-        let file = new Blob([response], { type: 'application/pdf' });
+        let file = new Blob([response], { type: response.type });
         let fileURL = URL.createObjectURL(file);
 
         let fileLink = document.createElement('a');
         fileLink.href = fileURL;
 
-        fileLink.download = `Доверенность_${id}.pdf`;
+        let nameFile = status == 1 ? 'Скан' : 'Доверенность'
+        fileLink.download = `${nameFile}_${id}`;
 
         fileLink.click();
       },
