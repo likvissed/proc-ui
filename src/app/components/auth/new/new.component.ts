@@ -112,7 +112,6 @@ export class NewComponent implements OnInit {
     (this.form.get('array_authority') as FormArray).clear();
   }
 
-
   // Добавить выбранный элемент в список полномочий
   addSelected(selected) {
     if (selected != undefined) {
@@ -220,7 +219,7 @@ export class NewComponent implements OnInit {
 
   submit() {
     if (this.form.invalid) {
-      // console.log(this.form.value)
+      this.notification.show('Заполнены не все данные для доверенности', { classname: 'bg-danger text-light', headertext: 'Внимание' });
       return
     }
     this.submitted = true;

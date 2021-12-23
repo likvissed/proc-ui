@@ -27,15 +27,15 @@ export class WithdrawModalComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       id: new FormControl(this.id_document, [Validators.required]),
-      reason: new FormControl(null, [Validators.required]),
+      reason: new FormControl(null, [Validators.required, Validators.maxLength(255)]),
       flag_document: new FormControl(true),
-      reason_document: new FormControl('')
+      reason_document: new FormControl('', Validators.maxLength(255))
     })
   }
 
   onCheckChange() {
     if (this.form.value.flag_document) {
-      this.form.setControl('reason_document', new FormControl(''))
+      this.form.controls['reason_document'].setValue('');
     }
   }
 

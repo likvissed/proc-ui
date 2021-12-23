@@ -12,6 +12,7 @@
             *ngIf="form.get('reason').touched && form.get('reason').invalid"
           >
             <small *ngIf="form.get('reason').errors.required"> Не может быть пустым  </small>
+            <small *ngIf="form.get('reason').errors.maxlength"> Пожалуйста, введите не более {{form.get('reason').errors.maxlength.requiredLength }} символов </small>
         </div>
       </div>
 
@@ -19,7 +20,16 @@
 
       <div *ngIf="!form.value.flag_document">
         <label for="reason_document"> Укажите по какой причине подлинник не был получен: </label>
-        <textarea id="reason_document" type="text" placeholder="" formControlName="reason_document" class="form-control"> </textarea>
+        <div [ngClass]="{invalid: form.get('reason_document').touched && form.get('reason_document').invalid}">
+          <textarea id="reason_document" type="text" placeholder="" formControlName="reason_document" class="form-control"> </textarea>
+          <div
+              class="validation"
+              *ngIf="form.get('reason_document').touched && form.get('reason_document').invalid"
+            >
+              <small *ngIf="form.get('reason_document').errors.maxlength"> Пожалуйста, введите не более {{form.get('reason_document').errors.maxlength.requiredLength }} символов </small>
+          </div>
+        </div>
+
       </div>
 
     </div>

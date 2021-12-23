@@ -28,9 +28,9 @@ export class RegistrationModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      id: new FormControl('', [Validators.required]),
+      id: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")]),
 
-      deloved_id: new FormControl(null, [Validators.required]),
+      deloved_id: new FormControl(null, [Validators.required, Validators.maxLength(10)]),
       file: new FormControl(null, [Validators.required]),
       file_name: new FormControl(this.default_file_name),
 
@@ -50,7 +50,7 @@ export class RegistrationModalComponent implements OnInit {
 
       this.requestsService.findDocument(this.form.value.id)
         .subscribe((response) => {
-          this.form.setControl('id', new FormControl(this.form.value.id))
+          this.form.controls['id'].setValue(this.form.value.id);
 
           this.form.setControl('state', new FormControl(response.state))
           this.form.setControl('date_start', new FormControl(response.date_start))
@@ -66,10 +66,10 @@ export class RegistrationModalComponent implements OnInit {
   }
 
   changeId() {
-    this.form.setControl('state', new FormControl(''))
-    this.form.setControl('date_start', new FormControl(''))
-    this.form.setControl('date_end', new FormControl(''))
-    this.form.setControl('fio', new FormControl(''))
+    this.form.controls['state'].setValue('')
+    this.form.controls['date_start'].setValue('')
+    this.form.controls['date_end'].setValue('')
+    this.form.controls['fio'].setValue('')
   }
 
   uploadFile(event: Event) {

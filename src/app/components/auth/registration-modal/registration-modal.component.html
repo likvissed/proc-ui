@@ -7,12 +7,14 @@
       <label for="id" class="col-lg-7 col-sm-7 col-xs-7"> Введите ID доверенности: </label>
 
       <div class="col-lg-14 col-sm-13 col-xs-13" [ngClass]="{invalid: form.get('id').touched && form.get('id').invalid, valid: form.get('id').touched && form.get('id').valid }">
-        <input id="id" type="number" placeholder="" formControlName="id" class="form-control" (input)="changeId()">
+        <input id="id" type="text" placeholder="" formControlName="id" class="form-control" (input)="changeId()">
         <div
             class="validation"
             *ngIf="form.get('id').touched && form.get('id').invalid"
           >
             <small *ngIf="form.get('id').errors.required"> Не может быть пустым  </small>
+            <small *ngIf="form.get('id').errors.maxlength"> Пожалуйста, введите не более {{form.get('id').errors.maxlength.requiredLength }} символов </small>
+            <small *ngIf="form.get('id').errors.pattern"> Может содержать только цифры </small>
         </div>
       </div>
 

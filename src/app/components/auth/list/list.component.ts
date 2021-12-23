@@ -63,8 +63,6 @@ export class ListComponent implements OnInit {
   downloadDoc(id: number, status: number):any {
     this.requestsService.downloadFile(id)
       .subscribe((response: Blob) => {
-        console.log('blob', response)
-
         let file = new Blob([response], { type: response.type });
         let fileURL = URL.createObjectURL(file);
 
