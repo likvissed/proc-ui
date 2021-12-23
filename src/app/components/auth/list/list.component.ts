@@ -83,11 +83,13 @@ export class ListComponent implements OnInit {
   deleteDoc(id: number): void {
     if(confirm(`Вы действительно хотите удалить "Доверенность_${id}.pdf"?`)) {
       this.requestsService.deleteDocument(id)
-      .subscribe(() => {
-        this.notification.show('Доверенность уделена', { classname: 'bg-success text-light', headertext: 'Успешно'});
+      .subscribe((response) => {
+        this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
+
         this.ngOnInit()
       },
       (error) => {
+        console.error(error)
         this.error.handling(error)
       })
     }

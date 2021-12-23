@@ -58,7 +58,7 @@ export class RequestsService {
 
   // Удалить доверенность
   deleteDocument(id: number): any {
-    return this.http.delete(`${environment.apiUrl}/delete_proxy/${id}`, { responseType: 'text' })
+    return this.http.delete(`${environment.apiUrl}/delete_proxy/${id}`)
   }
 
   // Список доверенностей для вкладки "Канцелярия" - только действительные и согласованные
@@ -68,7 +68,7 @@ export class RequestsService {
 
   // Отозвать доверенность
   withdrawDocument(form_withdraw): any {
-    return this.http.post(`${environment.apiUrl}/proxy_revoke`, form_withdraw , { responseType: 'text' })
+    return this.http.post(`${environment.apiUrl}/proxy_revoke`, form_withdraw)
   }
 
   // Найти согласованную доверенность по id

@@ -52,7 +52,7 @@ export class WithdrawModalComponent implements OnInit {
 
     this.requestsService.withdrawDocument(this.form.getRawValue())
       .subscribe((response) => {
-        this.notification.show('Доверенность отозвана', { classname: 'bg-success text-light', headertext: 'Успешно'});
+        this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
         this.activeModal.close()
       },
       (error) => {
