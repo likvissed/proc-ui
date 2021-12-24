@@ -40,7 +40,7 @@ x-frontend: &frontend
     context: .
     dockerfile: .docker/Dockerfiles/app.Dockerfile
     cache_from:
-      - ${CI_REGISTRY_IMAGE}/${PRODUCTION_PROJECT_NAME}-app--staging:latest
+      - ${CI_REGISTRY_IMAGE}/${STAGING_PROJECT_NAME}-app--staging:latest
 
 
 services:
