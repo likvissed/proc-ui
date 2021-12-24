@@ -77,6 +77,9 @@ export class NewComponent implements OnInit {
       case_fio: [null, [Validators.required]],
       case_prof: [null, [Validators.required]],
       genitive_fio: [null, [Validators.required]],
+      dative_last_name: [null, [Validators.required]],
+      dative_name: [null, [Validators.required]],
+      dative_middle_name: [null, [Validators.required]],
 
       // Данные, которые получаем из НСИ для составителя доверенности
       author_tn: [this.authHelper.getJwtPayload()['tn'], [Validators.required]],
@@ -164,10 +167,17 @@ export class NewComponent implements OnInit {
             this.form.controls['case_fio'].setValue(`${this.titleCaseWord(employeeDeclensions['accusativeLastName'])} ${this.titleCaseWord(employeeDeclensions['accusativeName'])} ${this.titleCaseWord(employeeDeclensions['accusativeMiddleName'])}`)
             this.form.controls['genitive_fio'].setValue(employeeDeclensions['genitiveLastName'])
 
+            this.form.controls['dative_last_name'].setValue(employeeDeclensions['dativeLastName'])
+            this.form.controls['dative_name'].setValue(employeeDeclensions['dativeName'])
+            this.form.controls['dative_middle_name'].setValue(employeeDeclensions['dativeMiddleName'])
+
           } else {
             this.form.controls['case_prof'].setValue('')
             this.form.controls['case_fio'].setValue('')
             this.form.controls['genitive_fio'].setValue('')
+            this.form.controls['dative_last_name'].setValue('')
+            this.form.controls['dative_name'].setValue('')
+            this.form.controls['dative_middle_name'].setValue('')
           }
         })
 
@@ -244,6 +254,9 @@ export class NewComponent implements OnInit {
       case_fio: this.form.value.case_fio,
       case_prof: this.form.value.case_prof,
       genitive_fio: this.form.value.genitive_fio,
+      dative_last_name: this.form.value.dative_last_name,
+      dative_name: this.form.value.dative_name,
+      dative_middle_name: this.form.value.dative_middle_name,
 
       author_tn: this.form.value.author_tn,
       author_fio: this.form.value.author_fio,
