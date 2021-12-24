@@ -9,6 +9,17 @@ x-common-labels: &common-labels
   maintainer: "***REMOVED***"
   devops-engineer: "***REMOVED***"
 
+x-syslog-driver: &syslog-driver
+  logging:
+    driver: syslog
+    options:
+      syslog-address: "udp://rsyslog:514"
+      tag: "{{.Name}}/{{.ID}}"
+
+x-jsonlog-driver: &jsonlog-driver
+  logging:
+    driver: "json-file"
+
 x-app-root: &app-root
   APP_ROOT: /app
 
@@ -30,6 +41,7 @@ x-common: &common
   tty: true
 
 x-frontend: &frontend
+  <<: *syslog-driver
   <<: *envs
   <<: *common
   image: ${CI_REGISTRY_IMAGE}/${PRODUCTION_PROJECT_NAME}-app--production
