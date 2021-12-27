@@ -14,6 +14,7 @@ const routes: Routes = [
   {
     path: '', component: MainComponent, children: [
       { path: '', redirectTo: '/base', pathMatch: 'full' },
+      { path: 'requests/new', redirectTo: '/new' }, // оставлен старый адрес приложения
       { path: 'base', component: BaseComponent, canActivate: [AuthCenterGuard] },
       { path: 'new', component: NewComponent, canActivate: [AuthCenterGuard] },
       { path: 'new/:id', component: NewComponent, resolve: { presentRequest: RequestResolver }, canActivate: [AuthCenterGuard] },
