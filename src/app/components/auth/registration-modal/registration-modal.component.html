@@ -34,29 +34,31 @@
 
         <tbody>
           <tr>
-            <td class="text-center col-lg-1"> {{ form.value.id }} </td>
-            <td class="text-center col-lg-2" [innerHtml]="form.value.state | nameForStatus"> </td>
-            <td class="text-center col-lg-3"> {{ form.value.fio }} </td>
-            <td class="text-center col-lg-2" innerHTML="{{ form.value.date_start }} - {{ form.value.date_end }}"> </td>
+            <td class="text-center col-lg-1 col-sm-1"> {{ form.value.id }} </td>
+            <td class="text-center col-lg-2 col-sm-2" [innerHtml]="form.value.state | nameForStatus"> </td>
+            <td class="text-center col-lg-3 col-sm-3"> {{ form.value.fio }} </td>
+            <td class="text-center col-lg-2 col-sm-2" innerHTML="{{ form.value.date_start }} - {{ form.value.date_end }}"> </td>
           </tr>
         </tbody>
       </table>
 
       <div class="form-group">
-        <label for="id" class="col-lg-7"> Номер доверенности: </label>
+        <label for="deloved_id" class="col-lg-7 col-sm-7"> Номер доверенности: </label>
 
-        <div class="col-lg-17" [ngClass]="{invalid: form.get('deloved_id').touched && form.get('deloved_id').invalid, valid: form.get('deloved_id').touched && form.get('deloved_id').valid }">
-          <input id="deloved_id" type="number" placeholder="" formControlName="deloved_id" class="form-control">
+        <div class="col-lg-17 col-sm-17" [ngClass]="{invalid: form.get('deloved_id').touched && form.get('deloved_id').invalid, valid: form.get('deloved_id').touched && form.get('deloved_id').valid }">
+          <input id="deloved_id" type="text" placeholder="" formControlName="deloved_id" class="form-control">
           <div
               class="validation"
               *ngIf="form.get('deloved_id').touched && form.get('deloved_id').invalid"
             >
               <small *ngIf="form.get('deloved_id').errors.required"> Не может быть пустым  </small>
+              <small *ngIf="form.get('deloved_id').errors.maxlength"> Пожалуйста, введите не более {{form.get('deloved_id').errors.maxlength.requiredLength }} символов </small>
+              <small *ngIf="form.get('deloved_id').errors.pattern"> Может содержать только цифры и символ '-' </small>
           </div>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group col-lg-17 col-sm-17">
         <input style="display: none" type="file" formControlName="file" (change)="uploadFile($event)" #hiddenfileinput>
         <button (click)="hiddenfileinput.click()" class="btn btn-outline-primary px-2"><i class="bi bi-folder2-open"> </i> Загрузить скан </button>
         {{ form.value.file_name }}

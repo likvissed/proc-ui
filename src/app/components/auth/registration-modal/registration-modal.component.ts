@@ -30,7 +30,7 @@ export class RegistrationModalComponent implements OnInit {
     this.form = this.formBuilder.group({
       id: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")]),
 
-      deloved_id: new FormControl(null, [Validators.required, Validators.maxLength(10)]),
+      deloved_id: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9 -]*$")]),
       file: new FormControl(null, [Validators.required]),
       file_name: new FormControl(this.default_file_name),
 
@@ -50,6 +50,7 @@ export class RegistrationModalComponent implements OnInit {
 
       this.requestsService.findDocument(this.form.value.id)
         .subscribe((response) => {
+          console.log(response)
           this.form.controls['id'].setValue(this.form.value.id);
 
           this.form.setControl('state', new FormControl(response.state))
