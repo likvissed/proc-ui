@@ -1,12 +1,29 @@
 <div class="container">
   <div  *ngIf="lists; else loading">
 
-    <div *ngIf="lists.length; else noList">
+    <div class="form-group">
       <div class="row">
-          <div class="text-center">
-            <h4> Список документов: </h4>
-            <br>
-          <div>
+        <div class="col-lg-2 col-sm-2">
+          <input type="text" placeholder="ID доверенности" [(ngModel)]="filters.id" (ngModelChange)="filterChange()" class="form-control input-sm">
+        </div>
+
+        <div class="col-lg-3 col-sm-3">
+          <select [(ngModel)]="filters.status" (ngModelChange)="filterChange()" class="form-control input-sm">
+            <option *ngFor="let status of statuses" [ngValue]="status.value" [disabled]="status.disabled == 1">
+              {{ status.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-3 col-sm-3">
+          <input type="text" placeholder="ФИО" [(ngModel)]="filters.fio" (ngModelChange)="filterChange()" class="form-control input-sm">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="lists.length; else noList">
+      <div>
+        <div>
 
             <table class="table table-hover table-sm">
               <thead>
@@ -25,7 +42,7 @@
               </thead>
 
               <tbody>
-                <tr *ngFor="let list of lists; let idx = index">
+                <tr *ngFor="let list of lists ; let idx = index">
                   <td class="col-lg-1"> {{ idx + 1 }} </td>
                   <td class="col-lg-2"> Доверенность_{{ list.id }}.pdf </td>
                   <td class="col-lg-3">
@@ -59,7 +76,6 @@
               </tbody>
             </table>
 
-          </div>
         </div>
       </div>
 
@@ -75,9 +91,17 @@
 
 <ng-template #noList>
   <div class="card-title text-center">
-    <h4> Пока нет сформированных документов.
-      <a routerLink="/new" > Создать доверенность </a>
-    </h4>
+    <span *ngIf="filters.id == '' && filters.status == '' && filters.fio == ''; else isBlank">
+      <h4> Пока нет сформированных документов.
+        <a routerLink="/new" > Создать доверенность </a>
+      </h4>
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #isBlank>
+  <div class="card-title text-center">
+    <p> Данные отсутствуют </p>
   </div>
 </ng-template>
 

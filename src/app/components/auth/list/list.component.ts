@@ -25,13 +25,35 @@ export class ListComponent implements OnInit {
 
   lists
 
-  ngOnInit(): void {
-    // отправляется таб.номер пользователя
-    this.requestsService.getList(this.authHelper.getJwtPayload()['tn']).subscribe((response) => {
+  statuses = [
+    { disabled: 1, value: '', name: 'Выберите статус' },
+    { disabled: 0, value: '', name: 'Все статусы' },
+    { disabled: 0, value: 0, name: 'Новая' },
+    { disabled: 0, value: 1, name: 'Действующая' },
+    { disabled: 0, value: 2, name: 'Просроченная' },
+    { disabled: 0, value: 3, name: 'Отклонённая' },
+    { disabled: 0, value: 4, name: 'Отозванная' },
+    { disabled: 0, value: 5, name: 'Согласованная' }
+  ]
 
-      this.lists = []
-      this.lists.push(response['mine'])
-      this.lists.push(response['to_me'])
+  filters = {
+    id: '',
+    status: this.statuses[0].value,
+    fio: ''
+  }
+
+  ngOnInit(): void {
+    this.loadList()
+  }
+
+  loadList() {
+    // отправляется таб.номер пользователя
+    this.requestsService.getList(
+        this.authHelper.getJwtPayload()['tn'],
+        this.filters
+      ).subscribe((response) => {
+
+      this.lists = response
 
       // Убрать вложенности
       this.lists = this.lists.reduce((acc, val) => acc.concat(val), []);
@@ -43,6 +65,10 @@ export class ListComponent implements OnInit {
 
       this.error.handling(error)
     })
+  }
+
+  filterChange() {
+    this.loadList()
   }
 
   /*

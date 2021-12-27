@@ -34,11 +34,11 @@ export class RequestsService {
   }
 
   // Получить список доверенностей
-  getList(current_user_tn: number): any {
+  getList(current_user_tn: number, filters): any {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
 
-    return this.http.post(`${environment.apiUrl}/proxies_list`, { 'author_tn': current_user_tn }, { headers })
+    return this.http.post(`${environment.apiUrl}/proxies_list`, { 'author_tn': current_user_tn, 'filters': filters }, { headers })
   }
 
   // Получить json с параметрами сформитрованного документа
