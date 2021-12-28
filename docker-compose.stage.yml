@@ -1,13 +1,14 @@
 version: "3.9"
 
 x-common-labels: &common-labels
-  project-name: "proc-ui"
-  comment: "Приложение для формирования доверенности (frontend)"
-  domain: "proc-staging"
-  environment: "staging"
-  git: "***REMOVED***"
-  maintainer: "***REMOVED***"
-  devops-engineer: "***REMOVED***"
+  labels:
+    project-name: "proc-ui"
+    comment: "Приложение для формирования доверенности (frontend)"
+    domain: "proc-staging"
+    environment: "staging"
+    git: "***REMOVED***"
+    maintainer: "***REMOVED***"
+    devops-engineer: "***REMOVED***"
 
 
 x-app-root: &app-root
