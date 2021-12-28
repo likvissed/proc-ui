@@ -39,10 +39,14 @@ export class ChancelleryComponent implements OnInit {
     deloved_id: ''
   }
 
-  config = {
+  pagination = {
     currentPage: 1,
     totalItems: 0,
-    maxSize: 20
+    recordsFiltered:0,
+    maxSize: 20,
+    startRecord: 1,
+    endRecord: 20,
+    totalPages: 1
   };
 
   ngOnInit(): void {
@@ -50,9 +54,12 @@ export class ChancelleryComponent implements OnInit {
   }
 
   loadChancellery() {
-    this.requestsService.getChancellery(this.filters, this.config.currentPage, this.config.maxSize).subscribe((response) => {
+    this.requestsService.getChancellery(this.filters, this.pagination.currentPage, this.pagination.maxSize).subscribe((response) => {
       this.lists = response.lists
-      this.config.totalItems = response.totalItems
+      this.pagination.totalItems = response.totalItems
+      this.pagination.recordsFiltered = response.recordsFiltered
+
+      this.calculatePagination()
     },
     (error) => {
       this.lists = []
@@ -61,13 +68,24 @@ export class ChancelleryComponent implements OnInit {
   }
 
   filterChange() {
-    this.config.currentPage = 1
+    this.pagination.currentPage = 1
 
     this.loadChancellery()
   }
 
   pageChanged(event){
     this.loadChancellery();
+  }
+
+
+  calculatePagination() {
+    this.pagination.startRecord = (this.pagination.currentPage - 1) * this.pagination.maxSize + 1
+    this.pagination.endRecord = this.pagination.startRecord + this.pagination.maxSize - 1
+    this.pagination.totalPages = Math.ceil(this.pagination.recordsFiltered / this.pagination.maxSize)
+
+    if (this.pagination.endRecord != this.pagination.recordsFiltered && this.pagination.totalPages == this.pagination.currentPage) {
+      this.pagination.endRecord = this.pagination.recordsFiltered
+    }
   }
 
   download(id: number):any {

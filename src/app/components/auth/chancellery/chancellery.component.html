@@ -68,7 +68,14 @@
         </div>
 
         <div *ngIf="lists.length">
-          <ngb-pagination class="d-flex justify-content-end" [collectionSize]="config.totalItems" [maxSize]="5" [pageSize]="config.maxSize" [(page)]="config.currentPage" [rotate]="true" (pageChange)="pageChanged($event)"></ngb-pagination>
+          <span>
+            Записи с {{ pagination.startRecord }} по {{ pagination.endRecord }} из {{ pagination.recordsFiltered }}
+            <span *ngIf="pagination.totalItems !== pagination.recordsFiltered">
+              (выборка из {{ pagination.totalItems }} записей)
+            </span>
+          </span>
+
+          <ngb-pagination class="d-flex justify-content-end" [collectionSize]="pagination.recordsFiltered" [maxSize]="5" [pageSize]="pagination.maxSize" [(page)]="pagination.currentPage" [rotate]="true" (pageChange)="pageChanged($event)"></ngb-pagination>
         </div>
       </span>
     </div>

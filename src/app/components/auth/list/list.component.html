@@ -28,35 +28,33 @@
             <table class="table table-hover table-sm">
               <thead>
                 <tr>
-                  <th> № </th>
-                  <th> Наименование </th>
-                  <th> Статус </th>
-                  <th> Составитель доверенности </th>
-                  <th> Доверенное лицо </th>
-                  <th> Дата и время создания </th>
-                  <th> Создать на основе </th>
-                  <th> Скачать документ </th>
-                  <th> Комментарий </th>
-                  <th> </th>
+                  <th class="text-center"> ID Доверенности </th>
+                  <th class="text-center"> Статус </th>
+                  <th class="text-center"> Составитель доверенности </th>
+                  <th class="text-center"> Доверенное лицо </th>
+                  <th class="text-center"> Дата и время создания </th>
+                  <th class="text-center"> Создать на основе </th>
+                  <th class="text-center"> Скачать документ </th>
+                  <th class="text-center"> Комментарий </th>
+                  <th class="text-center"> </th>
                 </tr>
               </thead>
 
               <tbody>
                 <tr *ngFor="let list of lists; let idx = index">
-                  <td class="col-lg-1"> {{ idx + 1 }} </td>
-                  <td class="col-lg-2"> Доверенность_{{ list.id }}.pdf </td>
-                  <td class="col-lg-3">
+                  <td class="col-lg-1 text-center"> {{ list.id }} </td>
+                  <td class="col-lg-3 text-center">
                     <ng-container
                       [ngTemplateOutlet]="descriptionStatus"
                       [ngTemplateOutletContext]="{ list:list }"
                     ></ng-container>
                   </td>
 
-                  <td class="col-lg-4"> {{ list.author_fio | shortName }} </td>
-                  <td class="col-lg-4"> {{ list.fio | shortName }} </td>
-                  <td class="col-lg-2"> {{ list.date | date:'short' }} </td>
-                  <td class="col-lg-2"> <button class="btn btn-outline-info btn-sm" type="submit" (click)="createOnBase(list.id)"> Создать </button> </td>
-                  <td class="col-lg-4" *ngIf="list.state == 1 || list.state == 5; else notDownload">
+                  <td class="col-lg-4 text-center"> {{ list.author_fio | shortName }} </td>
+                  <td class="col-lg-4 text-center"> {{ list.fio | shortName }} </td>
+                  <td class="col-lg-2 text-center"> {{ list.date | date:'short' }} </td>
+                  <td class="col-lg-2 text-center"> <button class="btn btn-outline-info btn-sm" type="submit" (click)="createOnBase(list.id)"> Создать </button> </td>
+                  <td class="col-lg-4 text-center" *ngIf="list.state == 1 || list.state == 5; else notDownload">
                     <span >
                       <button class="btn btn-outline-primary btn-sm" type="submit" (click)="downloadDoc(list.id, list.state)">
                         Скачать
@@ -66,10 +64,10 @@
                       </button>
                     </span>
                   </td>
-                  <td class="trim-info col-lg-3" ngbPopover="{{list.sign_comment}}" triggers="mouseenter:mouseleave" placement="top">
+                  <td class="trim-info col-lg-3 text-center" ngbPopover="{{list.sign_comment}}" triggers="mouseenter:mouseleave" placement="top">
                     {{ list.sign_comment }}
                   </td>
-                  <td class="pointer col-lg-2 text-danger">
+                  <td class="pointer col-lg-2 text-danger text-center">
                     <i class="bi bi-trash" (click)="deleteDoc(list.id)" ngbPopover="Удалить доверенность" triggers="mouseenter:mouseleave"></i>
                   </td>
                 </tr>
@@ -82,7 +80,14 @@
       </div>
 
       <div *ngIf="lists.length">
-        <ngb-pagination class="d-flex justify-content-end" [collectionSize]="config.totalItems" [maxSize]="5" [pageSize]="config.maxSize" [(page)]="config.currentPage" [rotate]="true" (pageChange)="pageChanged($event)"></ngb-pagination>
+        <span>
+          Записи с {{ pagination.startRecord }} по {{ pagination.endRecord }} из {{ pagination.recordsFiltered }}
+          <span *ngIf="pagination.totalItems !== pagination.recordsFiltered">
+            (выборка из {{ pagination.totalItems }} записей)
+          </span>
+        </span>
+
+        <ngb-pagination class="d-flex justify-content-end" [collectionSize]="pagination.recordsFiltered" [maxSize]="5" [pageSize]="pagination.maxSize" [(page)]="pagination.currentPage" [rotate]="true" (pageChange)="pageChanged($event)"></ngb-pagination>
       </div>
   </div>
 

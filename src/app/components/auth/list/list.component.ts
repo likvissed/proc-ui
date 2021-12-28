@@ -42,10 +42,14 @@ export class ListComponent implements OnInit {
     fio: ''
   }
 
-  config = {
+  pagination = {
     currentPage: 1,
     totalItems: 0,
-    maxSize: 20
+    recordsFiltered:0,
+    maxSize: 20,
+    startRecord: 1,
+    endRecord: 20,
+    totalPages: 1
   };
 
   ngOnInit(): void {
@@ -57,11 +61,14 @@ export class ListComponent implements OnInit {
     this.requestsService.getList(
         this.authHelper.getJwtPayload()['tn'],
         this.filters,
-        this.config.currentPage,
-        this.config.maxSize
+        this.pagination.currentPage,
+        this.pagination.maxSize
       ).subscribe((response) => {
       this.lists = response.lists
-      this.config.totalItems = response.totalItems
+      this.pagination.totalItems = response.totalItems
+      this.pagination.recordsFiltered = response.recordsFiltered
+
+      this.calculatePagination()
     },
     (error) => {
       this.lists = []
@@ -71,13 +78,23 @@ export class ListComponent implements OnInit {
   }
 
   filterChange() {
-    this.config.currentPage = 1
+    this.pagination.currentPage = 1
 
     this.loadList()
   }
 
   pageChanged(event){
     this.loadList();
+  }
+
+  calculatePagination() {
+    this.pagination.startRecord = (this.pagination.currentPage - 1) * this.pagination.maxSize + 1
+    this.pagination.endRecord = this.pagination.startRecord + this.pagination.maxSize - 1
+    this.pagination.totalPages = Math.ceil(this.pagination.recordsFiltered / this.pagination.maxSize)
+
+    if (this.pagination.endRecord != this.pagination.recordsFiltered && this.pagination.totalPages == this.pagination.currentPage) {
+      this.pagination.endRecord = this.pagination.recordsFiltered
+    }
   }
 
   // Создать на основе сформированной доверенности
@@ -115,7 +132,6 @@ export class ListComponent implements OnInit {
         this.ngOnInit()
       },
       (error) => {
-        console.error(error)
         this.error.handling(error)
       })
     }
