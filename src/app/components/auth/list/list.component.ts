@@ -44,7 +44,7 @@ export class ListComponent implements OnInit {
 
   config = {
     currentPage: 1,
-    totalItems: 29,
+    totalItems: 0,
     maxSize: 20
   };
 

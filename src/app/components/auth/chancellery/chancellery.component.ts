@@ -39,13 +39,20 @@ export class ChancelleryComponent implements OnInit {
     deloved_id: ''
   }
 
+  config = {
+    currentPage: 1,
+    totalItems: 0,
+    maxSize: 20
+  };
+
   ngOnInit(): void {
     this.loadChancellery()
   }
 
   loadChancellery() {
-    this.requestsService.getChancellery(this.filters).subscribe((response) => {
-      this.lists = response
+    this.requestsService.getChancellery(this.filters, this.config.currentPage, this.config.maxSize).subscribe((response) => {
+      this.lists = response.lists
+      this.config.totalItems = response.totalItems
     },
     (error) => {
       this.lists = []
@@ -54,7 +61,13 @@ export class ChancelleryComponent implements OnInit {
   }
 
   filterChange() {
+    this.config.currentPage = 1
+
     this.loadChancellery()
+  }
+
+  pageChanged(event){
+    this.loadChancellery();
   }
 
   download(id: number):any {
