@@ -42,6 +42,12 @@ export class ListComponent implements OnInit {
     fio: ''
   }
 
+  config = {
+    currentPage: 1,
+    totalItems: 29,
+    maxSize: 20
+  };
+
   ngOnInit(): void {
     this.loadList()
   }
@@ -50,15 +56,12 @@ export class ListComponent implements OnInit {
     // отправляется таб.номер пользователя
     this.requestsService.getList(
         this.authHelper.getJwtPayload()['tn'],
-        this.filters
+        this.filters,
+        this.config.currentPage,
+        this.config.maxSize
       ).subscribe((response) => {
-
-      this.lists = response
-
-      // Убрать вложенности
-      this.lists = this.lists.reduce((acc, val) => acc.concat(val), []);
-
-      this.preparingList()
+      this.lists = response.lists
+      this.config.totalItems = response.totalItems
     },
     (error) => {
       this.lists = []
@@ -68,16 +71,13 @@ export class ListComponent implements OnInit {
   }
 
   filterChange() {
+    this.config.currentPage = 1
+
     this.loadList()
   }
 
-  /*
-    Сортировать по дате
-  */
-  preparingList() {
-    this.lists = this.lists.sort((a: any, b: any) =>
-      new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
+  pageChanged(event){
+    this.loadList();
   }
 
   // Создать на основе сформированной доверенности
