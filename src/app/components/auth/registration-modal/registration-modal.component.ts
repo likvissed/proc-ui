@@ -50,7 +50,6 @@ export class RegistrationModalComponent implements OnInit {
 
       this.requestsService.findDocument(this.form.value.id)
         .subscribe((response) => {
-          console.log(response)
           this.form.controls['id'].setValue(this.form.value.id);
 
           this.form.setControl('state', new FormControl(response.state))

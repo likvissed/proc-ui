@@ -57,9 +57,7 @@ registerLocaleData(ruLocale, 'ru')
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    NgbModule,
-    // BrowserAnimationsModule,
-    // ToastrModule.forRoot()
+    NgbModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'ru-RU' }

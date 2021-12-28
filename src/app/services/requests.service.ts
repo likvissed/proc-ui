@@ -34,11 +34,11 @@ export class RequestsService {
   }
 
   // Получить список доверенностей
-  getList(current_user_tn: number): any {
+  getList(current_user_tn: number, filters, currentPage, pageSize): any {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
 
-    return this.http.post(`${environment.apiUrl}/proxies_list`, { 'author_tn': current_user_tn }, { headers })
+    return this.http.post(`${environment.apiUrl}/proxies_list`, { 'author_tn': current_user_tn, 'filters': filters, 'page': currentPage, 'size':  pageSize}, { headers })
   }
 
   // Получить json с параметрами сформитрованного документа
@@ -62,8 +62,15 @@ export class RequestsService {
   }
 
   // Список доверенностей для вкладки "Канцелярия" - только действительные и согласованные
-  getChancellery(): any {
-    return this.http.get(`${environment.apiUrl}/agreed_proxies`)
+  getChancellery(filters, currentPage, pageSize): any {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+    const params = new HttpParams()
+      .set('filters', JSON.stringify(filters))
+      .set('page', currentPage)
+      .set('size', pageSize);
+
+    return this.http.get(`${environment.apiUrl}/agreed_proxies`, { headers: headers, params: params })
   }
 
   // Отозвать доверенность
