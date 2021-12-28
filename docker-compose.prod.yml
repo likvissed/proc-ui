@@ -41,6 +41,7 @@ x-common: &common
   tty: true
 
 x-frontend: &frontend
+  <<: *common-labels
   <<: *syslog-driver
   <<: *envs
   <<: *common
