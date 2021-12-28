@@ -32,6 +32,7 @@ x-common: &common
 
 
 x-frontend: &frontend
+  <<: *common-labels
   <<: *envs
   <<: *common
   image: ${CI_REGISTRY_IMAGE}/${STAGING_PROJECT_NAME}-app--staging
