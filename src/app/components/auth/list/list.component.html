@@ -3,11 +3,11 @@
 
     <div class="form-group">
       <div class="row">
-        <div class="col-lg-2 col-sm-2">
+        <div class="col-lg-2 col-lg-offset-8">
           <input type="text" placeholder="ID доверенности" [(ngModel)]="filters.id" (ngModelChange)="filterChange()" class="form-control input-sm">
         </div>
 
-        <div class="col-lg-3 col-sm-3">
+        <div class="col-lg-3">
           <select [(ngModel)]="filters.status" (ngModelChange)="filterChange()" class="form-control input-sm">
             <option *ngFor="let status of statuses" [ngValue]="status.value" [disabled]="status.disabled == 1">
               {{ status.name }}
@@ -15,7 +15,7 @@
           </select>
         </div>
 
-        <div class="col-lg-3 col-sm-3">
+        <div class="col-lg-3">
           <input type="text" placeholder="ФИО" [(ngModel)]="filters.fio" (ngModelChange)="filterChange()" class="form-control input-sm">
         </div>
       </div>

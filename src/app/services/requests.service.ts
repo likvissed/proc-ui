@@ -62,8 +62,13 @@ export class RequestsService {
   }
 
   // Список доверенностей для вкладки "Канцелярия" - только действительные и согласованные
-  getChancellery(): any {
-    return this.http.get(`${environment.apiUrl}/agreed_proxies`)
+  getChancellery(filters): any {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+    const params = new HttpParams()
+      .set('filters', JSON.stringify(filters))
+
+    return this.http.get(`${environment.apiUrl}/agreed_proxies`, { headers: headers, params: params })
   }
 
   // Отозвать доверенность

@@ -25,14 +25,36 @@ export class ChancelleryComponent implements OnInit {
 
   lists
 
+  statuses = [
+    { disabled: 1, value: '', name: 'Выберите статус' },
+    { disabled: 0, value: '', name: 'Все статусы' },
+    { disabled: 0, value: 1, name: 'Действующая' },
+    { disabled: 0, value: 5, name: 'Согласованная' }
+  ]
+
+  filters = {
+    id: '',
+    status: this.statuses[0].value,
+    fio: '',
+    deloved_id: ''
+  }
+
   ngOnInit(): void {
-    this.requestsService.getChancellery().subscribe((response) => {
-      this.lists = response.list
+    this.loadChancellery()
+  }
+
+  loadChancellery() {
+    this.requestsService.getChancellery(this.filters).subscribe((response) => {
+      this.lists = response
     },
     (error) => {
       this.lists = []
       this.error.handling(error)
     })
+  }
+
+  filterChange() {
+    this.loadChancellery()
   }
 
   download(id: number):any {
