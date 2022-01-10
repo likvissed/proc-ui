@@ -47,11 +47,11 @@ export class NewComponent implements OnInit {
   // Срок доверенности
   arr_selected_time = [
     { value: 1, name: '1 месяц' },
-    { value: 1, name: '3 месяца' },
-    { value: 1, name: '6 месяцев' },
-    { value: 1, name: '1 год' },
-    { value: 2, name: '2 года'},
-    { value: 3, name: '3 года' }
+    { value: 2, name: '3 месяца' },
+    { value: 3, name: '6 месяцев' },
+    { value: 4, name: '1 год' },
+    { value: 5, name: '2 года'},
+    { value: 6, name: '3 года' }
   ]
 
   // Выбранное или введенное полномочие пользователем
