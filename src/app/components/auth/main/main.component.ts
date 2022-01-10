@@ -17,6 +17,7 @@ export class MainComponent implements OnInit {
 
   fio_initials
   access_to_chancellery
+  access_to_duties
 
   ngOnInit(): void {
     this.authHelper.isAuthenticated$.subscribe(isAuth => {
@@ -25,6 +26,7 @@ export class MainComponent implements OnInit {
       if (isAuth) {
         this.fio_initials = this.authHelper.getJwtPayload()['fio_initials']
         this.access_to_chancellery = this.authHelper.getJwtPayload()['access_to_chancellery']
+        this.access_to_duties = this.authHelper.getJwtPayload()['access_to_duties']
       }
     });
   }

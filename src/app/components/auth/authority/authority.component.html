@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="form-group">
+    <div class="row">
+      <span class="col-lg-5">
+        <button (click)="addAuthority()" class="btn btn-outline-primary px-2 input-sm"> Добавить полномочие</button>
+      </span>
+
+      <span class="col-lg-2">
+        <input type="text" placeholder="Табельный номер" [(ngModel)]="filters.tn" (ngModelChange)="filterChange()" class="form-control input-sm ">
+      </span>
+
+      <span class="col-lg-2">
+        <select [(ngModel)]="filters.status" (ngModelChange)="filterChange()" class="form-control input-sm">
+          <option *ngFor="let status of statuses" [ngValue]="status.value" [disabled]="status.disabled == 1">
+            {{ status.name }}
+          </option>
+        </select>
+      </span>
+
+      <span class="col-lg-3">
+        <input type="text" placeholder="Наименование полномочия" [(ngModel)]="filters.duty" (ngModelChange)="filterChange()" class="form-control input-sm">
+      </span>
+    </div>
+  </div>
+
+  <div *ngIf="lists; else loading">
+    <div>
+      <span *ngIf="lists.length; else noList">
+        <div class="content-body">
+          <table class="table table-hover table-sm">
+            <thead>
+              <tr>
+                <td class="text-center"> № </td>
+                <th> Наименование </th>
+                <th class="text-center"> Таб.номер </th>
+                <th class="text-center"> Статус </th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let el of lists; let idx = index">
+                <td class="text-center col-lg-1 col-sm-1 col-xs-1"> {{ pagination.startRecord + idx }} </td>
+                <td class="col-lg-25 col-sm-25 col-xs-25"> {{ el.duty }} </td>
+                <td class="text-center col-lg-1 col-sm-1 col-xs-1"> {{ el.tn }} </td>
+                <td class="text-center col-lg-1 col-sm-1 col-xs-1">
+                  <span *ngIf="el.state == 0" class='badge badge-info'> Новое </span>
+                  <span *ngIf="el.state == 1" class='badge badge-success'> Одобренное </span>
+                </td>
+                <td class="pointer col-lg-1 col-sm-1 col-xs-1 text-center">
+                  <i class="bi bi-pencil-square" (click)="editAuthority(el)" ngbPopover="Редактировать" triggers="mouseenter:mouseleave"></i>
+                </td>
+                <td class="pointer col-lg-1 col-sm-1 col-xs-1 text-danger text-center">
+                  <i class="bi bi-trash" (click)="deleteAuthority(el.id)" ngbPopover="Удалить" triggers="mouseenter:mouseleave"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div *ngIf="lists.length">
+          <span>
+            Записи с {{ pagination.startRecord }} по {{ pagination.endRecord }} из {{ pagination.recordsFiltered }}
+            <span *ngIf="pagination.totalItems !== pagination.recordsFiltered">
+              (выборка из {{ pagination.totalItems }} записей)
+            </span>
+          </span>
+
+          <ngb-pagination class="d-flex justify-content-end" [collectionSize]="pagination.recordsFiltered" [maxSize]="5" [pageSize]="pagination.maxSize" [(page)]="pagination.currentPage" [rotate]="true" (pageChange)="pageChanged($event)"></ngb-pagination>
+        </div>
+      </span>
+    </div>
+
+  </div>
+
+</div>
+
+
+<ng-template #loading>
+  <div class="text-center"> Загрузка данных...</div>
+</ng-template>
+
+<ng-template #noList>
+  <div class="card-title text-center">
+    <span *ngIf="filters.tn == '' && filters.status == '' && filters.duty == ''; else isBlank">
+      <h4> Список доверенностей отсутствует </h4>
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #isBlank>
+  <div class="card-title text-center">
+    <p> Данные отсутствуют </p>
+  </div>
+</ng-template>
+
+<ng-template #notDownload>
+  <div class="text-center">
+    <p> Отсутствует </p>
+  </div>
+</ng-template>

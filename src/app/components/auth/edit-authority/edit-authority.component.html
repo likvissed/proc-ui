@@ -1,0 +1,91 @@
+<div class="modal-header text-center">
+  <h4 class="modal-title w-100"> Добавить полномочие </h4>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form">
+
+    <div class="form-group">
+      <div class="row">
+        <label for="access" class="col-lg-1"> Доступ: </label>
+        <div class="col-lg-22 col-sm-22 col-xs-23">
+          <select class="form-control" formControlName="access" (change)="onCheckChange()">
+            <option *ngFor="let select of arr_selected_access" [ngValue]="select.value"> {{select.name}} </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="!form.value.access">
+      <div class="row">
+        <div class="col-lg-24 col-sm-24 col-xs-24">
+          <button class="btn btn-outline-primary float-right" type="button" (click)="onAddSTns()"> Добавить таб.номер </button>
+        </div>
+
+      </div>
+
+      <div formArrayName="tns">
+        <div *ngFor="let el of form.controls.tns.controls; let i = index">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td class="col-xs-1 col-lg-1" style="padding-left: 10px;"> {{ i + 1 }} </td>
+                <td class="col-xs-17 col-sm-18 col-lg-20 col-md-20">
+                  <div [ngClass]="{invalid: form.controls.tns.controls[i].touched && form.controls.tns.controls[i].invalid}">
+
+                    <input class="form-control" type="text" formControlName="{{i}}">
+                    <div
+                      class="validation"
+                      *ngIf="form.controls.tns.controls[i].touched && form.controls.tns.controls[i].invalid"
+                    >
+                      <small *ngIf="form.controls.tns.controls[i].errors.required"> Не может быть пустым</small>
+                      <small *ngIf="form.controls.tns.controls[i].errors.pattern"> Может содержать только цифры </small>
+                      <small *ngIf="form.controls.tns.controls[i].errors.maxlength">
+                        Табельный номер должен быть не более {{ form.controls.tns.controls[i].errors.maxlength.requiredLength }} символов
+                      </small>
+                    </div>
+
+                  </div>
+                </td>
+                <td class="col-xs-2 col-sm-3 col-lg-2 col-md-3">
+                  <button class="input-group-text btn btn-outline-danger" (click)="onRemoveTns(i)"> Удалить </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-group">
+      <label for="name" class=""> Наименование: </label>
+
+      <div [ngClass]="{invalid: form.get('name').touched && form.get('name').invalid}">
+        <textarea id="name" type="text" placeholder="" formControlName="name" class="form-control"> </textarea>
+        <div
+            class="validation"
+            *ngIf="form.get('name').touched && form.get('name').invalid"
+          >
+            <small *ngIf="form.get('name').errors.required"> Не может быть пустым  </small>
+            <small *ngIf="form.get('name').errors.maxlength">
+              Пожалуйста, введите не более {{ form.get('name').errors.maxlength.requiredLength }} символов.
+              Сейчас он его длина равна {{ form.get('name').errors.maxlength.actualLength }} символа
+            </small>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </form>
+
+
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-success" [disabled]="form.invalid" (click)="save()"> Сохранить </button>
+  <button (click)="activeModal.dismiss()" class="btn btn-outline-secondary px-2 "> Закрыть </button>
+</div>
