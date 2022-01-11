@@ -31,6 +31,7 @@ import { WithdrawModalComponent } from './components/auth/withdraw-modal/withdra
 import { RegistrationModalComponent } from './components/auth/registration-modal/registration-modal.component';
 import { NoticeComponent } from './components/notice/notice.component';
 import { EditAuthorityComponent } from './components/auth/edit-authority/edit-authority.component';
+import { ConfirmationDialogComponent } from './components/auth/confirmation-dialog/confirmation-dialog.component';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -51,7 +52,8 @@ registerLocaleData(ruLocale, 'ru')
     NotFoundComponent,
     NoticeComponent,
     AuthorityComponent,
-    EditAuthorityComponent
+    EditAuthorityComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     HttpClientModule,

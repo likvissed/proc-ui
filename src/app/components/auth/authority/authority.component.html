@@ -52,7 +52,7 @@
                   <i class="bi bi-pencil-square" (click)="editAuthority(el)" ngbPopover="Редактировать" triggers="mouseenter:mouseleave"></i>
                 </td>
                 <td class="pointer col-lg-1 col-sm-1 col-xs-1 text-danger text-center">
-                  <i class="bi bi-trash" (click)="deleteAuthority(el.id)" ngbPopover="Удалить" triggers="mouseenter:mouseleave"></i>
+                  <i class="bi bi-trash" (click)="deleteAuthority(el.id, el.duty)" ngbPopover="Удалить" triggers="mouseenter:mouseleave"></i>
                 </td>
               </tr>
             </tbody>

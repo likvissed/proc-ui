@@ -55,6 +55,11 @@ export class ChancelleryComponent implements OnInit {
 
   loadChancellery() {
     this.requestsService.getChancellery(this.filters, this.pagination.currentPage, this.pagination.maxSize).subscribe((response) => {
+      if (!response.lists) {
+        this.error.handling(response)
+        return
+      }
+
       this.lists = response.lists
       this.pagination.totalItems = response.totalItems
       this.pagination.recordsFiltered = response.recordsFiltered

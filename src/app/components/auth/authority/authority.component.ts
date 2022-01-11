@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
 import { ErrorService } from 'src/app/services/error.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { RequestsService } from 'src/app/services/requests.service';
+
 import { EditAuthorityComponent } from '../edit-authority/edit-authority.component';
 
 @Component({
@@ -14,7 +18,9 @@ export class AuthorityComponent implements OnInit {
   constructor(
     private requestsService: RequestsService,
     private error: ErrorService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private confirmaDialog: ConfirmationDialogService,
+    private notification: NotificationService
   ) { }
 
   lists
@@ -48,7 +54,6 @@ export class AuthorityComponent implements OnInit {
 
   loadAuthority() {
     this.requestsService.getAuthority(this.filters, this.pagination.currentPage, this.pagination.maxSize).subscribe((response) => {
-      // console.log('response getAuthority', response)
       if (!response.lists) {
         this.error.handling(response)
         return
@@ -64,7 +69,6 @@ export class AuthorityComponent implements OnInit {
       this.lists = []
       this.error.handling(error)
     })
-    // this.lists = [{id: 1, tn: '210, 1212', duty: 'text', state: 0}]
   }
 
   filterChange() {
@@ -88,17 +92,37 @@ export class AuthorityComponent implements OnInit {
   }
 
   addAuthority() {
-    this.modalService.open(EditAuthorityComponent, { size: 'lg', backdrop: 'static' })
+    const modalRefReg = this.modalService.open(EditAuthorityComponent, { size: 'lg', backdrop: 'static' })
+
+    modalRefReg.result.then((result) => {
+      this.ngOnInit()
+    }).catch((error) => {
+    });
   }
 
-  deleteAuthority(id: number) {
-    console.log('delete', id)
+  deleteAuthority(id: number, name: string) {
+    this.confirmaDialog.confirm(`Вы действительно хотите удалить полномочие: <br> <b>${name}</b>?`)
+      .then((confirmed) => {
+        if (confirmed) {
+          this.requestsService.deleteAuthority(id)
+            .subscribe((response) => {
+              this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
+              this.ngOnInit()
+            },
+            (error) => {
+              this.error.handling(error)
+            })
+        }
+      })
   }
 
   editAuthority(element) {
-    // console.log('edit', element)
-
     const modalRef = this.modalService.open(EditAuthorityComponent, { size: 'lg', backdrop: 'static' })
     modalRef.componentInstance.el = element
+
+    modalRef.result.then((result) => {
+      this.ngOnInit()
+    }).catch((error) => {
+    });
   }
 }
