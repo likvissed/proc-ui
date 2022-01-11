@@ -91,4 +91,36 @@ export class RequestsService {
     return this.http.post(`${environment.apiUrl}/add_deloved_id`, form_data , { headers })
   }
 
+  // Список всех полномочий для юристов
+  getAuthority(filters, currentPage, pageSize): any {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+    const params = new HttpParams()
+      .set('filters', JSON.stringify(filters))
+      .set('page', currentPage)
+      .set('size', pageSize);
+
+    return this.http.get(`${environment.apiUrl}/all_duties`, { headers: headers, params: params })
+  }
+
+  // Удалить полномочие
+  deleteAuthority(id: number): any {
+    return this.http.delete(`${environment.apiUrl}/remove_duty/${id}`)
+  }
+
+  // Добавить новое полномочие
+  addAuthority(data): any {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+
+    return this.http.post(`${environment.apiUrl}/add_duty`, data , { headers })
+  }
+
+  // Обновить полномочие
+  updateAuthority(data): any {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+
+    return this.http.put(`${environment.apiUrl}/edit_duty`, data , { headers })
+  }
 }

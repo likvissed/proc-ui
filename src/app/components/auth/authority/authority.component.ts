@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RequestsService } from 'src/app/services/requests.service';
-import { ErrorService } from 'src/app/services/error.service';
 
-import { RegistrationModalComponent } from '../registration-modal/registration-modal.component';
-import { WithdrawModalComponent } from '../withdraw-modal/withdraw-modal.component';
+import { EditAuthorityComponent } from '../edit-authority/edit-authority.component';
 
 @Component({
-  selector: 'app-chancellery',
-  templateUrl: './chancellery.component.html',
-  styleUrls: ['./chancellery.component.scss']
+  selector: 'app-authority',
+  templateUrl: './authority.component.html',
+  styleUrls: ['./authority.component.scss']
 })
-export class ChancelleryComponent implements OnInit {
+export class AuthorityComponent implements OnInit {
 
   constructor(
     private requestsService: RequestsService,
+    private error: ErrorService,
     private modalService: NgbModal,
-    private notification: NotificationService,
-    private error: ErrorService
+    private confirmaDialog: ConfirmationDialogService,
+    private notification: NotificationService
   ) { }
 
   lists
@@ -28,15 +28,14 @@ export class ChancelleryComponent implements OnInit {
   statuses = [
     { disabled: 1, value: '', name: 'Выберите статус' },
     { disabled: 0, value: '', name: 'Все статусы' },
-    { disabled: 0, value: 1, name: 'Действующая' },
-    { disabled: 0, value: 5, name: 'Согласованная' }
+    { disabled: 0, value: 0, name: 'Новое' },
+    { disabled: 0, value: 1, name: 'Одобренное' }
   ]
 
   filters = {
-    id: '',
+    tn: '',
     status: this.statuses[0].value,
-    fio: '',
-    deloved_id: ''
+    duty: ''
   }
 
   pagination = {
@@ -50,11 +49,11 @@ export class ChancelleryComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.loadChancellery()
+    this.loadAuthority()
   }
 
-  loadChancellery() {
-    this.requestsService.getChancellery(this.filters, this.pagination.currentPage, this.pagination.maxSize).subscribe((response) => {
+  loadAuthority() {
+    this.requestsService.getAuthority(this.filters, this.pagination.currentPage, this.pagination.maxSize).subscribe((response) => {
       if (!response.lists) {
         this.error.handling(response)
         return
@@ -75,13 +74,12 @@ export class ChancelleryComponent implements OnInit {
   filterChange() {
     this.pagination.currentPage = 1
 
-    this.loadChancellery()
+    this.loadAuthority()
   }
 
   pageChanged(event){
-    this.loadChancellery();
+    this.loadAuthority();
   }
-
 
   calculatePagination() {
     this.pagination.startRecord = (this.pagination.currentPage - 1) * this.pagination.maxSize + 1
@@ -93,36 +91,8 @@ export class ChancelleryComponent implements OnInit {
     }
   }
 
-  download(id: number):any {
-    this.requestsService.downloadFile(id)
-      .subscribe((response: Blob) => {
-        let file = new Blob([response], { type: response.type });
-        let fileURL = URL.createObjectURL(file);
-
-        let fileLink = document.createElement('a');
-        fileLink.href = fileURL;
-
-        fileLink.download = `Скан-${id}`;
-
-        fileLink.click();
-      },
-      (error) => {
-        this.error.handling(error)
-      })
-  }
-
-  withdraw(id: number):any {
-    const modalRef = this.modalService.open(WithdrawModalComponent, { size: 'lg', backdrop: 'static' })
-    modalRef.componentInstance.id_document = id
-
-    modalRef.result.then((result) => {
-      this.ngOnInit()
-    }).catch((error) => {
-    });
-  }
-
-  registrationDoc() {
-    const modalRefReg = this.modalService.open(RegistrationModalComponent, { size: 'lg', backdrop: 'static' })
+  addAuthority() {
+    const modalRefReg = this.modalService.open(EditAuthorityComponent, { size: 'lg', backdrop: 'static' })
 
     modalRefReg.result.then((result) => {
       this.ngOnInit()
@@ -130,4 +100,29 @@ export class ChancelleryComponent implements OnInit {
     });
   }
 
+  deleteAuthority(id: number, name: string) {
+    this.confirmaDialog.confirm(`Вы действительно хотите удалить полномочие: <br> <b>${name}</b>?`)
+      .then((confirmed) => {
+        if (confirmed) {
+          this.requestsService.deleteAuthority(id)
+            .subscribe((response) => {
+              this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
+              this.ngOnInit()
+            },
+            (error) => {
+              this.error.handling(error)
+            })
+        }
+      })
+  }
+
+  editAuthority(element) {
+    const modalRef = this.modalService.open(EditAuthorityComponent, { size: 'lg', backdrop: 'static' })
+    modalRef.componentInstance.el = element
+
+    modalRef.result.then((result) => {
+      this.ngOnInit()
+    }).catch((error) => {
+    });
+  }
 }

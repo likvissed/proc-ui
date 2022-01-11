@@ -20,6 +20,7 @@ import { BaseComponent } from './components/auth/base/base.component';
 import { ListComponent } from './components/auth/list/list.component';
 import { ChancelleryComponent } from './components/auth/chancellery/chancellery.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AuthorityComponent } from './components/auth/authority/authority.component';
 
 import { ShortNamePipe } from './shared/shortName.pipe';
 import { NameForStatusPipe } from './shared/nameForStatus.pipe';
@@ -29,6 +30,8 @@ import { DoneModalComponent } from './components/auth/done-modal/done-modal.comp
 import { WithdrawModalComponent } from './components/auth/withdraw-modal/withdraw-modal.component';
 import { RegistrationModalComponent } from './components/auth/registration-modal/registration-modal.component';
 import { NoticeComponent } from './components/notice/notice.component';
+import { EditAuthorityComponent } from './components/auth/edit-authority/edit-authority.component';
+import { ConfirmationDialogComponent } from './components/auth/confirmation-dialog/confirmation-dialog.component';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -47,7 +50,10 @@ registerLocaleData(ruLocale, 'ru')
     WithdrawModalComponent,
     RegistrationModalComponent,
     NotFoundComponent,
-    NoticeComponent
+    NoticeComponent,
+    AuthorityComponent,
+    EditAuthorityComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     HttpClientModule,

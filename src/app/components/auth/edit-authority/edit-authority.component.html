@@ -1,0 +1,97 @@
+<div class="modal-header text-center">
+  <h4 class="modal-title w-100"> {{ name }} </h4>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form">
+
+    <div class="form-row">
+      <div class="form-group col-md-24 col-sm-24">
+        <label for="access" class="col-lg-3 col-md-3 col-sm-3 col-xs-4"> Доступ: </label>
+
+        <div class="col-lg-21 col-md-21 col-sm-20 col-xs-20">
+          <select class="form-control" formControlName="access" (change)="onCheckChange()">
+            <option *ngFor="let select of arr_selected_access" [ngValue]="select.value"> {{select.name}} </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-24">
+        <label for="name" class="col-lg-2"> Наименование: </label>
+      </div>
+
+      <div class="form-group col-md-24 col-sm-24">
+        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24" [ngClass]="{invalid: form.get('name').touched && form.get('name').invalid}">
+          <div >
+            <textarea id="name" type="text" placeholder="" formControlName="name" class="form-control"> </textarea>
+            <div
+                class="validation"
+                *ngIf="form.get('name').touched && form.get('name').invalid"
+              >
+                <small *ngIf="form.get('name').errors.required"> Не может быть пустым  </small>
+                <small *ngIf="form.get('name').errors.maxlength">
+                  Пожалуйста, введите не более {{ form.get('name').errors.maxlength.requiredLength }} символов.
+                  Сейчас он его длина равна {{ form.get('name').errors.maxlength.actualLength }} символа
+                </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-24 col-sm-24">
+
+        <div *ngIf="!form.value.access">
+          <div class="col-lg-24 col-sm-24 col-xs-24">
+            <button class="btn btn-outline-primary float-right" type="button" (click)="onAddSTns()"> Добавить таб.номер </button>
+          </div>
+
+          <div class="text-center" *ngIf="getFormsArray()['controls'].length">
+            <label class="col-lg-24"> Список табельных номеров: </label>
+          </div>
+          <div formArrayName="tns">
+            <div *ngFor="let el of getFormsArray()['controls']; let i = index">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td class="col-xs-1 col-lg-1" style="padding-left: 10px;"> {{ i + 1 }} </td>
+                    <td class="col-xs-17 col-sm-18 col-lg-20 col-md-20">
+                      <div [ngClass]="{invalid: getFormsArray()['controls'][i].touched && getFormsArray()['controls'][i].invalid}">
+
+                        <input class="form-control" type="text" formControlName="{{i}}">
+                        <div
+                          class="validation"
+                          *ngIf="getFormsArray()['controls'][i].touched && getFormsArray()['controls'][i].invalid"
+                        >
+                          <small *ngIf="getFormsArray()['controls'][i].errors.required"> Не может быть пустым</small>
+                          <small *ngIf="getFormsArray()['controls'][i].errors.pattern"> Может содержать только цифры </small>
+                          <small *ngIf="getFormsArray()['controls'][i].errors.maxlength">
+                            Табельный номер должен быть не более {{ getFormsArray()['controls'][i].errors.maxlength.requiredLength }} символов
+                          </small>
+                        </div>
+
+                      </div>
+                    </td>
+                    <td class="col-xs-2 col-sm-3 col-lg-2 col-md-3">
+                      <button class="input-group-text btn btn-outline-danger" (click)="onRemoveTns(i)"> Удалить </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-success" [disabled]="form.invalid" (click)="save()"> Сохранить </button>
+  <button (click)="activeModal.dismiss()" class="btn btn-outline-secondary px-2 "> Закрыть </button>
+</div>

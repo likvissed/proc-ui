@@ -8,6 +8,7 @@ import { BaseComponent } from './components/auth/base/base.component';
 import { ListComponent } from './components/auth/list/list.component';
 import { RequestResolver } from './shared/requests.resolver';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AuthorityComponent } from './components/auth/authority/authority.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
       { path: 'new', component: NewComponent, canActivate: [AuthCenterGuard] },
       { path: 'new/:id', component: NewComponent, resolve: { presentRequest: RequestResolver }, canActivate: [AuthCenterGuard] },
       { path: 'list', component: ListComponent, canActivate: [AuthCenterGuard] },
-      { path: 'chancellery', component: ChancelleryComponent, canActivate: [AuthCenterGuard] }
+      { path: 'chancellery', component: ChancelleryComponent, canActivate: [AuthCenterGuard] },
+      { path: 'authority', component: AuthorityComponent, canActivate: [AuthCenterGuard] }
     ]
   },
   { path: 'not_found', component: NotFoundComponent },

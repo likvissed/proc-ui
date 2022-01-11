@@ -6,6 +6,7 @@ import { AuthHelper } from '@iss/ng-auth-center';
 import { RequestsService } from '../../../services/requests.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ErrorService } from 'src/app/services/error.service';
+import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
 
 @Component({
   selector: 'app-list',
@@ -20,7 +21,8 @@ export class ListComponent implements OnInit {
     private router: Router,
     private authHelper: AuthHelper,
     private notification: NotificationService,
-    private error: ErrorService
+    private error: ErrorService,
+    private confirmaDialog: ConfirmationDialogService
   ) { }
 
   lists
@@ -64,6 +66,11 @@ export class ListComponent implements OnInit {
         this.pagination.currentPage,
         this.pagination.maxSize
       ).subscribe((response) => {
+      if (!response.lists) {
+        this.error.handling(response)
+        return
+      }
+
       this.lists = response.lists
       this.pagination.totalItems = response.totalItems
       this.pagination.recordsFiltered = response.recordsFiltered
@@ -124,16 +131,19 @@ export class ListComponent implements OnInit {
 
   // Удалить доверенность
   deleteDoc(id: number): void {
-    if(confirm(`Вы действительно хотите удалить "Доверенность_${id}.pdf"?`)) {
-      this.requestsService.deleteDocument(id)
-      .subscribe((response) => {
-        this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
-
-        this.ngOnInit()
-      },
-      (error) => {
-        this.error.handling(error)
+    this.confirmaDialog.confirm(`Вы действительно хотите удалить доверенность № <b>${id}</b>?`)
+      .then((confirmed) => {
+        if (confirmed) {
+          this.requestsService.deleteDocument(id)
+            .subscribe((response) => {
+              this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
+              this.ngOnInit()
+            },
+            (error) => {
+              this.error.handling(error)
+            })
+        }
       })
-    }
   }
+
 }

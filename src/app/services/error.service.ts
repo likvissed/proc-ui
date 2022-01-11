@@ -12,6 +12,11 @@ export class ErrorService {
 
   handling(response) {
     switch (response.status) {
+      case undefined: // Сервер отправил невалидные данные
+          console.error(response)
+
+          this.notification.show('Ошибка загрузки данных с сервера. Попробуйте перезагрузить страницу', { classname: 'bg-danger text-light', headertext: 'Данные не загружены' });
+          break;
       case 401: // Авторизация
           this.notification.show('Авторизуйтесь снова', { classname: 'bg-warning', headertext: 'Не авторизован' });
           this.authHelper.logout();

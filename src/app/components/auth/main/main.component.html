@@ -26,6 +26,9 @@
     <li routerLinkActive="active" *ngIf="access_to_chancellery">
       <a [routerLink]="['/chancellery']"> Канцелярия </a>
     </li>
+    <li routerLinkActive="active" *ngIf="access_to_duties">
+      <a [routerLink]="['/authority']"> Полномочия </a>
+    </li>
 
   </ul>
 </nav>
