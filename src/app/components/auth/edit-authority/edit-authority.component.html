@@ -25,7 +25,7 @@
       <div class="form-group col-md-24 col-sm-24">
         <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24" [ngClass]="{invalid: form.get('name').touched && form.get('name').invalid}">
           <div >
-            <textarea id="name" type="text" placeholder="" formControlName="name" class="form-control"> </textarea>
+            <textarea id="name" type="text" placeholder="" formControlName="name" class="form-control" rows="5"> </textarea>
             <div
                 class="validation"
                 *ngIf="form.get('name').touched && form.get('name').invalid"
@@ -92,6 +92,6 @@
 </div>
 
 <div class="modal-footer">
-  <button class="btn btn-outline-success" [disabled]="form.invalid" (click)="save()"> Сохранить </button>
+  <button class="btn btn-outline-success" [disabled]="form.invalid" (click)="save()"> Подтвердить </button>
   <button (click)="activeModal.dismiss()" class="btn btn-outline-secondary px-2 "> Закрыть </button>
 </div>

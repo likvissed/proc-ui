@@ -47,7 +47,7 @@ export class EditAuthorityComponent implements OnInit {
       if (this.el.tn) {
         this.form.controls['access'].setValue(false)
 
-        let array_tn = this.el.tn.split(',');
+        let array_tn = this.el.tn.split(', ');
 
         // Удаление первого пустого элемента в массиве
         // this.form.controls['tns'].removeAt(0);

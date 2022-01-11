@@ -43,10 +43,12 @@
               <tr *ngFor="let el of lists; let idx = index">
                 <td class="text-center col-lg-1 col-sm-1 col-xs-1"> {{ pagination.startRecord + idx }} </td>
                 <td class="col-lg-25 col-sm-25 col-xs-25"> {{ el.duty }} </td>
-                <td class="text-center col-lg-1 col-sm-1 col-xs-1"> {{ el.tn }} </td>
+                <td class="text-center col-lg-3 col-sm-3 col-xs-3">
+                  {{ el.tn }}
+                </td>
                 <td class="text-center col-lg-1 col-sm-1 col-xs-1">
                   <span *ngIf="el.state == 0" class='badge badge-info'> Новое </span>
-                  <span *ngIf="el.state == 1" class='badge badge-success'> Одобренное </span>
+                  <span *ngIf="el.state == 1" class='badge badge-success'> Подтверждённое </span>
                 </td>
                 <td class="pointer col-lg-1 col-sm-1 col-xs-1 text-center">
                   <i class="bi bi-pencil-square" (click)="editAuthority(el)" ngbPopover="Редактировать" triggers="mouseenter:mouseleave"></i>

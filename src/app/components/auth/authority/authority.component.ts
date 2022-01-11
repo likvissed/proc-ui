@@ -29,7 +29,7 @@ export class AuthorityComponent implements OnInit {
     { disabled: 1, value: '', name: 'Выберите статус' },
     { disabled: 0, value: '', name: 'Все статусы' },
     { disabled: 0, value: 0, name: 'Новое' },
-    { disabled: 0, value: 1, name: 'Одобренное' }
+    { disabled: 0, value: 1, name: 'Подтверждённое' }
   ]
 
   filters = {

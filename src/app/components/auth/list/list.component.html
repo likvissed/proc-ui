@@ -55,7 +55,7 @@
                   <td class="col-lg-2 text-center"> {{ list.date | date:'short' }} </td>
                   <td class="col-lg-2 text-center"> <button class="btn btn-outline-info btn-sm" type="submit" (click)="createOnBase(list.id)"> Создать </button> </td>
                   <td class="col-lg-4 text-center" *ngIf="list.state == 1 || list.state == 5; else notDownload">
-                    <span >
+                    <span>
                       <button class="btn btn-outline-primary btn-sm" type="submit" (click)="downloadDoc(list.id, list.state)">
                         Скачать
                         <ng-container *ngIf="list.state == 1; else elseStateFive">
@@ -115,9 +115,9 @@
 </ng-template>
 
 <ng-template #notDownload>
-  <div class="text-center">
+  <td class="text-center">
     <p> Нет возможности </p>
-  </div>
+  </td>
 </ng-template>
 
 <ng-template #descriptionStatus let-list='list' >
