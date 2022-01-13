@@ -2,11 +2,13 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { AuthHelper } from '@iss/ng-auth-center';
 
 import { Request } from '../../../interfaces';
 import { MomentDateFormatter } from '../../../shared/dateFormat';
+import { DateAdapter } from 'src/app/shared/dateAdapter';
 
 import { RequestsService } from '../../../services/requests.service';
 import { UsersReferenceService } from 'src/app/services/users-reference.service';
@@ -22,7 +24,11 @@ import { TemplateModalComponent } from './../template-modal/template-modal.compo
   providers: [
     {
       provide: NgbDateParserFormatter,
-      useValue: new MomentDateFormatter
+      useValue: new MomentDateFormatter // Для отображения даты
+    },
+    {
+      provide: NgbDateAdapter,
+      useValue: new DateAdapter // Для преобразования модели в формат "гггг-мм-дд"
     }
    ]
   // encapsulation: ViewEncapsulation.None
@@ -95,9 +101,9 @@ export class NewComponent implements OnInit {
         this.form.controls['tn'].setValue(data.presentRequest.tn);
         this.form.controls['sn_passport'].setValue(data.presentRequest.sn_passport);
         this.form.controls['passport_issued'].setValue(data.presentRequest.passport_issued);
-        this.form.controls['date_passport'].setValue(this.strToDate(data.presentRequest.date_passport));
+        this.form.controls['date_passport'].setValue(data.presentRequest.date_passport);
         this.form.controls['code_passport'].setValue(data.presentRequest.code_passport);
-        this.form.controls['date_start'].setValue(this.strToDate(data.presentRequest.date_start));
+        this.form.controls['date_start'].setValue(data.presentRequest.date_start);
         this.form.controls['select_time'].setValue(data.presentRequest.select_time);
         this.form.controls['general'].setValue(data.presentRequest.general);
 
@@ -135,17 +141,6 @@ export class NewComponent implements OnInit {
 
     // Очистить поле ввода полномочий
     this.selected = []
-  }
-
-  // Получить из строки 'гггг-мм-дд' объект даты для отображения в календаре
-  strToDate(str: string) {
-    let date = new Date(str)
-
-    return {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1, // January is month 0
-      day: date.getDate()
-    }
   }
 
   titleCaseWord(word: string) {
@@ -191,8 +186,6 @@ export class NewComponent implements OnInit {
         this.form.controls['profession'].setValue('')
 
         this.lists = []
-
-
       }
     })
   }
@@ -212,24 +205,6 @@ export class NewComponent implements OnInit {
     return this.form.controls['array_authority'] as FormArray;
   }
 
-  datePassportSelect(event) {
-    let year = event.year;
-    let month = event.month <= 9 ? '0' + event.month : event.month;;
-    let day = event.day <= 9 ? '0' + event.day : event.day;;
-    let finalDate = day + "-" + month + "-" + year;
-
-    this.form.controls['date_passport'] = new FormControl(finalDate);
-  }
-
-  dateToString(date) {
-    let year = date.year;
-    let month = date.month <= 9 ? '0' + date.month : date.month;;
-    let day = date.day <= 9 ? '0' + date.day : date.day;;
-    let finalDate = year + "-" + month + "-" + day;
-
-    return finalDate
-  }
-
   submit() {
     if (this.form.invalid) {
       this.notification.show('Заполнены не все данные для доверенности', { classname: 'bg-danger text-light', headertext: 'Внимание' });
@@ -237,40 +212,11 @@ export class NewComponent implements OnInit {
     }
     this.submitted = true;
 
-    let date_passport = this.dateToString(this.form.value.date_passport)
-    let date_start = this.dateToString(this.form.value.date_start)
-
-    const req : Request = {
-      tn: this.form.value.tn,
-      sn_passport: this.form.value.sn_passport,
-      passport_issued: this.form.value.passport_issued,
-      date_passport: date_passport,
-      code_passport: this.form.value.code_passport,
-      date_start: date_start,
-      select_time: this.form.value.select_time,
-      general: this.form.value.general,
-      array_authority: this.form.value.array_authority,
-
-      fio: this.form.value.fio,
-      login: this.form.value.login,
-      profession: this.form.value.profession,
-      case_fio: this.form.value.case_fio,
-      case_prof: this.form.value.case_prof,
-      genitive_fio: this.form.value.genitive_fio,
-      dative_last_name: this.form.value.dative_last_name,
-      dative_name: this.form.value.dative_name,
-      dative_middle_name: this.form.value.dative_middle_name,
-
-      author_tn: this.form.value.author_tn,
-      author_fio: this.form.value.author_fio,
-      author_login: this.form.value.author_login
-    }
-
-     this.requestsService.templateFile(req)
+     this.requestsService.templateFile(this.form.getRawValue())
       .subscribe((response) => {
         const modalRef = this.modalService.open(TemplateModalComponent, { size: 'xl', scrollable: true, backdrop: 'static' })
         modalRef.componentInstance.templateFile = response
-        modalRef.componentInstance.request = req
+        modalRef.componentInstance.request = this.form.getRawValue()
 
         this.submitted = false
       },
