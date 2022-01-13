@@ -38,62 +38,103 @@ footer {
 
 // ----------------------------Шапка, навигация и футер---------------------------------------
 
-.bg-font {
-  background: var(--header-color);
-  color: #fff;
-}
-
 .bg-nav-font {
   background: #b8cee4af;
 }
 
-.navbar {
-  border-radius: 0px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.7rem 2rem;
-  z-index: 1;
-  width: 100%;
-  opacity: 0.9;
-  margin-bottom: 0px;
+.container-header {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
-  &.main {
-    justify-content: center;
+@media (min-width: 768px) {
+  .container-header {
+    width: 740px;
+  }
+}
+@media (min-width: 992px) {
+  .container-header {
+    width: 960px;
+  }
+}
+@media (min-width: 1200px) {
+  .container-header {
+    width: 1160px;
   }
 }
 
-.navbar-brand-logo {
-  margin-right: 15px;
-  display: table-cell;
-
-  img {
-    max-height: 45px;
-    margin: 5px 0;
-  }
+.spinner-border {
+  margin-left: 10px;
 }
 
-.navbar-title-content {
-  padding: 5px 25px;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+.header {
+  overflow: hidden;
+  background: var(--header-color);
+  color: #fff;
+  padding: 10px 10px;
 
   a {
-    display: block;
-    color: #fff;
+    float: left;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
     font-size: 22px;
+    line-height: 25px;
+    border-radius: 0px;
+
+    padding: 5px 25px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+
+    // display: block;
+    color: #fff;
     cursor: pointer;
-    text-decoration: none !important;
 
     &:hover {
       color: #e6ebeb;
       text-decoration: none !important;
     }
   }
-}
 
-.navbar-header-user {
-  padding: 0 10px;
+  img {
+    float: left;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 22px;
+    line-height: 25px;
+    border-radius: 0px;
+
+    padding: 5px 25px;
+  }
+
+  .header-user {
+    float: right;
+    text-align: center;
+    padding: 9px;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 25px;
+    border-radius: 0px;
+  }
+
+  @media (min-width: 768px) {
+    .logo {
+      margin-left: 50px;
+    }
+  }
+  @media (min-width: 992px) {
+    .logo {
+      margin-left: 200px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .logo {
+      margin-left: 284px;
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------------------------

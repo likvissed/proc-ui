@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +24,8 @@ import { AuthorityComponent } from './components/auth/authority/authority.compon
 
 import { ShortNamePipe } from './shared/shortName.pipe';
 import { NameForStatusPipe } from './shared/nameForStatus.pipe';
+
+import { LoadingInterceptor } from './shared/loading-interceptor';
 
 import { TemplateModalComponent } from './components/auth/template-modal/template-modal.component';
 import { DoneModalComponent } from './components/auth/done-modal/done-modal.component';
@@ -66,7 +68,8 @@ registerLocaleData(ruLocale, 'ru')
     NgbModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'ru-RU' }
+    { provide: LOCALE_ID, useValue: 'ru-RU' },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
   entryComponents: [

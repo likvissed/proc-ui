@@ -1,19 +1,24 @@
-<nav class="navbar bg-font main">
-  <div class="navbar-brand-logo">
-    <img src="assets/images/logo-iss.svg">
-  </div>
+<div class="header">
+  <div class="container-header">
 
-  <div class="navbar-title-content">
-    <a routerLink="/"> Формирование доверенности </a>
-  </div>
+    <div class="logo">
+      <img src="assets/images/logo-iss.svg">
+      <a routerLink="/"> Формирование доверенности </a>
 
-  <div class="navbar-header-user" *ngIf="isAuthenticated">
-    <span> {{ fio_initials }} </span>
-    <span (click)="logout()" class="pointer">
-      <i class="bi bi-box-arrow-in-right"></i>
-    </span>
+      <div class="header-user" *ngIf="isAuthenticated">
+        <span> {{ fio_initials }} </span>
+        <span (click)="logout()" class="pointer">
+          <i class="bi bi-box-arrow-in-right"></i>
+        </span>
+      </div>
+
+      <div [hidden]="!loading">
+        <div class="spinner-border text-light" role="status"></div>
+      </div>
+
+    </div>
   </div>
-</nav>
+</div>
 
 <nav class="bg-nav-font">
   <ul class="nav navbar-tabs">

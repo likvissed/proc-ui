@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { AuthHelper } from '@iss/ng-auth-center';
+
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-main',
@@ -10,8 +12,12 @@ import { AuthHelper } from '@iss/ng-auth-center';
 export class MainComponent implements OnInit {
 
   constructor(
-    private authHelper: AuthHelper
-  ) { }
+    private authHelper: AuthHelper,
+    private loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  loading: boolean = false;
 
   isAuthenticated
 
@@ -20,6 +26,13 @@ export class MainComponent implements OnInit {
   access_to_duties
 
   ngOnInit(): void {
+    this.loadingService.isLoading$.subscribe(value =>{
+      this.loading = value;
+
+      // Для запуска обнаружения изменений
+      this.cdr.detectChanges();
+    });
+
     this.authHelper.isAuthenticated$.subscribe(isAuth => {
       this.isAuthenticated = isAuth
 
