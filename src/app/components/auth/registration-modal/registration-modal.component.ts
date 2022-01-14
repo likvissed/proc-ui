@@ -75,6 +75,8 @@ export class RegistrationModalComponent implements OnInit {
   uploadFile(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     let file: File | null = element.files[0];
+    console.log('element', element.files);
+    console.log('file', file);
 
     if (!file) {
       this.form.setControl('file_name', new FormControl(this.default_file_name))
