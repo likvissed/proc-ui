@@ -94,7 +94,8 @@ export class RegistrationModalComponent implements OnInit {
 
   saveFile() {
     if (this.form.invalid) {
-      return
+      // return
+      console.log(this.form)
     }
 
     this.formData.delete('id')
