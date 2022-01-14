@@ -75,17 +75,24 @@ export class RegistrationModalComponent implements OnInit {
   uploadFile(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     let file: File | null = element.files[0];
-    console.log('element', element.files);
-    console.log('file', file);
 
     if (!file) {
-      this.form.setControl('file_name', new FormControl(this.default_file_name))
+      this.form.controls['file_name'].setValue(this.default_file_name)
       this.notification.show('Загрузка файла не удалась. Попробуйте снова', { classname: 'bg-warning', headertext: 'Внимание'});
 
       return false;
     }
 
-    this.form.setControl('file_name', new FormControl(file.name))
+    // Перевести размер загруженного файла из байт в Мб
+    let file_size = file.size / 1024 / 1024;
+    if (file_size > 20) {
+      this.notification.show('Невозможно загрузить файл, размером больше 20 мегабайт', { classname: 'bg-danger text-light', headertext: 'Внимание'});
+      this.form.controls['file'].setValue(null)
+
+      return false;
+    }
+
+    this.form.controls['file_name'].setValue(file.name)
 
     this.formData.append(
       'file',
@@ -94,12 +101,11 @@ export class RegistrationModalComponent implements OnInit {
     );
   }
 
-  saveFile() {
-    if (this.form.invalid) {
-      // return
-      console.log(this.form)
-    }
+  writeLog() {
+    console.log(this.form)
+  }
 
+  saveFile() {
     this.formData.delete('id')
     this.formData.delete('deloved_id')
 

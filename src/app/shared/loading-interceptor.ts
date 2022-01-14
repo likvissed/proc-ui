@@ -19,23 +19,23 @@ export class LoadingInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     this.loadingService.setLoading(true);
 
+    // return next.handle(request).pipe(
+    //   tap(event => {
+    //     if (event.type === HttpEventType.Response) {
+    //       this.loadingService.setLoading(false);
+    //     }
+    //   })
+    // )
+
+    this.totalRequests++;
+
     return next.handle(request).pipe(
-      tap(event => {
-        if (event.type === HttpEventType.Response) {
+      finalize(() => {
+        this.totalRequests--;
+        if (this.totalRequests === 0) {
           this.loadingService.setLoading(false);
         }
       })
-    )
-
-    // this.totalRequests++;
-
-    // return next.handle(request).pipe(
-    //   finalize(() => {
-    //     this.totalRequests--;
-    //     if (this.totalRequests === 0) {
-    //       // this.loadingService.setLoading(false);
-    //     }
-    //   })
-    // );
+    );
   }
 }
