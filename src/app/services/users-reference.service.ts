@@ -16,15 +16,15 @@ export class UsersReferenceService {
   // Получить новый токен
   getNewToken():any {
     const headers = new HttpHeaders()
-      .set('X-Auth-Username', environment.nameUserHr)
-      .set('X-Auth-Password', environment.passwordUserHr);
+      // .set('X-Auth-Username', environment.nameUserHr)
+      // .set('X-Auth-Password', environment.passwordUserHr);
 
-    return this.http.post(`${environment.usersReferenceUrl}/login`, {}, { headers } )
+    return this.http.post(`/login`, {}, { headers } )
   }
 
   // Запрос в НСИ по таб.номеру
   findUser(tn: number):any {
-    return this.http.get(`${environment.usersReferenceUrl}/emp?search=personnelNo==${tn}`, {
+    return this.http.get(`/emp?search=personnelNo==${tn}`, {
       headers: new HttpHeaders({
         'X-Auth-Token': localStorage.getItem('token_hr')
       })
@@ -33,7 +33,7 @@ export class UsersReferenceService {
 
   // Запрос в НСИ по id_tn
   findUserEmp(id_tn: number):any {
-    return this.http.get(`${environment.usersReferenceUrl}/emp/${id_tn}`, {
+    return this.http.get(`/emp/${id_tn}`, {
       headers: new HttpHeaders({
         'X-Auth-Token': localStorage.getItem('token_hr')
       })

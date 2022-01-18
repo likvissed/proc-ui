@@ -123,4 +123,12 @@ export class RequestsService {
 
     return this.http.put(`${environment.apiUrl}/edit_duty`, data , { headers })
   }
+
+  // Найти пользователя в НСИ по таб.номеру
+  findUserByTn(tn: number): any {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    return this.http.get(`${environment.apiUrl}/tn_search?tn=${tn}`, { headers })
+  }
 }

@@ -82,13 +82,6 @@ export class NewComponent implements OnInit {
       // Данные, которые получаем из НСИ для доверенного лица
       fio: [null, [Validators.required]],
       login: [null, [Validators.required]],
-      profession: [null, [Validators.required]],
-      case_fio: [null, [Validators.required]],
-      case_prof: [null, [Validators.required]],
-      genitive_fio: [null, [Validators.required]],
-      dative_last_name: [null, [Validators.required]],
-      dative_name: [null, [Validators.required]],
-      dative_middle_name: [null, [Validators.required]],
 
       // Данные, которые получаем из НСИ для составителя доверенности
       author_tn: [this.authHelper.getJwtPayload()['tn'], [Validators.required]],
@@ -150,40 +143,16 @@ export class NewComponent implements OnInit {
 
   // Поиск пользователя и список полномочий для него
   findUser() {
-    this.userReference.findUserByTn(this.form.value.tn).subscribe(user => {
-      if (user.length) {
-        this.form.controls['fio'].setValue(user[0]['fullName'])
-        this.form.controls['login'].setValue(user[0]['login'])
-        this.form.controls['profession'].setValue(this.titleCaseWord(user[0]['professionForDocuments']))
-
-
-        this.userReference.findUserById(user[0]['id']).subscribe(user => {
-          if (user) {
-            this.form.controls['case_prof'].setValue(user['employeePositions'][0]['professionDeclensions']['accusativeProfession'])
-
-            let employeeDeclensions = user['employeeDeclensions']
-            this.form.controls['case_fio'].setValue(`${this.titleCaseWord(employeeDeclensions['accusativeLastName'])} ${this.titleCaseWord(employeeDeclensions['accusativeName'])} ${this.titleCaseWord(employeeDeclensions['accusativeMiddleName'])}`)
-            this.form.controls['genitive_fio'].setValue(employeeDeclensions['genitiveLastName'])
-
-            this.form.controls['dative_last_name'].setValue(employeeDeclensions['dativeLastName'])
-            this.form.controls['dative_name'].setValue(employeeDeclensions['dativeName'])
-            this.form.controls['dative_middle_name'].setValue(employeeDeclensions['dativeMiddleName'])
-
-          } else {
-            this.form.controls['case_prof'].setValue('')
-            this.form.controls['case_fio'].setValue('')
-            this.form.controls['genitive_fio'].setValue('')
-            this.form.controls['dative_last_name'].setValue('')
-            this.form.controls['dative_name'].setValue('')
-            this.form.controls['dative_middle_name'].setValue('')
-          }
-        })
+    this.requestsService.findUserByTn(this.form.value.tn).subscribe(user => {
+      if (user) {
+        // console.log('user', user)
+        this.form.controls['fio'].setValue(user.fio)
+        this.form.controls['login'].setValue(user.login)
 
         this.getDuties()
       } else {
         this.form.controls['fio'].setValue('')
         this.form.controls['login'].setValue('')
-        this.form.controls['profession'].setValue('')
 
         this.lists = []
       }

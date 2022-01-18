@@ -15,11 +15,7 @@ export const environment = {
       disallowedRoutes: []
     }
   },
-  apiUrl: 'https://proc-api.***REMOVED***',
-
-  usersReferenceUrl: 'https://hr.***REMOVED***/ref-info/api',
-  nameUserHr: 'Operator7141',
-  passwordUserHr: 'Operator7141@714'
+  apiUrl: 'https://proc-api.***REMOVED***'
 };
 
 /*

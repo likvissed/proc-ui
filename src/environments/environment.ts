@@ -16,13 +16,7 @@ export const environment = {
     }
   },
 
-  apiUrl: 'https://vm713.***REMOVED***:24026',
-  usersReferenceUrl: 'https://hr.***REMOVED***/ref-info/api',
-
-  nameUserHr: 'Operator7141',
-  passwordUserHr: 'Operator7141@714'
-  // example: process.env.HR_NAME_USER
-  // passwordUserHr: process.env.HR_PASSWORD
+  apiUrl: 'https://vm713.***REMOVED***:24026'
 };
 
 /*

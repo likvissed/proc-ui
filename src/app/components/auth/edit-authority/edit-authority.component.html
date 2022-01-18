@@ -58,10 +58,10 @@
                 <tbody>
                   <tr>
                     <td class="col-xs-1 col-lg-1" style="padding-left: 10px;"> {{ i + 1 }} </td>
-                    <td class="col-xs-17 col-sm-18 col-lg-20 col-md-20">
-                      <div [ngClass]="{invalid: getFormsArray()['controls'][i].touched && getFormsArray()['controls'][i].invalid, valid: getFormsArray()['controls'][i].touched && getFormsArray()['controls'][i].valid}">
+                    <td class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                      <div [ngClass]="{invalid: (getFormsArray()['controls'][i].touched && getFormsArray()['controls'][i].invalid) || (getFormsArray()['controls'][i].touched && fullnames[i] == user_not_found), valid: getFormsArray()['controls'][i].touched && getFormsArray()['controls'][i].valid && fullnames[i] != user_not_found }">
 
-                        <input class="form-control" type="text" formControlName="{{i}}">
+                        <input class="form-control" type="text" formControlName="{{i}}" (ngModelChange)="onChangeTn(i, getFormsArray()['controls'][i].value)">
                         <div
                           class="validation"
                           *ngIf="getFormsArray()['controls'][i].touched && getFormsArray()['controls'][i].invalid"
@@ -74,6 +74,10 @@
                         </div>
 
                       </div>
+                    </td>
+
+                    <td class="col-xs-8 col-sm-8 col-lg-8 col-md-8" style="padding-left: 10px;">
+                      <label> {{ fullnames[i] }} </label>
                     </td>
                     <td class="col-xs-2 col-sm-3 col-lg-2 col-md-3">
                       <button class="input-group-text btn btn-outline-danger" (click)="onRemoveTns(i)"> Удалить </button>

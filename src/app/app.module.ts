@@ -24,6 +24,7 @@ import { AuthorityComponent } from './components/auth/authority/authority.compon
 
 import { ShortNamePipe } from './shared/shortName.pipe';
 import { NameForStatusPipe } from './shared/nameForStatus.pipe';
+import { FioForAuthorityPipe } from './shared/fio-for-authority.pipe';
 
 import { LoadingInterceptor } from './shared/loading-interceptor';
 
@@ -55,7 +56,8 @@ registerLocaleData(ruLocale, 'ru')
     NoticeComponent,
     AuthorityComponent,
     EditAuthorityComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    FioForAuthorityPipe
   ],
   imports: [
     HttpClientModule,

@@ -11,13 +11,6 @@ export interface Request {
 
   fio: string,
   login: string,
-  profession: string,
-  case_fio: string,
-  case_prof: string,
-  genitive_fio: string,
-  dative_last_name: string,
-  dative_name: string,
-  dative_middle_name: string,
 
   author_tn: number,
   author_fio: string,

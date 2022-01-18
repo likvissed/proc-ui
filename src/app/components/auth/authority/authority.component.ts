@@ -33,7 +33,7 @@ export class AuthorityComponent implements OnInit {
   ]
 
   filters = {
-    tn: '',
+    fio: '',
     status: this.statuses[0].value,
     duty: ''
   }

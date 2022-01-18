@@ -6,7 +6,7 @@
       </span>
 
       <span class="col-lg-2">
-        <input type="text" placeholder="Табельный номер" [(ngModel)]="filters.tn" (ngModelChange)="filterChange()" class="form-control input-sm ">
+        <input type="text" placeholder="ФИО" [(ngModel)]="filters.fio" (ngModelChange)="filterChange()" class="form-control input-sm ">
       </span>
 
       <span class="col-lg-2">
@@ -32,7 +32,7 @@
               <tr>
                 <td class="text-center"> № </td>
                 <th> Наименование </th>
-                <th class="text-center"> Таб.номер </th>
+                <th class="text-center"> ФИО </th>
                 <th class="text-center"> Статус </th>
                 <th></th>
                 <th></th>
@@ -43,8 +43,8 @@
               <tr *ngFor="let el of lists; let idx = index">
                 <td class="text-center col-lg-1 col-sm-1 col-xs-1"> {{ pagination.startRecord + idx }} </td>
                 <td class="col-lg-25 col-sm-25 col-xs-25"> {{ el.duty }} </td>
-                <td class="text-center col-lg-3 col-sm-3 col-xs-3">
-                  {{ el.tn }}
+                <td class="text-center col-lg-4 col-sm-4 col-xs-4">
+                  {{ el.data | fioForAuthority }}
                 </td>
                 <td class="text-center col-lg-1 col-sm-1 col-xs-1">
                   <span *ngIf="el.state == 0" class='badge badge-info'> Новое </span>
@@ -85,7 +85,7 @@
 
 <ng-template #noList>
   <div class="card-title text-center">
-    <span *ngIf="filters.tn == '' && filters.status == '' && filters.duty == ''; else isBlank">
+    <span *ngIf="filters.fio == '' && filters.status == '' && filters.duty == ''; else isBlank">
       <h4> Список доверенностей отсутствует </h4>
     </span>
   </div>

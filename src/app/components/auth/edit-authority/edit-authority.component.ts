@@ -30,11 +30,14 @@ export class EditAuthorityComponent implements OnInit {
     { value: false, name: 'Ограничение по таб.номеру'}
   ]
 
+  fullnames = []
+  user_not_found = 'Пользователь не найден'
+
   ngOnInit(): void {
 
     this.form = this.formBuilder.group({
       id: [null],
-      access: new FormControl(true),
+      access: new FormControl(false),
       name: new FormControl(null, [Validators.required, Validators.maxLength(700)]),
       tns: new FormArray([])
     })
@@ -44,22 +47,34 @@ export class EditAuthorityComponent implements OnInit {
       this.form.controls['id'].setValue(this.el.id)
       this.form.controls['name'].setValue(this.el.duty)
 
-      if (this.el.tn) {
-        this.form.controls['access'].setValue(false)
-
-        let array_tn = this.el.tn.split(', ');
-
+      if (this.el.data.length) {
         // Удаление первого пустого элемента в массиве
         // this.form.controls['tns'].removeAt(0);
         (<FormArray>this.form.controls["tns"]).removeAt(0)
 
-        array_tn.forEach((value) => {
+        this.form.controls['access'].setValue(false)
+
+        // Заполнение ФИО для каждого табельного номер
+        this.el.data.forEach((value) => {
+          this.findUser(value.tn).subscribe((response) => {
+            this.fullnames.push(response.fio)
+          },
+          (error) => {
+            this.error.handling(error)
+          })
+        });
+
+        this.el.data.forEach((value) => {
           // this.form.controls.tns.push(new FormControl(value, [Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")]));
-          (<FormArray>this.form.controls['tns']).push(new FormControl(value, [Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")]));
+          (<FormArray>this.form.controls['tns']).push(new FormControl(value.tn, [Validators.required, Validators.maxLength(10), Validators.pattern("^[0-9]*$")]));
         });
       }
 
     }
+  }
+
+  findUser(tn: number) {
+    return this.requestsService.findUserByTn(tn)
   }
 
   closeModal() {
@@ -109,7 +124,22 @@ export class EditAuthorityComponent implements OnInit {
     }
   }
 
-  getFormsArray() : FormArray {
+  getFormsArray(): FormArray {
     return this.form.controls['tns'] as FormArray;
+  }
+
+  onChangeTn(index, value) {
+    if (value) {
+      this.findUser(value).subscribe((response) => {
+        if (response.fio) {
+          this.fullnames[index] = response.fio
+        } else {
+          this.fullnames[index] = 'Пользователь не найден'
+        }
+      },
+      (error) => {
+        this.error.handling(error)
+      })
+    }
   }
 }
