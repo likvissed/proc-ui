@@ -37,7 +37,7 @@ export class EditAuthorityComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       id: [null],
-      access: new FormControl(false),
+      access: new FormControl(true),
       name: new FormControl(null, [Validators.required, Validators.maxLength(700)]),
       tns: new FormArray([])
     })
