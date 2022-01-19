@@ -116,6 +116,7 @@ export class EditAuthorityComponent implements OnInit {
 
   onRemoveTns (index) {
     (<FormArray>this.form.controls["tns"]).removeAt(index)
+    this.fullnames.splice(index, 1)
   }
 
   onCheckChange() {
