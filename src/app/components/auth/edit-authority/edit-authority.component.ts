@@ -56,12 +56,7 @@ export class EditAuthorityComponent implements OnInit {
 
         // Заполнение ФИО для каждого табельного номер
         this.el.data.forEach((value) => {
-          this.findUser(value.tn).subscribe((response) => {
-            this.fullnames.push(response.fio)
-          },
-          (error) => {
-            this.error.handling(error)
-          })
+          this.fullnames.push(value.fullname)
         });
 
         this.el.data.forEach((value) => {
