@@ -13,6 +13,7 @@ import { of, throwError } from 'rxjs';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 
 let jwt_for_user = {
   access_to_chancellery: true,
@@ -74,6 +75,8 @@ describe('ChancelleryComponent', () => {
     recordsFiltered: 4,
     totalItems: 4
   }
+
+  // --------------------------------------------------------------- Unit-tests --------------------------------------------------------------- //
 
   it('should create component', () => {
     expect(component).toBeTruthy();
@@ -164,6 +167,20 @@ describe('ChancelleryComponent', () => {
 
       expect(requestsService.deleteDocument).not.toHaveBeenCalled();
     });
+  });
+
+  // --------------------------------------------------------------- HTML elements --------------------------------------------------------------- //
+
+  it ('variable lists is undefined', () => {
+    expect(fixture.debugElement.query(By.css('.table'))).toBeNull();
+  });
+
+  it ('variable lists is present', () => {
+    component.lists = data.lists;
+
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('.table'))).toBeTruthy();
   });
 
 });

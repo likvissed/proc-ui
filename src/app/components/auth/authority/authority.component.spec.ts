@@ -13,6 +13,7 @@ import { NgbModal, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { AuthHelper, AuthHelperStub } from '@iss/ng-auth-center';
+import { By } from '@angular/platform-browser';
 
 describe('AuthorityComponent', () => {
   let component: AuthorityComponent;
@@ -63,6 +64,8 @@ describe('AuthorityComponent', () => {
     recordsFiltered: 1,
     totalItems: 1
   }
+
+  // --------------------------------------------------------------- Unit-tests --------------------------------------------------------------- //
 
   it('should create component', () => {
     expect(component).toBeTruthy();
@@ -145,4 +148,19 @@ describe('AuthorityComponent', () => {
       expect(requestsService.deleteAuthority).not.toHaveBeenCalled();
     });
   });
-})
+
+  // --------------------------------------------------------------- HTML elements --------------------------------------------------------------- //
+
+  it ('variable lists is undefined', () => {
+    expect(fixture.debugElement.query(By.css('.table'))).toBeNull();
+  });
+
+  it ('variable lists is present', () => {
+    component.lists = data.lists;
+
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('.table'))).toBeTruthy();
+  });
+
+});
