@@ -8,12 +8,11 @@ import { AuthHelper } from '@iss/ng-auth-center';
 
 import { Request } from '../../../interfaces';
 import { MomentDateFormatter } from '../../../shared/dateFormat';
-import { DateAdapter } from 'src/app/shared/dateAdapter';
+import { DateAdapter } from '../../../shared/dateAdapter';
 
 import { RequestsService } from '../../../services/requests.service';
-import { UsersReferenceService } from 'src/app/services/users-reference.service';
-import { NotificationService } from 'src/app/services/notification.service';
-import { ErrorService } from 'src/app/services/error.service';
+import { ErrorService } from './../../../services/error.service';
+import { NotificationService } from './../../../services/notification.service';
 
 import { TemplateModalComponent } from './../template-modal/template-modal.component';
 
@@ -38,7 +37,6 @@ export class NewComponent implements OnInit {
 
   constructor(
     private requestsService: RequestsService,
-    private userReference: UsersReferenceService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private modalService: NgbModal,
@@ -136,16 +134,10 @@ export class NewComponent implements OnInit {
     this.selected = []
   }
 
-  titleCaseWord(word: string) {
-    if (!word) return word;
-    return word[0].toUpperCase() + word.substr(1).toLowerCase();
-  }
-
   // Поиск пользователя и список полномочий для него
   findUser() {
     this.requestsService.findUserByTn(this.form.value.tn).subscribe(user => {
-      if (user) {
-        // console.log('user', user)
+      if (Object.keys(user).length !== 0) {
         this.form.controls['fio'].setValue(user.fio)
         this.form.controls['login'].setValue(user.login)
 

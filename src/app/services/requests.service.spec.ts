@@ -67,7 +67,6 @@ describe('RequestsService', () => {
 
   describe('#templateFile', () => {
     const templateUrl = `${apiUrl}/sample`
-    // const file = new Blob(['test'], { type: 'application/json' });
     let data = new Blob();
     let request: any;
 
@@ -151,9 +150,9 @@ describe('RequestsService', () => {
     const data = {
       lists: [
         {
-          author_fio: "Бартузанова Анжелика Николаевна",
+          author_fio: "Иванова Елена Константиновна",
           date: "2021-12-09 16:18:00",
-          fio: "Чубреев Илья Олегович",
+          fio: "Петров Иван Олегович",
           id: 1,
           sign_comment: "Подписано автоматически на этапе согласования с о.775",
           state: 4

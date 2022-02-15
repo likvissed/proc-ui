@@ -3,9 +3,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { NotificationService } from 'src/app/services/notification.service';
-import { RequestsService } from 'src/app/services/requests.service';
-import { ErrorService } from 'src/app/services/error.service';
+import { ErrorService } from './../../../services/error.service';
+import { NotificationService } from './../../../services/notification.service';
+import { RequestsService } from './../../../services/requests.service';
 
 @Component({
   selector: 'app-registration-modal',

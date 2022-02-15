@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { NotificationService } from 'src/app/services/notification.service';
-import { RequestsService } from 'src/app/services/requests.service';
-import { ErrorService } from 'src/app/services/error.service';
+import { ErrorService } from './../../../services/error.service';
+import { RequestsService } from './../../../services/requests.service';
 
 import { RegistrationModalComponent } from '../registration-modal/registration-modal.component';
 import { WithdrawModalComponent } from '../withdraw-modal/withdraw-modal.component';
@@ -19,7 +18,6 @@ export class ChancelleryComponent implements OnInit {
   constructor(
     private requestsService: RequestsService,
     private modalService: NgbModal,
-    private notification: NotificationService,
     private error: ErrorService
   ) { }
 

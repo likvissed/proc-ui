@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { AuthHelper } from '@iss/ng-auth-center';
 
-import { LoadingService } from 'src/app/services/loading.service';
+import { LoadingService } from './../../../services/loading.service';
 
 @Component({
   selector: 'app-main',

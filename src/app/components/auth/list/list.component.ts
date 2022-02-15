@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { AuthHelper } from '@iss/ng-auth-center';
 
 import { RequestsService } from '../../../services/requests.service';
-import { NotificationService } from 'src/app/services/notification.service';
-import { ErrorService } from 'src/app/services/error.service';
-import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
+import { ConfirmationDialogService } from './../../../services/confirmation-dialog.service';
+import { ErrorService } from './../../../services/error.service';
+import { NotificationService } from './../../../services/notification.service';
 
 @Component({
   selector: 'app-list',

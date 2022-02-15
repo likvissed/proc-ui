@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
-import { ErrorService } from 'src/app/services/error.service';
-import { NotificationService } from 'src/app/services/notification.service';
-import { RequestsService } from 'src/app/services/requests.service';
+import { ConfirmationDialogService } from './../../../services/confirmation-dialog.service';
+import { NotificationService } from './../../../services/notification.service';
+import { ErrorService } from './../../../services/error.service';
+import { RequestsService } from './../../../services/requests.service';
 
 import { EditAuthorityComponent } from '../edit-authority/edit-authority.component';
 
@@ -93,7 +93,6 @@ export class AuthorityComponent implements OnInit {
 
   addAuthority() {
     const modalRefReg = this.modalService.open(EditAuthorityComponent, { size: 'lg', backdrop: 'static' })
-
     modalRefReg.result.then((result) => {
       this.ngOnInit()
     }).catch((error) => {

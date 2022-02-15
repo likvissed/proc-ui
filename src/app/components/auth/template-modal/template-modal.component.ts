@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { RequestsService } from 'src/app/services/requests.service';
-import { ErrorService } from 'src/app/services/error.service';
+import { ErrorService } from './../../../services/error.service';
+import { RequestsService } from './../../../services/requests.service';
 
 import { DoneModalComponent } from '../done-modal/done-modal.component';
 

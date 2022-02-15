@@ -1,6 +1,9 @@
 module.exports = {
   "verbose": true,
   "preset": "jest-preset-angular",
+  "globalSetup": 'jest-preset-angular/global-setup',
+  "testRunner": 'jest-jasmine2',
+  "testEnvironment": "jsdom",
   "moduleDirectories": ["node_modules", "src"],
   "setupFilesAfterEnv": [
       "<rootDir>/setup-jest.ts"
@@ -9,7 +12,7 @@ module.exports = {
       "node_modules/(?!@ngrx|ngx-socket-io)" // List any packages here that error
   ],
   "transform": {
-      "^.+\\.(ts|js|html)$": "ts-jest"
+      "^.+\\.(ts|js|html)$": "jest-preset-angular"
   },
   "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",

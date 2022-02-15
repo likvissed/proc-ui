@@ -20,7 +20,7 @@ export class RequestsService {
   }
 
   // Получить сформированный образец документа
-  templateFile(request: Request): Observable<Request> {
+  templateFile(request: Request): any {
     const requestOptions: Object = {
       responseType: 'blob'
     }
