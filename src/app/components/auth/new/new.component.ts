@@ -30,7 +30,7 @@ import { TemplateModalComponent } from './../template-modal/template-modal.compo
       useValue: new DateAdapter // Для преобразования модели в формат "гггг-мм-дд"
     }
    ]
-  // encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None // Для применения стиля для ng-select
 })
 export class NewComponent implements OnInit {
   form: FormGroup;
