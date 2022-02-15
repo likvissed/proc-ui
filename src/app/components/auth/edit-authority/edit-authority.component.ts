@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ErrorService } from 'src/app/services/error.service';
-import { NotificationService } from 'src/app/services/notification.service';
-import { RequestsService } from 'src/app/services/requests.service';
+
+import { ErrorService } from './../../../services/error.service';
+import { RequestsService } from './../../../services/requests.service';
+import { NotificationService } from './../../../services/notification.service';
 
 @Component({
   selector: 'app-edit-authority',

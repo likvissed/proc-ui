@@ -14,7 +14,12 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "types": [
+      "jest",
+      "jasmine"
+    ],
+    "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
