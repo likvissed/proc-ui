@@ -65,11 +65,11 @@ export class AccessPrintModalComponent implements OnInit {
           this.onLoadLists();
         },
         (error) => {
+          this.submitted = false
+
           this.error.handling(error)
         })
     } else {
-      this.submitted = false
-
       this.notification.show('Табельный номер не введен', { classname: 'bg-warning', headertext: 'Внимание'});
     }
   }
