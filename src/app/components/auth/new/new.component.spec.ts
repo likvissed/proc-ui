@@ -196,7 +196,7 @@ describe('NewComponent', () => {
   describe('#submit', () => {
     let data = new Blob(['test'], { type: 'application/json' });
 
-    it('should generate template file on server', () => {
+    fit('should generate template file on server', () => {
       component.ngOnInit();
 
       component.form.patchValue(valid_request);
@@ -204,11 +204,12 @@ describe('NewComponent', () => {
 
       modalService = TestBed.inject(NgbModal);
       spyOn(modalService, 'open').and.callFake((dlg, opt) => {
-        return <NgbModalRef>({ componentInstance: new TemplateModalComponent(null, null, null, null) })
+        return <NgbModalRef>({ componentInstance: new TemplateModalComponent(null, null, null, null, null) })
       })
 
       requestsService = TestBed.inject(RequestsService);
       spyOn(requestsService, 'templateFile').and.returnValue(of(data));
+      spyOn(requestsService, 'checkAccessUserPrint').and.returnValue(of({result: true}));
 
       component.submit();
 

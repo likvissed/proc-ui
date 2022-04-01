@@ -1,0 +1,69 @@
+<div class="modal-header text-center">
+  <h4 class="modal-title w-100"> Доступ на печать доверенности без электронного согласования </h4>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+
+    <div class="form-group">
+      <label for="tab_number" class="col-lg-9 col-sm-7 col-xs-7"> Введите таб.номер пользователя: </label>
+
+      <div class="col-lg-11 col-sm-13 col-xs-13" [ngClass]="{invalid: form.get('tn').touched && form.get('tn').invalid, valid: form.get('tn').touched && form.get('tn').valid }">
+        <input id="tn" type="text" placeholder="" formControlName="tn" class="form-control" >
+        <div
+            class="validation"
+            *ngIf="form.get('tn').touched && form.get('tn').invalid"
+          >
+            <small *ngIf="form.get('tn').errors.required"> Не может быть пустым  </small>
+            <small *ngIf="form.get('tn').errors.maxlength"> Пожалуйста, введите не более {{form.get('tn').errors.maxlength.requiredLength }} символов </small>
+            <small *ngIf="form.get('tn').errors.pattern"> Может содержать только цифры </small>
+        </div>
+      </div>
+
+      <button class="btn btn-outline-primary" (click)="onAddUser()" [disabled]="submitted"> Добавить </button>
+    </div>
+  </form>
+
+  <br>
+
+  <div *ngIf="lists.length; else isBlank">
+    <div class="content-body">
+      <table class="table table-hover table-sm">
+        <thead>
+          <tr>
+            <th class="text-center"> № </th>
+            <th class="text-center"> Таб.№ </th>
+            <th class="text-center"> ФИО </th>
+            <th class="text-center"> Отдел </th>
+            <th class="text-center"> Телефон </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let el of lists; let idx = index">
+            <td class="text-center col-lg-1"> {{ idx + 1 }} </td>
+            <td class="text-center col-lg-4"> {{ el.tn }} </td>
+            <td class="text-center col-lg-6"> {{ el.fio }} </td>
+            <td class="text-center col-lg-4"> {{ el.dept }} </td>
+            <td class="text-center col-lg-4"> {{ el.phone }} </td>
+            <td class="text-center col-xs-2 col-sm-3 col-lg-2 col-md-3">
+              <button class="input-group-text btn btn-outline-danger" (click)="onDestroyUser(el.id, el.fio)"> Удалить </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <label class="color-red"> * Внимание! </label>
+    <label>
+      Список будет автоматически очищен в 00:00
+    </label>
+
+  </div>
+
+<div class="modal-footer">
+  <button (click)="activeModal.dismiss()" class="btn btn-outline-secondary px-2 "> Закрыть </button>
+</div>
+
+<ng-template #isBlank>
+  <div class="card-body text-center"> Список пользователей пуст </div>
+</ng-template>

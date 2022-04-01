@@ -19,6 +19,8 @@ export class RequestsService {
     return this.http.post(`${environment.apiUrl}/duties_list`, { 'tn': tn }, { headers: headers })
   }
 
+  // ---------------------------------- Создание доверенности ----------------------------------
+
   // Получить сформированный образец документа
   templateFile(request: Request): any {
     const requestOptions: Object = {
@@ -30,7 +32,7 @@ export class RequestsService {
 
   // Отправить данные на согласование доверенности
   sendForApproval(request): any{
-    return this.http.post(`${environment.apiUrl}/ssd_send`, request,  { responseType: 'text' } )
+    return this.http.post(`${environment.apiUrl}/ssd_send`, request,  { responseType: 'blob' } )
   }
 
   // Получить список доверенностей
@@ -41,12 +43,19 @@ export class RequestsService {
     return this.http.post(`${environment.apiUrl}/proxies_list`, { 'author_tn': current_user_tn, 'filters': filters, 'page': currentPage, 'size':  pageSize}, { headers })
   }
 
+  // Проверить доступ у пользователя на печать документа без отправки в ССД
+  checkAccessUserPrint(tn: number): any {
+    return this.http.get(`${environment.apiUrl}/print_access?tn=${tn}`)
+  }
+
   // Получить json с параметрами сформитрованного документа
   getJsonDoc(id: number): any {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.post(`${environment.apiUrl}/docx_info`, { id: id } , { headers })
   }
+
+  // ---------------------------------- Список документов ----------------------------------
 
   // Скачать доверенность
   downloadFile(id: number): any {
@@ -60,6 +69,8 @@ export class RequestsService {
   deleteDocument(id: number): any {
     return this.http.delete(`${environment.apiUrl}/delete_proxy/${id}`)
   }
+
+  // ---------------------------------- Канцелярия ----------------------------------
 
   // Список доверенностей для вкладки "Канцелярия" - только действительные и согласованные
   getChancellery(filters, currentPage, pageSize): any {
@@ -90,6 +101,26 @@ export class RequestsService {
 
     return this.http.post(`${environment.apiUrl}/add_deloved_id`, form_data , { headers })
   }
+
+  // Список пользователей, у кого есть доступ на печать документа
+  getUsersPrint(): any {
+    return this.http.get(`${environment.apiUrl}/print_list`)
+  }
+
+  // Разрешить пользователю доступ на печать документа без отправки в ССД
+  addUserPrint(tn): any {
+    let headers = new HttpHeaders();
+    headers.set('Content-Type', 'application/json');
+
+    return this.http.post(`${environment.apiUrl}/print_add`, { tn: tn } , { headers })
+  }
+
+  // Удалить доступ у пользователя
+  deleteUserPrint(id: number): any {
+    return this.http.delete(`${environment.apiUrl}/print_delete/${id}`)
+  }
+
+  // ---------------------------------- Полномочия ----------------------------------
 
   // Список всех полномочий для юристов
   getAuthority(filters, currentPage, pageSize): any {

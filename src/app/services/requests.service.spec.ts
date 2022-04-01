@@ -107,7 +107,7 @@ describe('RequestsService', () => {
 
   describe('#sendForApproval', () => {
     const approvalUrl = `${apiUrl}/ssd_send`
-    let data = 'done'
+    let data = new Blob();
     let request: any;
 
     beforeEach(() => {
@@ -169,6 +169,26 @@ describe('RequestsService', () => {
         })
 
       const req = httpTestingController.expectOne(listUrl);
+
+      req.flush(data);
+    });
+  });
+
+  describe('#checkAccessUserPrint', () => {
+    const checkUrl = `${apiUrl}/print_access`
+    const data = {
+      result: true
+    }
+
+    it('should return data', () => {
+      service.checkAccessUserPrint(user_tn)
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(`${checkUrl}?tn=${user_tn}`);
+
+      expect(req.request.method).toEqual('GET');
 
       req.flush(data);
     });
@@ -440,6 +460,106 @@ describe('RequestsService', () => {
       expect(req.request.method).toEqual('POST');
       expect(req.request.responseType).toEqual('json');
       expect(req.request.url).toEqual(registrationUrl);
+
+      req.flush(data);
+    });
+  });
+
+  describe('#getUsersPrint', () => {
+    const getPrintUrl = `${apiUrl}/print_list`
+    let data = {
+      id: 1,
+      fio: "Иванов Иван Иванович",
+      dept: "714",
+      phone: "11-11",
+      tn: user_tn,
+    }
+
+    it('should return data', () => {
+      service.getUsersPrint()
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(getPrintUrl);
+
+      req.flush(data);
+    });
+
+    it('should call http with the expected url and params', () => {
+      service.getUsersPrint()
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(getPrintUrl);
+
+      expect(req.request.method).toEqual('GET');
+      expect(req.request.responseType).toEqual('json');
+      expect(req.request.url).toEqual(getPrintUrl);
+
+      req.flush(data);
+    });
+  });
+
+  describe('#addUserPrint', () => {
+    const addPrintUrl = `${apiUrl}/print_add`
+    let data = { result: 'Добавлен доступ печати для: Иванов И.И.' }
+
+    it('should return data', () => {
+      service.addUserPrint(user_tn)
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(`${addPrintUrl}`);
+
+      req.flush(data);
+    });
+
+    it('should call http with the expected url and params', () => {
+      service.addUserPrint(user_tn)
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(`${addPrintUrl}`);
+
+      expect(req.request.method).toEqual('POST');
+      expect(req.request.responseType).toEqual('json');
+      expect(req.request.url).toEqual(addPrintUrl);
+
+      req.flush(data);
+    });
+  });
+
+  describe('#deleteUserPrint', () => {
+    const deletePrintUrl = `${apiUrl}/print_delete`
+    let id_user = 1;
+    let data = { result: 'Убран доступ печати для: Иванов И.И.' }
+
+    it('should return data', () => {
+      service.deleteUserPrint(id_user)
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(`${deletePrintUrl}/${id_user}`);
+
+      req.flush(data);
+    });
+
+    it('should call http with the expected url and params', () => {
+      service.deleteUserPrint(id_user)
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(`${deletePrintUrl}/${id_user}`);
+
+      expect(req.request.method).toEqual('DELETE');
+      expect(req.request.responseType).toEqual('json');
+      expect(req.request.url).toEqual(`${deletePrintUrl}/${id_user}`);
 
       req.flush(data);
     });

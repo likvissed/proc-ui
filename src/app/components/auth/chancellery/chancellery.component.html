@@ -1,11 +1,16 @@
 <div class="container">
   <div class="form-group">
-    <div class="row">
-      <span class="col-lg-3">
-        <button (click)="registrationDoc()" class="btn btn-outline-primary px-2 input-sm"> Регистрация документа </button>
-      </span>
-
+    <div class="row multiline-buffer">
       <span class="col-lg-2">
+        <button (click)="registrationDoc()" class="btn btn-outline-primary btn-sm btn-block"> Регистрация документа </button>
+      </span>
+      <span class="col-lg-2">
+        <button (click)="onAccessPrint()" class="btn btn-outline-primary btn-sm btn-block"> Печать без ССД </button>
+      </span>
+    </div>
+
+    <div class="row multiline-buffer">
+      <span class="col-lg-2 col-lg-offset-6">
         <input type="text" placeholder="ID доверенности" [(ngModel)]="filters.id" (ngModelChange)="filterChange()" class="form-control input-sm ">
       </span>
 

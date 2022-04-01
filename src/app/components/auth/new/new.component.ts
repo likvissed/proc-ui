@@ -171,15 +171,25 @@ export class NewComponent implements OnInit {
       this.notification.show('Заполнены не все данные для доверенности', { classname: 'bg-danger text-light', headertext: 'Внимание' });
       return
     }
+
     this.submitted = true;
 
      this.requestsService.templateFile(this.form.getRawValue())
       .subscribe((response) => {
-        const modalRef = this.modalService.open(TemplateModalComponent, { size: 'xl', scrollable: true, backdrop: 'static' })
-        modalRef.componentInstance.templateFile = response
-        modalRef.componentInstance.request = this.form.getRawValue()
+        this.requestsService.checkAccessUserPrint(this.form.value.author_tn)
+        .subscribe((result) => {
+          const modalRef = this.modalService.open(TemplateModalComponent, { size: 'xl', scrollable: true, backdrop: 'static' })
+          modalRef.componentInstance.templateFile = response
+          modalRef.componentInstance.request = this.form.getRawValue()
+          modalRef.componentInstance.button_print = result['result']
 
-        this.submitted = false
+          this.submitted = false
+        },
+        (error) => {
+          this.submitted = false
+
+          this.error.handling(error)
+        })
       },
       (error) => {
         this.submitted = false

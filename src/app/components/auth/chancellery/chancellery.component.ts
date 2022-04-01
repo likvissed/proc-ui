@@ -7,6 +7,7 @@ import { RequestsService } from './../../../services/requests.service';
 
 import { RegistrationModalComponent } from '../registration-modal/registration-modal.component';
 import { WithdrawModalComponent } from '../withdraw-modal/withdraw-modal.component';
+import { AccessPrintModalComponent } from '../access-print-modal/access-print-modal.component';
 
 @Component({
   selector: 'app-chancellery',
@@ -126,6 +127,10 @@ export class ChancelleryComponent implements OnInit {
       this.ngOnInit()
     }).catch((error) => {
     });
+  }
+
+  onAccessPrint() {
+    this.modalService.open(AccessPrintModalComponent, { size: 'lg', backdrop: 'static' })
   }
 
 }

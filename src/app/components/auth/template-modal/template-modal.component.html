@@ -14,6 +14,7 @@
 </div>
 <div class="modal-footer">
   <button
+    *ngIf='!button_print'
     class="btn btn-outline-success"
     (click)="sendToSsd()"
     [disabled]="submitted"
@@ -24,6 +25,16 @@
     popoverClass="text-center"
   >
     Отправить на эл.согласование
+  </button>
+
+  <button
+    *ngIf='button_print'
+    class="btn btn-outline-success"
+    (click)="printDoc()"
+    [disabled]="submitted"
+    [ngClass]="{'waiting': submitted}"
+  >
+    Печать документа
   </button>
   <button (click)="activeModal.dismiss('Close clicked')" class="btn btn-outline-secondary px-2 "> Закрыть </button>
 </div>
