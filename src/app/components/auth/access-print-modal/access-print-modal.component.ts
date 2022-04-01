@@ -54,6 +54,11 @@ export class AccessPrintModalComponent implements OnInit {
   }
 
   onAddUser() {
+    if (this.form.invalid) {
+      this.notification.show('Некорректный табельный номер', { classname: 'bg-danger text-light', headertext: 'Внимание' });
+      return
+    }
+
     if (this.form.value.tn.toString().trim()) {
       this.submitted = true
 

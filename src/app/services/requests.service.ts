@@ -11,15 +11,17 @@ export class RequestsService {
     private http: HttpClient
   ) {}
 
-  // Получить список полномочий для конкретного пользователя
-  getDuties(tn: number): any {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-
-    return this.http.post(`${environment.apiUrl}/duties_list`, { 'tn': tn }, { headers: headers })
-  }
-
   // ---------------------------------- Создание доверенности ----------------------------------
+
+  // Получить список полномочий для конкретного пользователя
+  getDuties(tn): any {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+    const params = new HttpParams()
+      .set('tn', tn);
+
+    return this.http.get(`${environment.apiUrl}/duties_list`, { headers: headers, params: params })
+  }
 
   // Получить сформированный образец документа
   templateFile(request: Request): any {
@@ -36,11 +38,16 @@ export class RequestsService {
   }
 
   // Получить список доверенностей
-  getList(current_user_tn: number, filters, currentPage, pageSize): any {
+  getList(current_user_tn, filters, currentPage, pageSize): any {
     const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
+      .set('Content-Type', 'application/json');
+    const params = new HttpParams()
+      .set('author_tn', current_user_tn)
+      .set('filters', JSON.stringify(filters))
+      .set('page', currentPage)
+      .set('size', pageSize);
 
-    return this.http.post(`${environment.apiUrl}/proxies_list`, { 'author_tn': current_user_tn, 'filters': filters, 'page': currentPage, 'size':  pageSize}, { headers })
+    return this.http.get(`${environment.apiUrl}/proxies_list`, { headers: headers, params: params })
   }
 
   // Проверить доступ у пользователя на печать документа без отправки в ССД
@@ -50,9 +57,7 @@ export class RequestsService {
 
   // Получить json с параметрами сформитрованного документа
   getJsonDoc(id: number): any {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-    return this.http.post(`${environment.apiUrl}/docx_info`, { id: id } , { headers })
+    return this.http.get(`${environment.apiUrl}/docx_info?id=${id}`)
   }
 
   // ---------------------------------- Список документов ----------------------------------
