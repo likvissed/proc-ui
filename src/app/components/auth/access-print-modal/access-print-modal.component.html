@@ -40,11 +40,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let el of lists; let idx = index">
-            <td class="text-center col-lg-1"> {{ idx + 1 }} </td>
-            <td class="text-center col-lg-4"> {{ el.tn }} </td>
-            <td class="text-center col-lg-6"> {{ el.fio }} </td>
-            <td class="text-center col-lg-4"> {{ el.dept }} </td>
-            <td class="text-center col-lg-4"> {{ el.phone }} </td>
+            <td class="text-center col-lg-1 col-md-1"> {{ idx + 1 }} </td>
+            <td class="text-center col-lg-4 col-md-4"> {{ el.tn }} </td>
+            <td class="text-center col-lg-6 col-md-6"> {{ el.fio }} </td>
+            <td class="text-center col-lg-4 col-md-4"> {{ el.dept }} </td>
+            <td class="text-center col-lg-4 col-md-4"> {{ el.phone }} </td>
             <td class="text-center col-xs-2 col-sm-3 col-lg-2 col-md-3">
               <button class="input-group-text btn btn-outline-danger" (click)="onDestroyUser(el.id, el.fio)"> Удалить </button>
             </td>
