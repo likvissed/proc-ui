@@ -119,7 +119,7 @@ describe('RegistrationModalComponent', () => {
   });
 
   describe('#saveFile', function () {
-    it('should call method withdrawDocument', () => {
+    it('should call method registrationDocument', () => {
       component.form.controls['deloved_id'].setValue(987);
 
       requestsService = TestBed.inject(RequestsService);

@@ -1,0 +1,132 @@
+<div class="modal-header text-center">
+  <h4 class="modal-title w-100"> Регистрация документа </h4>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+
+    <div class="form-row">
+      <div class="form-group col-md-24 col-sm-24">
+        <label for="deloved_id" class="col-lg-7 col-sm-7 col-xs-7"> Номер доверенности: </label>
+
+        <div class="col-lg-17 col-sm-17" [ngClass]="{invalid: form.get('deloved_id').touched && form.get('deloved_id').invalid, valid: form.get('deloved_id').touched && form.get('deloved_id').valid }">
+          <input id="deloved_id" type="text" placeholder="" formControlName="deloved_id" class="form-control">
+          <div
+              class="validation"
+              *ngIf="form.get('deloved_id').touched && form.get('deloved_id').invalid"
+            >
+              <small *ngIf="form.get('deloved_id').errors.required"> Не может быть пустым  </small>
+              <small *ngIf="form.get('deloved_id').errors.maxlength"> Пожалуйста, введите не более {{form.get('deloved_id').errors.maxlength.requiredLength }} символов </small>
+              <small *ngIf="form.get('deloved_id').errors.pattern"> Может содержать только цифры и символ '-' </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-24 col-sm-24">
+        <label for="fio" class="col-lg-7 col-sm-7 col-xs-7"> ФИО доверенного лица: </label>
+
+        <div class="col-lg-17 col-sm-17" [ngClass]="{invalid: form.get('fio').touched && form.get('fio').invalid, valid: form.get('fio').touched && form.get('fio').valid }">
+          <input id="fio" type="text" placeholder="" formControlName="fio" class="form-control">
+          <div
+              class="validation"
+              *ngIf="form.get('fio').touched && form.get('fio').invalid"
+            >
+              <small *ngIf="form.get('fio').errors.required"> Не может быть пустым  </small>
+              <small *ngIf="form.get('fio').errors.maxlength"> Пожалуйста, введите не более {{form.get('fio').errors.maxlength.requiredLength }} символов </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-24 col-sm-24">
+        <label for="start_date" class="col-lg-7 col-sm-7 col-xs-7"> Действительна с: </label>
+
+        <div class="col-lg-17 col-sm-17" [ngClass]="{invalid: form.get('start_date').touched && form.get('start_date').invalid, valid: form.get('start_date').touched && form.get('start_date').valid }">
+
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="Выберите дату"
+                name="start_date"
+                formControlName="start_date"
+                ngbDatepicker #d1="ngbDatepicker"
+                required
+                [readonly]=true
+                (dateSelect)="dateStartSelect($event)"
+                [minDate]="min_start_date"
+                [maxDate]="max_start_date"
+              >
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button"></button>
+              </div>
+            </div>
+            <div
+              class="validation"
+              *ngIf="form.get('start_date').touched && form.get('start_date').invalid"
+            >
+            <small *ngIf="form.get('start_date').errors.required">  Введите дату начала действия доверенности </small>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-24 col-sm-24">
+        <label for="end_date" class="col-lg-7 col-sm-7 col-xs-7"> Действительна до: </label>
+
+        <div class="col-lg-17 col-sm-17" [ngClass]="{invalid: form.get('end_date').touched && form.get('end_date').invalid, valid: form.get('end_date').touched && form.get('end_date').valid }">
+
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="Выберите дату"
+                name="end_date"
+                formControlName="end_date"
+                ngbDatepicker #d2="ngbDatepicker"
+                required
+                [readonly]=true
+                (dateSelect)="dateEndSelect($event)"
+                [minDate]="min_end_date"
+                [maxDate]="max_end_date"
+
+              >
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+              </div>
+            </div>
+            <div
+              class="validation"
+              *ngIf="form.get('end_date').touched && form.get('end_date').invalid"
+            >
+            <small *ngIf="form.get('end_date').errors.required">  Введите дату окончания действия доверенности </small>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-24 col-sm-24">
+        <input style="display: none" type="file" formControlName="file" (change)="uploadFile($event)" #hiddenfileinput>
+
+        <div class="col-lg-17 col-sm-17">
+          <button (click)="hiddenfileinput.click()" class="btn btn-outline-primary px-2"><i class="bi bi-folder2-open"> </i> Загрузить скан </button>
+          {{ form.value.file_name }}
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-success" (click)="onSubmit()" > Сохранить </button>
+  <button (click)="activeModal.dismiss()" class="btn btn-outline-secondary px-2 "> Закрыть </button>
+</div>

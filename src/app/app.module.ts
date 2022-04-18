@@ -36,6 +36,7 @@ import { NoticeComponent } from './components/notice/notice.component';
 import { EditAuthorityComponent } from './components/auth/edit-authority/edit-authority.component';
 import { ConfirmationDialogComponent } from './components/auth/confirmation-dialog/confirmation-dialog.component';
 import { AccessPrintModalComponent } from './components/auth/access-print-modal/access-print-modal.component';
+import { ExternalRegistrationModalComponent } from './components/auth/external-registration-modal/external-registration-modal.component';
 
 registerLocaleData(ruLocale, 'ru')
 
@@ -59,7 +60,8 @@ registerLocaleData(ruLocale, 'ru')
     EditAuthorityComponent,
     ConfirmationDialogComponent,
     FioForAuthorityPipe,
-    AccessPrintModalComponent
+    AccessPrintModalComponent,
+    ExternalRegistrationModalComponent
   ],
   imports: [
     HttpClientModule,

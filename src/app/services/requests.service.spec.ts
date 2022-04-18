@@ -1,7 +1,12 @@
+import { MomentDateFormatter } from './../shared/dateFormat';
 import { HttpParams, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from "@angular/core/testing";
+import { FormBuilder } from '@angular/forms';
+import { AuthHelper, AuthHelperStub } from '@iss/ng-auth-center';
+import { NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { RequestsService } from "./requests.service";
+import { DateAdapter } from '../shared/dateAdapter';
 
 describe('RequestsService', () => {
   let service: RequestsService;
@@ -10,7 +15,13 @@ describe('RequestsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [RequestsService]
+      providers: [
+        RequestsService,
+        FormBuilder,
+        { provide: AuthHelper, useClass: AuthHelperStub },
+        { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter },
+        { provide: NgbDateAdapter, useValue: new DateAdapter },
+      ]
     });
 
     service = TestBed.inject(RequestsService);
@@ -43,7 +54,7 @@ describe('RequestsService', () => {
           expect(response).toEqual(data);
         })
 
-      const req = httpTestingController.expectOne({method: 'POST', url: `${dutiesUrl}`});
+      const req = httpTestingController.expectOne({method: 'GET', url: `${dutiesUrl}?tn=${user_tn}`});
 
       req.flush(data);
     });
@@ -55,9 +66,9 @@ describe('RequestsService', () => {
           expect(response).toBe(data);
         })
 
-        const req = httpTestingController.expectOne({method: 'POST', url: `${dutiesUrl}`});
+        const req = httpTestingController.expectOne({method: 'GET', url: `${dutiesUrl}?tn=${user_tn}`});
 
-        expect(req.request.method).toEqual('POST');
+        expect(req.request.method).toEqual('GET');
         expect(req.request.responseType).toEqual('json');
         expect(req.request.url).toEqual(dutiesUrl);
 
@@ -168,7 +179,7 @@ describe('RequestsService', () => {
           expect(resp).toEqual(data);
         })
 
-      const req = httpTestingController.expectOne(listUrl);
+      const req = httpTestingController.expectOne(`${listUrl}?author_tn=${user_tn}&filters=1&page=1&size=1`);
 
       req.flush(data);
     });
@@ -223,7 +234,7 @@ describe('RequestsService', () => {
           expect(resp).toEqual(data);
         })
 
-      const req = httpTestingController.expectOne(jsonDocUrl);
+      const req = httpTestingController.expectOne(`${jsonDocUrl}?id=${id_doc}`);
 
       req.flush(data);
     });
@@ -560,6 +571,38 @@ describe('RequestsService', () => {
       expect(req.request.method).toEqual('DELETE');
       expect(req.request.responseType).toEqual('json');
       expect(req.request.url).toEqual(`${deletePrintUrl}/${id_user}`);
+
+      req.flush(data);
+    });
+  });
+
+  describe('#registrationExternalDoc', () => {
+    const registrationExternalUrl = `${apiUrl}/foreign_deloved_id`
+    let data = { result: 'Документ зарегистрирован' }
+    let form_data = {}
+
+    it('should return data', () => {
+      service.registrationExternalDoc(form_data)
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(registrationExternalUrl);
+
+      req.flush(data);
+    });
+
+    it('should call http with the expected url and params', () => {
+      service.registrationExternalDoc(form_data)
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(registrationExternalUrl);
+
+      expect(req.request.method).toEqual('POST');
+      expect(req.request.responseType).toEqual('json');
+      expect(req.request.url).toEqual(registrationExternalUrl);
 
       req.flush(data);
     });

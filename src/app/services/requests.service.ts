@@ -125,6 +125,14 @@ export class RequestsService {
     return this.http.delete(`${environment.apiUrl}/print_delete/${id}`)
   }
 
+  // Регистрация внешней доверенности
+  registrationExternalDoc(form_data): any {
+    let headers = new HttpHeaders();
+    headers.set('Content-Type', undefined);
+
+    return this.http.post(`${environment.apiUrl}/foreign_deloved_id`, form_data , { headers })
+  }
+
   // ---------------------------------- Полномочия ----------------------------------
 
   // Список всех полномочий для юристов

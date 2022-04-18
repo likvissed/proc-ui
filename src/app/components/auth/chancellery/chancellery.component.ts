@@ -1,3 +1,4 @@
+import { ExternalRegistrationModalComponent } from './../external-registration-modal/external-registration-modal.component';
 import { Component, OnInit } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -131,6 +132,15 @@ export class ChancelleryComponent implements OnInit {
 
   onAccessPrint() {
     this.modalService.open(AccessPrintModalComponent, { size: 'lg', backdrop: 'static' })
+  }
+
+  registrationExternalDoc() {
+    const modalRefReg = this.modalService.open(ExternalRegistrationModalComponent, { size: 'lg', backdrop: 'static' })
+
+    modalRefReg.result.then((result) => {
+      this.ngOnInit()
+    }).catch((error) => {
+    });
   }
 
 }
