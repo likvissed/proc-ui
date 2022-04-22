@@ -104,7 +104,6 @@ export class NewComponent implements OnInit {
           array.push(new FormControl(str, [Validators.required]))
         })
 
-        this.getDuties()
         this.findUser()
       }
 
