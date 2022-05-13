@@ -15,6 +15,7 @@ import { ErrorService } from './../../../services/error.service';
 import { NotificationService } from './../../../services/notification.service';
 
 import { TemplateModalComponent } from './../template-modal/template-modal.component';
+import { NewEditModalComponent } from './../new-edit-modal/new-edit-modal.component';
 
 @Component({
   selector: 'app-new',
@@ -117,7 +118,7 @@ export class NewComponent implements OnInit {
   // Добавить выбранный элемент в список полномочий
   addSelected(selected) {
     if (selected != undefined) {
-      let not_uniq =  this.form.value.array_authority.find(x => x == selected);
+      let not_uniq = this.form.value.array_authority.find(x => x == selected);
 
       if (selected.length > 700) {
         return
@@ -165,7 +166,7 @@ export class NewComponent implements OnInit {
     return this.form.controls['array_authority'] as FormArray;
   }
 
-  submit() {
+  onSend() {
     if (this.form.invalid) {
       this.notification.show('Заполнены не все данные для доверенности', { classname: 'bg-danger text-light', headertext: 'Внимание' });
       return
@@ -208,6 +209,19 @@ export class NewComponent implements OnInit {
   // Удалить конкретный элемент из массива
   deleteElement(index: number): void {
     (<FormArray>this.form.controls["array_authority"]).removeAt(index)
+  }
+
+  // Редактировать конкретное полномочие
+  onEditElement(index: number, value): void {
+    const modalRef = this.modalService.open(NewEditModalComponent, { size: 'xl', scrollable: true, backdrop: 'static' })
+    modalRef.componentInstance.text = value;
+    modalRef.componentInstance.array_authority = this.form.value.array_authority;
+
+    modalRef.result.then((result) => {
+      // Присвоить новое наименование полномочия
+      (<FormArray>this.form.controls["array_authority"]).at(index).patchValue(result);
+    }).catch((error) => {
+    });
   }
 
 }
