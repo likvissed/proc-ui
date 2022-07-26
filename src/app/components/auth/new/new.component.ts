@@ -120,7 +120,7 @@ export class NewComponent implements OnInit {
     if (selected != undefined) {
       let not_uniq = this.form.value.array_authority.find(x => x == selected);
 
-      if (selected.length > 700) {
+      if (selected.length > 3000) {
         return
       }
 
