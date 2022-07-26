@@ -31,7 +31,7 @@ export class NewEditModalComponent implements OnInit {
     }
 
     this.form = this.formBuilder.group({
-      value: new FormControl(this.text, [Validators.required, Validators.maxLength(699)])
+      value: new FormControl(this.text, [Validators.required, Validators.maxLength(2999)])
     })
   }
 
