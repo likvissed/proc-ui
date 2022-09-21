@@ -24,10 +24,12 @@ export class NewEditModalComponent implements OnInit {
   }
 
   onInitialValues() {
-    // Удалить из массива текущее полномочие для дальнейшей проверки уникальности
-    let index = this.array_authority.indexOf(this.text);
-    if (index !== -1) {
-      this.array_authority.splice(index, 1);
+    if (this.array_authority) {
+      // Удалить из массива текущее полномочие для дальнейшей проверки уникальности
+      let index = this.array_authority.indexOf(this.text);
+      if (index !== -1) {
+        this.array_authority.splice(index, 1);
+      }
     }
 
     this.form = this.formBuilder.group({

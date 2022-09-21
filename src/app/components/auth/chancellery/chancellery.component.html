@@ -48,6 +48,7 @@
                 <th class="text-center"> Доверенное лицо </th>
                 <th class="text-center"> Дата действия доверенности </th>
                 <th class="text-center"> Составитель доверенности </th>
+                <th class="text-center"> Редактировать </th>
                 <th class="text-center"> Скачать скан </th>
                 <th class="text-center"> Отозвать доверенность </th>
               </tr>
@@ -61,6 +62,11 @@
                 <td class="text-center col-lg-4"> {{ el.fio | shortName }} </td>
                 <td class="text-center col-lg-2" innerHTML="{{ el.date_start }} - {{ el.date_end }}">  </td>
                 <td class="text-center col-lg-4"> {{ el.author_fio | shortName }} </td>
+                <td class="text-center col-lg-2">
+                  <span *ngIf="el.exists == 1; else notEdit">
+                    <button class="btn btn-outline-primary btn-sm" type="submit" (click)="onEdit(el)"> Редактировать </button>
+                  </span>
+                </td>
                 <td class="text-center col-lg-3">
                   <span *ngIf="el.exists == 1; else notDownload">
                     <button class="btn btn-outline-primary btn-sm" type="submit" (click)="download(el.id)"> Скачать </button>
@@ -114,5 +120,11 @@
 <ng-template #notDownload>
   <div class="text-center">
     <p> Отсутствует </p>
+  </div>
+</ng-template>
+
+<ng-template #notEdit>
+  <div class="text-center">
+    <p> Недоступно </p>
   </div>
 </ng-template>

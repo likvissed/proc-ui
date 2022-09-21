@@ -211,7 +211,7 @@ describe('NewComponent', () => {
       spyOn(requestsService, 'templateFile').and.returnValue(of(data));
       spyOn(requestsService, 'checkAccessUserPrint').and.returnValue(of({result: true}));
 
-      component.submit();
+      component.onSend();
 
       expect(modalService.open).toHaveBeenCalled();
     });
@@ -228,7 +228,7 @@ describe('NewComponent', () => {
       error = TestBed.inject(ErrorService);
       spyOn(error, 'handling')
 
-      component.submit();
+      component.onSend();
 
       expect(error.handling).toHaveBeenCalled();
     });

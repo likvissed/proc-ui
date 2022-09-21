@@ -107,6 +107,14 @@ export class RequestsService {
     return this.http.post(`${environment.apiUrl}/add_deloved_id`, form_data , { headers })
   }
 
+  // Обновить номер доверенности и(или) заменить скан
+  updateDocument(form_data, id): any {
+    let headers = new HttpHeaders();
+    headers.set('Content-Type', undefined);
+
+    return this.http.put(`${environment.apiUrl}/proxy_edit/${id}`, form_data , { headers })
+  }
+
   // Список пользователей, у кого есть доступ на печать документа
   getUsersPrint(): any {
     return this.http.get(`${environment.apiUrl}/print_list`)

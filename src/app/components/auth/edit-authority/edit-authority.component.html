@@ -33,7 +33,7 @@
                 <small *ngIf="form.get('name').errors.required"> Не может быть пустым  </small>
                 <small *ngIf="form.get('name').errors.maxlength">
                   Пожалуйста, введите не более {{ form.get('name').errors.maxlength.requiredLength }} символов.
-                  Сейчас он его длина равна {{ form.get('name').errors.maxlength.actualLength }} символа
+                  Сейчас его длина равна {{ form.get('name').errors.maxlength.actualLength }} символа
                 </small>
             </div>
           </div>

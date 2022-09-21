@@ -476,6 +476,39 @@ describe('RequestsService', () => {
     });
   });
 
+  describe('#updateDocument', () => {
+    const updateUrl = `${apiUrl}/proxy_edit`
+    let data = { result: 'Доверенность изменена' }
+    let id = 123;
+    let form_data = {}
+
+    it('should return data', () => {
+      service.updateDocument(form_data, id)
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(`${updateUrl}/${id}`);
+
+      req.flush(data);
+    });
+
+    it('should call http with the expected url and params', () => {
+      service.updateDocument(form_data, id)
+        .subscribe(resp => {
+          expect(resp).toEqual(data);
+        })
+
+      const req = httpTestingController.expectOne(`${updateUrl}/${id}`);
+
+      expect(req.request.method).toEqual('PUT');
+      expect(req.request.responseType).toEqual('json');
+      expect(req.request.url).toEqual(`${updateUrl}/${id}`);
+
+      req.flush(data);
+    });
+  });
+
   describe('#getUsersPrint', () => {
     const getPrintUrl = `${apiUrl}/print_list`
     let data = {

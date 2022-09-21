@@ -143,4 +143,15 @@ export class ChancelleryComponent implements OnInit {
     });
   }
 
+  onEdit(element) {
+    const modalRefReg = this.modalService.open(RegistrationModalComponent, { size: 'lg', backdrop: 'static' })
+
+    modalRefReg.componentInstance.data = element;
+
+    modalRefReg.result.then((result) => {
+      this.ngOnInit()
+    }).catch((error) => {
+    });
+  }
+
 }

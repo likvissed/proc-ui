@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +15,7 @@ import { RequestsService } from './../../../services/requests.service';
 export class RegistrationModalComponent implements OnInit {
   form: FormGroup;
   formData = new FormData();
+  @Input() public data;
 
   default_file_name = 'Файл не выбран'
 
@@ -39,6 +40,10 @@ export class RegistrationModalComponent implements OnInit {
       date_end: '',
       fio: ''
     })
+
+    if (this.data) {
+      this.form.patchValue(this.data);
+    }
   }
 
   closeModal() {
@@ -112,14 +117,25 @@ export class RegistrationModalComponent implements OnInit {
     this.formData.append('id', this.form.value.id);
     this.formData.append('deloved_id', this.form.value.deloved_id);
 
-    this.requestsService.registrationDocument(this.formData)
-      .subscribe((response) => {
-        this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
-        this.activeModal.close();
-      },
-      (error) => {
-        this.error.handling(error)
-      })
+    if (!this.data) {
+      this.requestsService.registrationDocument(this.formData)
+        .subscribe((response) => {
+          this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
+          this.activeModal.close();
+        },
+        (error) => {
+          this.error.handling(error)
+        })
+    } else {
+      this.requestsService.updateDocument(this.formData, this.form.value.id)
+        .subscribe((response) => {
+          this.notification.show(response.result, { classname: 'bg-success text-light', headertext: 'Успешно'});
+          this.activeModal.close();
+        },
+        (error) => {
+          this.error.handling(error)
+        })
+    }
   }
 
 }
