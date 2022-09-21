@@ -56,7 +56,14 @@
 
             <tbody>
               <tr *ngFor="let el of lists; let idx = index">
-                <td class="text-center col-lg-1"> {{ el.id }} </td>
+                <td class="text-center col-lg-1" colorForeign [flag]="el.foreign">
+                  <span >
+                    <ng-container
+                      [ngTemplateOutlet]="popoverFlag"
+                      [ngTemplateOutletContext]="{ el: el }"
+                    ></ng-container>
+                  </span>
+                </td>
                 <td class="text-center col-lg-3" [innerHTML]="el.deloved_id || 'Не присвоен'"> </td>
                 <td class="text-center col-lg-3" [innerHtml]="el.state | nameForStatus"></td>
                 <td class="text-center col-lg-4"> {{ el.fio | shortName }} </td>
@@ -127,4 +134,9 @@
   <div class="text-center">
     <p> Недоступно </p>
   </div>
+</ng-template>
+
+<ng-template #popoverFlag let-el='el' >
+  <div *ngIf="el.foreign" [innerHtml]="el.id" triggers="mouseenter:mouseleave" ngbPopover="Внешняя доверенность" popoverClass="text-center"> </div>
+  <div *ngIf="!el.foreign" [innerHtml]="el.id"> </div>
 </ng-template>

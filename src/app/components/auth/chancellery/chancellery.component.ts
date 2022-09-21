@@ -82,7 +82,6 @@ export class ChancelleryComponent implements OnInit {
     this.loadChancellery();
   }
 
-
   calculatePagination() {
     this.pagination.startRecord = (this.pagination.currentPage - 1) * this.pagination.maxSize + 1
     this.pagination.endRecord = this.pagination.startRecord + this.pagination.maxSize - 1

@@ -1,3 +1,4 @@
+import { ClolrForeignDocDirective } from './shared/color-foreign-doc.directive';
 import { AuthCenterModule } from '@iss/ng-auth-center';
 
 import { environment } from '../environments/environment';
@@ -63,7 +64,8 @@ registerLocaleData(ruLocale, 'ru')
     FioForAuthorityPipe,
     AccessPrintModalComponent,
     ExternalRegistrationModalComponent,
-    NewEditModalComponent
+    NewEditModalComponent,
+    ClolrForeignDocDirective
   ],
   imports: [
     HttpClientModule,
