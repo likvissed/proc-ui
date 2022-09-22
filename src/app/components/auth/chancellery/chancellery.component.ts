@@ -36,7 +36,8 @@ export class ChancelleryComponent implements OnInit {
     id: '',
     status: this.statuses[0].value,
     fio: '',
-    deloved_id: ''
+    deloved_id: '',
+    foreign: false,
   }
 
   pagination = {

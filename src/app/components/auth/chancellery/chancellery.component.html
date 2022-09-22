@@ -13,8 +13,15 @@
     </div>
 
     <div class="row multiline-buffer">
-      <span class="col-lg-2 col-lg-offset-6">
-        <input type="text" placeholder="ID доверенности" [(ngModel)]="filters.id" (ngModelChange)="filterChange()" class="form-control input-sm ">
+      <span class="col-lg-2 col-lg-offset-2">
+        <div class="custom-control custom-switch input-sm">
+          <input type="checkbox" class="custom-control-input" id="switchForeign" [(ngModel)]="filters.foreign" (ngModelChange)="filterChange()">
+          <label class="custom-control-label" for="switchForeign"> Внешние доверенности </label>
+        </div>
+      </span>
+
+      <span class="col-lg-2 ">
+        <input type="text" placeholder="ID доверенности" [(ngModel)]="filters.id" (ngModelChange)="filterChange()" class="form-control input-sm">
       </span>
 
       <span class="col-lg-2">
