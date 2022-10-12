@@ -78,6 +78,8 @@ export class NewComponent implements OnInit {
       general: [null, [Validators.required, Validators.maxLength(700)]],
       array_authority: this.formBuilder.array([], [Validators.required]),
 
+      flag_last_authority: true,
+
       // Данные, которые получаем из НСИ для доверенного лица
       fio: [null, [Validators.required]],
       login: [null, [Validators.required]],

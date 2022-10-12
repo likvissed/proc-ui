@@ -289,6 +289,13 @@
 
               <tr>
                 <td colspan="2">
+                  <input type="checkbox" formControlName="flag_last_authority">
+                  Добавить пункт: "Выполнять все необходимые и неоговоренные выше действия и формальности, связанные с данным поручением"
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2">
                   <div class="card-text float-right">
                     <button class="btn btn-outline-secondary px-2" style="margin-right: 5px;" type="reset" (click)="clearArray()"> Очистить форму </button>
                     <button class="btn btn-outline-success" type="button" (click)="onSend()" [disabled]="submitted" [ngClass]="{'waiting': submitted}"> Сформировать документ </button>
